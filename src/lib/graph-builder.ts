@@ -1,0 +1,147 @@
+import type { Node, Edge } from '@xyflow/react'
+import type { TopologyData } from '../types'
+
+export interface TopicNodeData {
+  label: string
+  consumerCount: number
+  producerCount: number
+  teamCount: number
+  [key: string]: unknown
+}
+
+export interface ServiceNodeData {
+  label: string
+  team: string
+  teamColor: string
+  repository: string
+  namespace: string
+  runningInCluster: boolean
+  deploymentType: string
+  produces: string[]
+  consumes: string[]
+  [key: string]: unknown
+}
+
+export interface EdgeData {
+  type: 'producer' | 'consumer'
+  [key: string]: unknown
+}
+
+export function buildGraph(topology: TopologyData): {
+  nodes: Node[]
+  edges: Edge[]
+} {
+  const nodes: Node[] = []
+  const edges: Edge[] = []
+
+  // Create topic nodes
+  for (const topic of Object.values(topology.topics)) {
+    nodes.push({
+      id: `topic:${topic.id}`,
+      type: 'topic',
+      position: { x: 0, y: 0 },
+      data: {
+        label: topic.id,
+        consumerCount: topic.consumerCount,
+        producerCount: topic.producerCount,
+        teamCount: topic.teamCount,
+      } satisfies TopicNodeData,
+    })
+  }
+
+  // Create service nodes
+  for (const service of Object.values(topology.services)) {
+    const team = topology.teams[service.team]
+    nodes.push({
+      id: `service:${service.id}`,
+      type: 'service',
+      position: { x: 0, y: 0 },
+      data: {
+        label: service.id,
+        team: service.team,
+        teamColor: team?.color ?? '#6B7280',
+        repository: service.repository,
+        namespace: service.namespace,
+        runningInCluster: service.runningInCluster,
+        deploymentType: service.deploymentType,
+        produces: service.produces,
+        consumes: service.consumes,
+      } satisfies ServiceNodeData,
+    })
+  }
+
+  // Create edges
+  for (const topic of Object.values(topology.topics)) {
+    // Producer edges: service -> topic
+    for (const producerId of topic.producers) {
+      edges.push({
+        id: `producer:${producerId}:${topic.id}`,
+        source: `service:${producerId}`,
+        target: `topic:${topic.id}`,
+        data: { type: 'producer' } satisfies EdgeData,
+      })
+    }
+
+    // Consumer edges: topic -> service
+    for (const consumerId of topic.consumers) {
+      edges.push({
+        id: `consumer:${topic.id}:${consumerId}`,
+        source: `topic:${topic.id}`,
+        target: `service:${consumerId}`,
+        data: { type: 'consumer' } satisfies EdgeData,
+      })
+    }
+  }
+
+  return { nodes, edges }
+}
+
+export function filterByTeams(
+  nodes: Node[],
+  edges: Edge[],
+  selectedTeams: Set<string>
+): { nodes: Node[]; edges: Edge[] } {
+  if (selectedTeams.size === 0) {
+    return {
+      nodes: nodes.map(n => ({ ...n, hidden: true })),
+      edges: edges.map(e => ({ ...e, hidden: true })),
+    }
+  }
+
+  // Determine which service nodes are visible
+  const visibleServiceIds = new Set<string>()
+  for (const node of nodes) {
+    if (node.type === 'service' && selectedTeams.has(node.data.team as string)) {
+      visibleServiceIds.add(node.id)
+    }
+  }
+
+  // Find topics connected to visible services
+  const visibleTopicIds = new Set<string>()
+  for (const edge of edges) {
+    if (visibleServiceIds.has(edge.source) || visibleServiceIds.has(edge.target)) {
+      const topicId = edge.source.startsWith('topic:') ? edge.source : edge.target
+      visibleTopicIds.add(topicId)
+    }
+  }
+
+  // Build final node visibility
+  const filteredNodes = nodes.map(n => {
+    if (n.type === 'service') {
+      return { ...n, hidden: !visibleServiceIds.has(n.id) }
+    }
+    if (n.type === 'topic') {
+      return { ...n, hidden: !visibleTopicIds.has(n.id) }
+    }
+    return n
+  })
+
+  // Edges are visible only if both source and target are visible
+  const allVisible = new Set([...visibleServiceIds, ...visibleTopicIds])
+  const filteredEdges = edges.map(e => ({
+    ...e,
+    hidden: !allVisible.has(e.source) || !allVisible.has(e.target),
+  }))
+
+  return { nodes: filteredNodes, edges: filteredEdges }
+}
