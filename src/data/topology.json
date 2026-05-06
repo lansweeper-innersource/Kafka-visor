@@ -1,0 +1,3160 @@
+{
+  "teams": {
+    "cloud-1": {
+      "name": "cloud-1",
+      "color": "#3B82F6",
+      "fullName": "@Lansweeper/cloud-1"
+    },
+    "cloud-2": {
+      "name": "cloud-2",
+      "color": "#8B5CF6",
+      "fullName": "@Lansweeper/cloud-2"
+    },
+    "cloud-asset-and-visualisation": {
+      "name": "cloud-asset-and-visualisation",
+      "color": "#14B8A6",
+      "fullName": "@Lansweeper/cloud-asset-and-visualisation"
+    },
+    "cloud-data-pipeline-and-scanning": {
+      "name": "cloud-data-pipeline-and-scanning",
+      "color": "#F97316",
+      "fullName": "@Lansweeper/cloud-data-pipeline-and-scanning"
+    },
+    "cloud-enrichment": {
+      "name": "cloud-enrichment",
+      "color": "#EC4899",
+      "fullName": "@Lansweeper/cloud-enrichment"
+    },
+    "cloud-front-end": {
+      "name": "cloud-front-end",
+      "color": "#CA8A04",
+      "fullName": "@Lansweeper/cloud-front-end"
+    },
+    "cloud-integrations": {
+      "name": "cloud-integrations",
+      "color": "#10B981",
+      "fullName": "@Lansweeper/cloud-integrations"
+    },
+    "data-core": {
+      "name": "data-core",
+      "color": "#EF4444",
+      "fullName": "@Lansweeper/data-core"
+    },
+    "discovery-engineering": {
+      "name": "discovery-engineering",
+      "color": "#6366F1",
+      "fullName": "@Lansweeper/discovery-engineering"
+    }
+  },
+  "topics": {
+    "public.edge.install-status.event": {
+      "id": "public.edge.install-status.event",
+      "consumers": [
+        "lec-backoffice-consumer",
+        "lec-edge-command-api",
+        "lec-syncer-api-v2",
+        "syncer-status-api",
+        "install-status-consumer",
+        "lec-scanning-consumer",
+        "lec-scanningconfig-consumer",
+        "discovery-config-api"
+      ],
+      "producers": [],
+      "consumerCount": 8,
+      "producerCount": 0,
+      "teamCount": 3
+    },
+    "public.event.licensing": {
+      "id": "public.event.licensing",
+      "consumers": [],
+      "producers": [
+        "lec-backoffice-consumer",
+        "lec-licensing-api",
+        "lec-licensing-consumer"
+      ],
+      "consumerCount": 0,
+      "producerCount": 3,
+      "teamCount": 1
+    },
+    "public.event.multitenant": {
+      "id": "public.event.multitenant",
+      "consumers": [
+        "lec-backoffice-consumer",
+        "hard-soft-limits",
+        "lec-licensing-consumer",
+        "lec-multitenant-api",
+        "lec-multitenant-grpc-api",
+        "lec-permissions-consumer",
+        "lec-notifications-consumer",
+        "lec-analytics-assets-consumer-v2-management-entities",
+        "lec-analytics-assets-consumer-v2-sync-management-entities",
+        "lec-boards-consumer",
+        "lec-reports-api-consumer",
+        "install-status-consumer",
+        "lec-scanning-consumer",
+        "lec-scanningconfig-consumer",
+        "lec-integrations-reports-api",
+        "lec-integrations-webhooks-api",
+        "integrations-webhooks-asset-types",
+        "integrations-webhooks-vulnerabilities",
+        "lec-integrations-webhooks-checker-consumer",
+        "lec-integrations-webhooks-checker-consumer-testing",
+        "lec-prismatic-api",
+        "lec-prismatic-api-retrieve-prismatic-data",
+        "lec-prismatic-consumer"
+      ],
+      "producers": [
+        "lec-multitenant-close-notifications-for-deleted-installs",
+        "lec-multitenant-close-notifications-for-unlinked",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-expired-subscriptions-temp",
+        "lec-multitenant-invite-account-temp",
+        "lec-multitenant-modify-install-type",
+        "lec-multitenant-remove-account-temp",
+        "lec-multitenant-remove-site-subscription-temp",
+        "lec-multitenant-rename-deleted-site-temp",
+        "lec-multitenant-rename-site-temp",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-sales-api",
+        "lec-multitenant-sync-installations-states",
+        "lec-multitenant-unlink-duplicated-installs-temp",
+        "lec-data-core-processor-api-scan-asset",
+        "lec-data-core-processor-asset",
+        "lec-data-core-processor-asset-context",
+        "lec-data-core-processor-classic-asset",
+        "lec-data-core-processor-cloud-asset",
+        "lec-data-core-processor-deconcile",
+        "lec-data-core-processor-multitenant",
+        "lec-data-core-processor-traffic-asset"
+      ],
+      "consumerCount": 23,
+      "producerCount": 23,
+      "teamCount": 5
+    },
+    "scannerproxy.event.licensing": {
+      "id": "scannerproxy.event.licensing",
+      "consumers": [
+        "lec-licensing-consumer"
+      ],
+      "producers": [
+        "lec-backoffice-consumer",
+        "lec-syncer-api",
+        "lec-syncer-api-v2"
+      ],
+      "consumerCount": 1,
+      "producerCount": 3,
+      "teamCount": 2
+    },
+    "assetscontext.event.assets": {
+      "id": "assetscontext.event.assets",
+      "consumers": [
+        "acme-data-exporter-consumer",
+        "lec-duplicated-assets-consumer",
+        "assets-enriching",
+        "vulnerabilities-engine-enriching-go",
+        "integrations-webhooks-asset-types",
+        "integrations-webhooks-vulnerabilities",
+        "lec-integrations-webhooks-checker-consumer",
+        "lec-integrations-webhooks-checker-consumer-testing"
+      ],
+      "producers": [
+        "lec-asset-api-reconciliation",
+        "lec-data-core-admin",
+        "lec-data-core-processor-api-scan-asset",
+        "lec-data-core-processor-asset",
+        "lec-data-core-processor-asset-context",
+        "lec-data-core-processor-classic-asset",
+        "lec-data-core-processor-cloud-asset",
+        "lec-data-core-processor-deconcile",
+        "lec-data-core-processor-multitenant",
+        "lec-data-core-processor-traffic-asset"
+      ],
+      "consumerCount": 8,
+      "producerCount": 10,
+      "teamCount": 4
+    },
+    "public.edge.asset.event": {
+      "id": "public.edge.asset.event",
+      "consumers": [
+        "asset-operations-consumer",
+        "integrations-webhooks-asset-types",
+        "integrations-webhooks-vulnerabilities",
+        "lec-integrations-webhooks-checker-consumer",
+        "lec-integrations-webhooks-checker-consumer-testing"
+      ],
+      "producers": [
+        "acme-data-exporter-consumer",
+        "lec-asset-api",
+        "lec-asset-api-delete-adusers-by-install",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-api-reconcile-classic-cleanup",
+        "lec-asset-grpc-api",
+        "lec-assets-workflows",
+        "lec-reports-api-consumer",
+        "lec-adapter-consumer-asset",
+        "lec-adapter-consumer-ug",
+        "lec-syncer-api",
+        "lec-syncer-api-v2",
+        "flex-save-duplicates",
+        "gapac-remove-duplicates",
+        "lec-integrations-assets-api"
+      ],
+      "consumerCount": 5,
+      "producerCount": 15,
+      "teamCount": 4
+    },
+    "public.event.tracking": {
+      "id": "public.event.tracking",
+      "consumers": [
+        "acme-data-exporter-consumer",
+        "lec-assets-workflows",
+        "asset-sync-status-consumer",
+        "lec-multitenant-api",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-unlink-duplicated-installs-temp",
+        "lec-reports-api-consumer",
+        "install-status-consumer",
+        "lec-scanning-consumer",
+        "integrations-webhooks-asset-types",
+        "integrations-webhooks-vulnerabilities",
+        "lec-integrations-webhooks-checker-consumer",
+        "lec-integrations-webhooks-checker-consumer-testing"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api",
+        "asset-operations-consumer",
+        "asset-sync-status-tracking-consumer",
+        "lec-duplicated-assets-consumer-tracking",
+        "lec-tracking-api",
+        "lec-tracking-consumer",
+        "lec-tracking-global-timeout-workflowtemplate",
+        "lec-tracking-push-avro-schemas-workflow",
+        "lec-syncer-api",
+        "lec-gateway-subscriptions"
+      ],
+      "consumerCount": 16,
+      "producerCount": 12,
+      "teamCount": 5
+    },
+    "private.event.assetoperations": {
+      "id": "private.event.assetoperations",
+      "consumers": [
+        "asset-operations-consumer"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api"
+      ],
+      "consumerCount": 1,
+      "producerCount": 3,
+      "teamCount": 1
+    },
+    "public.command.tracking": {
+      "id": "public.command.tracking",
+      "consumers": [
+        "lec-tracking-consumer",
+        "lec-integrations-webhooks-event-consumer-trackingcommands"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api",
+        "lec-assets-workflows",
+        "asset-operations-consumer",
+        "asset-sync-status-consumer",
+        "asset-sync-status-tracking-consumer",
+        "lec-duplicated-assets-consumer-tracking",
+        "lec-multitenant-api",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-unlink-duplicated-installs-temp",
+        "lec-tracking-api",
+        "lec-tracking-global-timeout-workflowtemplate",
+        "lec-tracking-push-avro-schemas-workflow",
+        "lec-reports-api-consumer",
+        "lec-syncer-api",
+        "install-status-consumer",
+        "lec-scanning-consumer",
+        "lec-scanningconfig-api",
+        "lec-gateway-subscriptions",
+        "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
+        "lec-integrations-webhooks-event-consumer-sourcesevents",
+        "lec-integrations-webhooks-event-consumer-webhookevents"
+      ],
+      "consumerCount": 2,
+      "producerCount": 26,
+      "teamCount": 5
+    },
+    "public.edge.assetcommon.event": {
+      "id": "public.edge.assetcommon.event",
+      "consumers": [
+        "integrations-webhooks-asset-types",
+        "integrations-webhooks-vulnerabilities",
+        "lec-integrations-webhooks-checker-consumer",
+        "lec-integrations-webhooks-checker-consumer-testing"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api",
+        "lec-assets-workflows",
+        "lec-syncer-api",
+        "lec-syncer-api-v2",
+        "lec-scanning-consumer"
+      ],
+      "consumerCount": 4,
+      "producerCount": 7,
+      "teamCount": 3
+    },
+    "public.edge.commands": {
+      "id": "public.edge.commands",
+      "consumers": [
+        "cloud-scanning-api-consumer",
+        "public-broker"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-avro-register-workflow",
+        "lec-asset-api-delete-adusers-by-install",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-api-policy4-template",
+        "lec-asset-api-resync-assets-by-site",
+        "lec-asset-grpc-api",
+        "lec-assets-workflows",
+        "asset-operations-consumer",
+        "lec-licensing-api",
+        "lec-multitenant-api",
+        "lec-multitenant-close-notifications-for-deleted-installs",
+        "lec-multitenant-close-notifications-for-unlinked",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-expired-subscriptions-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-invite-account-temp",
+        "lec-multitenant-modify-install-type",
+        "lec-multitenant-remove-account-temp",
+        "lec-multitenant-remove-site-subscription-temp",
+        "lec-multitenant-rename-deleted-site-temp",
+        "lec-multitenant-rename-site-temp",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-sales-api",
+        "lec-multitenant-sync-installations-states",
+        "lec-multitenant-unlink-duplicated-installs-temp",
+        "flex-save-duplicates",
+        "gapac-remove-duplicates",
+        "install-api-downgrade-policy-workflow",
+        "install-status-api",
+        "install-status-subscriptions",
+        "lec-scanning-api",
+        "lec-scanning-consumer",
+        "lec-scanningconfig-api",
+        "lec-scanningconfig-consumer",
+        "assets-enriching",
+        "assets-enriching-api",
+        "assets-enriching-retry",
+        "lec-integrations-assets-api"
+      ],
+      "consumerCount": 2,
+      "producerCount": 40,
+      "teamCount": 5
+    },
+    "public.event.analytics.entity-changes": {
+      "id": "public.event.analytics.entity-changes",
+      "consumers": [
+        "lec-analytics-assets-consumer-v2",
+        "lec-analytics-assets-consumer-v2-certificates",
+        "lec-analytics-assets-consumer-v2-softwares",
+        "lec-analytics-assets-consumer-v2-users",
+        "lec-analytics-assets-consumer-v2-windows-services"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-adusers-by-install",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-api-reconciliation",
+        "lec-asset-grpc-api",
+        "lec-assets-workflows",
+        "asset-operations-consumer",
+        "lec-analytics-assets-consumer-v2-sync-deleted-entities",
+        "lec-analytics-assets-consumer-v2-sync-entities",
+        "lec-analytics-assets-consumer-v2-vulnerabilities",
+        "assets-enriching",
+        "assets-enriching-api",
+        "users-enriching",
+        "users-enriching-retry",
+        "vulnerabilities-engine-enriching-go"
+      ],
+      "consumerCount": 5,
+      "producerCount": 15,
+      "teamCount": 3
+    },
+    "public.event.assets": {
+      "id": "public.event.assets",
+      "consumers": [],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-avro-register-workflow",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api"
+      ],
+      "consumerCount": 0,
+      "producerCount": 4,
+      "teamCount": 1
+    },
+    "public.event.assets.statistics": {
+      "id": "public.event.assets.statistics",
+      "consumers": [],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api",
+        "lec-licensing-consumer"
+      ],
+      "consumerCount": 0,
+      "producerCount": 4,
+      "teamCount": 1
+    },
+    "public.event.eventlogs": {
+      "id": "public.event.eventlogs",
+      "consumers": [],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api",
+        "lec-assets-workflows",
+        "lec-asset-be",
+        "asset-sync-status-tracking-consumer",
+        "lec-licensing-api",
+        "lec-multitenant-api",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-sales-api",
+        "lec-analytics-api",
+        "lec-analytics-luzmo-api",
+        "lec-boards-api",
+        "lec-reports-api",
+        "lec-reports-integrations-grpc",
+        "lec-reports-executor",
+        "lec-event-logs-api",
+        "lec-diagrams-api",
+        "lec-diagrams-worker",
+        "cloud-scanning-api",
+        "lec-msmp-api",
+        "lec-scanning-api",
+        "vulnerabilities-engine-clickhouse-api",
+        "lec-integrations-assets-api",
+        "lec-integrations-exporter-api-v2"
+      ],
+      "consumerCount": 0,
+      "producerCount": 25,
+      "teamCount": 6
+    },
+    "public.event.inventory.management-entities": {
+      "id": "public.event.inventory.management-entities",
+      "consumers": [
+        "lec-analytics-assets-consumer-v2-management-entities",
+        "iplocation-sync"
+      ],
+      "producers": [
+        "lec-asset-api",
+        "lec-asset-api-avro-register-workflow",
+        "lec-asset-api-delete-asset-temp",
+        "lec-asset-grpc-api",
+        "lec-analytics-assets-consumer-v2-sync-management-entities"
+      ],
+      "consumerCount": 2,
+      "producerCount": 5,
+      "teamCount": 3
+    },
+    "public.command.notifications": {
+      "id": "public.command.notifications",
+      "consumers": [
+        "lec-notifications-consumer"
+      ],
+      "producers": [
+        "lec-asset-api-check-uninvited-onprem-users-temp",
+        "lec-duplicated-assets-consumer-notify-conflicts",
+        "lec-multitenant-api",
+        "lec-multitenant-close-notifications-for-deleted-installs",
+        "lec-multitenant-close-notifications-for-unlinked",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-unlink-duplicated-installs-temp",
+        "lec-tracking-api",
+        "lec-tracking-consumer",
+        "lec-tracking-global-timeout-workflowtemplate",
+        "lec-notifications-api",
+        "install-status-consumer-notification",
+        "lec-scanning-check-installer-workflowtemplate",
+        "lec-scanning-check-sync-server-version-workflowtemplate",
+        "lec-scanning-consumer"
+      ],
+      "consumerCount": 1,
+      "producerCount": 18,
+      "teamCount": 2
+    },
+    "public.event.notifications": {
+      "id": "public.event.notifications",
+      "consumers": [],
+      "producers": [
+        "lec-asset-api-check-uninvited-onprem-users-temp",
+        "lec-duplicated-assets-consumer-notify-conflicts",
+        "lec-multitenant-api",
+        "lec-multitenant-close-notifications-for-deleted-installs",
+        "lec-multitenant-close-notifications-for-unlinked",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-unlink-duplicated-installs-temp",
+        "lec-tracking-api",
+        "lec-tracking-consumer",
+        "lec-tracking-global-timeout-workflowtemplate",
+        "lec-notifications-api",
+        "lec-notifications-consumer",
+        "install-status-consumer-notification",
+        "lec-scanning-check-installer-workflowtemplate",
+        "lec-scanning-check-sync-server-version-workflowtemplate",
+        "lec-scanning-consumer",
+        "lec-gateway-subscriptions"
+      ],
+      "consumerCount": 0,
+      "producerCount": 20,
+      "teamCount": 3
+    },
+    "public.edge.roundtrip.event": {
+      "id": "public.edge.roundtrip.event",
+      "consumers": [
+        "asset-operations-consumer",
+        "asset-sync-status-consumer"
+      ],
+      "producers": [
+        "lec-syncer-api",
+        "lec-syncer-api-v2",
+        "lec-scanning-consumer"
+      ],
+      "consumerCount": 2,
+      "producerCount": 3,
+      "teamCount": 2
+    },
+    "public.event.asset.entity-changes": {
+      "id": "public.event.asset.entity-changes",
+      "consumers": [],
+      "producers": [
+        "lec-duplicated-assets-consumer",
+        "lec-duplicated-assets-consumer-calculate-duplicates",
+        "lec-duplicated-assets-consumer-tracking"
+      ],
+      "consumerCount": 0,
+      "producerCount": 3,
+      "teamCount": 1
+    },
+    "public.event.multitenant.integrations": {
+      "id": "public.event.multitenant.integrations",
+      "consumers": [
+        "lec-integrations-reports-api",
+        "lec-integrations-webhooks-api"
+      ],
+      "producers": [
+        "lec-multitenant-api",
+        "lec-multitenant-close-notifications-for-deleted-installs",
+        "lec-multitenant-close-notifications-for-unlinked",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-invite-account-temp",
+        "lec-multitenant-modify-install-type",
+        "lec-multitenant-remove-account-temp",
+        "lec-multitenant-remove-site-subscription-temp",
+        "lec-multitenant-rename-deleted-site-temp",
+        "lec-multitenant-rename-site-temp",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-sales-api",
+        "lec-multitenant-sync-installations-states",
+        "lec-multitenant-unlink-duplicated-installs-temp"
+      ],
+      "consumerCount": 2,
+      "producerCount": 16,
+      "teamCount": 2
+    },
+    "public.event.scopes": {
+      "id": "public.event.scopes",
+      "consumers": [],
+      "producers": [
+        "lec-multitenant-api",
+        "lec-multitenant-close-notifications-for-deleted-installs",
+        "lec-multitenant-close-notifications-for-unlinked",
+        "lec-multitenant-consumer",
+        "lec-multitenant-delete-site-installs-temp",
+        "lec-multitenant-grpc-api",
+        "lec-multitenant-invite-account-temp",
+        "lec-multitenant-modify-install-type",
+        "lec-multitenant-remove-account-temp",
+        "lec-multitenant-remove-site-subscription-temp",
+        "lec-multitenant-rename-deleted-site-temp",
+        "lec-multitenant-rename-site-temp",
+        "lec-multitenant-retry-delete-soft-deleted-sites",
+        "lec-multitenant-sales-api",
+        "lec-multitenant-sync-installations-states",
+        "lec-multitenant-unlink-duplicated-installs-temp"
+      ],
+      "consumerCount": 0,
+      "producerCount": 16,
+      "teamCount": 1
+    },
+    "multitenantcontext.event.installer-location": {
+      "id": "multitenantcontext.event.installer-location",
+      "consumers": [],
+      "producers": [
+        "lec-multitenant-consumer"
+      ],
+      "consumerCount": 0,
+      "producerCount": 1,
+      "teamCount": 1
+    },
+    "public.event.webhooks.asset-events": {
+      "id": "public.event.webhooks.asset-events",
+      "consumers": [
+        "lec-integrations-webhooks-event-consumer-asseteventsanalytics"
+      ],
+      "producers": [
+        "lec-analytics-assets-consumer-v2",
+        "lec-analytics-assets-consumer-v2-certificates",
+        "lec-analytics-assets-consumer-v2-reprocess",
+        "lec-analytics-assets-consumer-v2-softwares",
+        "lec-analytics-assets-consumer-v2-users",
+        "lec-analytics-assets-consumer-v2-vulnerabilities",
+        "lec-analytics-assets-consumer-v2-windows-services",
+        "lec-integrations-webhooks-event-consumer-sourcesevents",
+        "lec-integrations-webhooks-event-consumer-trackingcommands",
+        "lec-integrations-webhooks-event-consumer-webhookevents"
+      ],
+      "consumerCount": 1,
+      "producerCount": 10,
+      "teamCount": 2
+    },
+    "public.event.scanning-config": {
+      "id": "public.event.scanning-config",
+      "consumers": [
+        "lec-analytics-assets-consumer-v2-management-entities"
+      ],
+      "producers": [
+        "lec-scanningconfig-api",
+        "lec-scanningconfig-consumer"
+      ],
+      "consumerCount": 1,
+      "producerCount": 2,
+      "teamCount": 2
+    },
+    "public.event.analytics.entity-changes-reprocess": {
+      "id": "public.event.analytics.entity-changes-reprocess",
+      "consumers": [
+        "lec-analytics-assets-consumer-v2-reprocess"
+      ],
+      "producers": [
+        "assets-enriching-retry",
+        "vulnerabilities-engine-enriching-go-retry"
+      ],
+      "consumerCount": 1,
+      "producerCount": 2,
+      "teamCount": 2
+    },
+    "public.event.report": {
+      "id": "public.event.report",
+      "consumers": [
+        "lec-integrations-reports-api"
+      ],
+      "producers": [
+        "lec-reports-api"
+      ],
+      "consumerCount": 1,
+      "producerCount": 1,
+      "teamCount": 2
+    },
+    "public.edge.activedirectory.event": {
+      "id": "public.edge.activedirectory.event",
+      "consumers": [],
+      "producers": [
+        "lec-reports-api-consumer",
+        "lec-adapter-consumer-asset",
+        "lec-adapter-consumer-ug",
+        "lec-syncer-api",
+        "lec-syncer-api-v2"
+      ],
+      "consumerCount": 0,
+      "producerCount": 5,
+      "teamCount": 2
+    },
+    "public.edge.cloud.event": {
+      "id": "public.edge.cloud.event",
+      "consumers": [
+        "lec-data-core-processor-cloud-asset"
+      ],
+      "producers": [
+        "cloud-scanner",
+        "cloud-scanner-by-environment"
+      ],
+      "consumerCount": 1,
+      "producerCount": 2,
+      "teamCount": 2
+    },
+    "public.edge.inbound.event": {
+      "id": "public.edge.inbound.event",
+      "consumers": [
+        "lec-data-core-processor-asset",
+        "lec-data-core-processor-asset-context",
+        "lec-data-core-processor-deconcile",
+        "lec-data-core-processor-multitenant"
+      ],
+      "producers": [
+        "cloud-scanner",
+        "cloud-scanner-by-environment",
+        "lec-integrations-assets-api",
+        "discovery-syncer-api"
+      ],
+      "consumerCount": 4,
+      "producerCount": 4,
+      "teamCount": 4
+    },
+    "public.edge.pending-changes.event": {
+      "id": "public.edge.pending-changes.event",
+      "consumers": [
+        "lec-syncer-api-v2",
+        "install-status-consumer"
+      ],
+      "producers": [
+        "cloud-scanner",
+        "cloud-scanner-by-environment",
+        "lec-syncer-api"
+      ],
+      "consumerCount": 2,
+      "producerCount": 3,
+      "teamCount": 2
+    },
+    "public.event.data-core": {
+      "id": "public.event.data-core",
+      "consumers": [
+        "lec-adapter-consumer-asset",
+        "lec-adapter-consumer-ug"
+      ],
+      "producers": [
+        "lec-data-core-admin",
+        "lec-data-core-integrity",
+        "lec-data-core-processor-api-scan-asset",
+        "lec-data-core-processor-asset",
+        "lec-data-core-processor-asset-context",
+        "lec-data-core-processor-classic-asset",
+        "lec-data-core-processor-cloud-asset",
+        "lec-data-core-processor-deconcile",
+        "lec-data-core-processor-multitenant",
+        "lec-data-core-processor-traffic-asset"
+      ],
+      "consumerCount": 2,
+      "producerCount": 10,
+      "teamCount": 2
+    },
+    "scannerapi.command.scanningtargets": {
+      "id": "scannerapi.command.scanningtargets",
+      "consumers": [
+        "public-broker"
+      ],
+      "producers": [],
+      "consumerCount": 1,
+      "producerCount": 0,
+      "teamCount": 1
+    },
+    "scannerapi.command.syncsettings": {
+      "id": "scannerapi.command.syncsettings",
+      "consumers": [
+        "public-broker"
+      ],
+      "producers": [],
+      "consumerCount": 1,
+      "producerCount": 0,
+      "teamCount": 1
+    },
+    "public.edge.asserver.event": {
+      "id": "public.edge.asserver.event",
+      "consumers": [],
+      "producers": [
+        "lec-syncer-api",
+        "lec-syncer-api-v2",
+        "lec-scanning-consumer"
+      ],
+      "consumerCount": 0,
+      "producerCount": 3,
+      "teamCount": 1
+    },
+    "public.edge.scanning.event": {
+      "id": "public.edge.scanning.event",
+      "consumers": [],
+      "producers": [
+        "lec-syncer-api",
+        "lec-syncer-api-v2",
+        "lec-scanning-consumer"
+      ],
+      "consumerCount": 0,
+      "producerCount": 3,
+      "teamCount": 1
+    },
+    "public.edge.classic.event": {
+      "id": "public.edge.classic.event",
+      "consumers": [
+        "lec-data-core-processor-classic-asset"
+      ],
+      "producers": [
+        "lec-syncer-api-v2"
+      ],
+      "consumerCount": 1,
+      "producerCount": 1,
+      "teamCount": 2
+    },
+    "public.edge.scanning.fullsync.event": {
+      "id": "public.edge.scanning.fullsync.event",
+      "consumers": [],
+      "producers": [
+        "lec-scanning-consumer"
+      ],
+      "consumerCount": 0,
+      "producerCount": 1,
+      "teamCount": 1
+    },
+    "public.event.discovery": {
+      "id": "public.event.discovery",
+      "consumers": [
+        "lec-scanningconfig-consumer"
+      ],
+      "producers": [
+        "discovery-syncer-api"
+      ],
+      "consumerCount": 1,
+      "producerCount": 1,
+      "teamCount": 2
+    },
+    "public.event.webhooks.sources": {
+      "id": "public.event.webhooks.sources",
+      "consumers": [
+        "lec-integrations-webhooks-event-consumer-sourcesevents"
+      ],
+      "producers": [
+        "lec-scanningconfig-consumer",
+        "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
+        "lec-integrations-webhooks-event-consumer-trackingcommands",
+        "lec-integrations-webhooks-event-consumer-webhookevents"
+      ],
+      "consumerCount": 1,
+      "producerCount": 4,
+      "teamCount": 2
+    },
+    "public.command.audit-trails": {
+      "id": "public.command.audit-trails",
+      "consumers": [
+        "audit-trails-consumer-go"
+      ],
+      "producers": [
+        "lec-gateway-api",
+        "lec-integrations-gateway-api-v2"
+      ],
+      "consumerCount": 1,
+      "producerCount": 2,
+      "teamCount": 3
+    },
+    "consolidationcontext.event.reprocess-assets-enriching": {
+      "id": "consolidationcontext.event.reprocess-assets-enriching",
+      "consumers": [
+        "assets-enriching-retry"
+      ],
+      "producers": [
+        "assets-enriching",
+        "assets-enriching-api",
+        "consolidate-unsynced-assets-workflow-template"
+      ],
+      "consumerCount": 1,
+      "producerCount": 3,
+      "teamCount": 1
+    },
+    "usersenrichmentcontext.event.reprocess-users-enriching": {
+      "id": "usersenrichmentcontext.event.reprocess-users-enriching",
+      "consumers": [
+        "users-enriching-retry"
+      ],
+      "producers": [
+        "assets-enriching",
+        "assets-enriching-api",
+        "assets-enriching-retry",
+        "reprocess-unsynced-users-workflow-template",
+        "users-enriching"
+      ],
+      "consumerCount": 1,
+      "producerCount": 5,
+      "teamCount": 1
+    },
+    "securitycontext.event.reprocess-vulnerabilities": {
+      "id": "securitycontext.event.reprocess-vulnerabilities",
+      "consumers": [
+        "vulnerabilities-engine-enriching-go-retry"
+      ],
+      "producers": [
+        "reprocess-unsynced-vulnerabilities-workflow-template",
+        "vulnerabilities-engine-enriching-go"
+      ],
+      "consumerCount": 1,
+      "producerCount": 2,
+      "teamCount": 1
+    },
+    "assetscontext.event.ad": {
+      "id": "assetscontext.event.ad",
+      "consumers": [
+        "users-enriching"
+      ],
+      "producers": [],
+      "consumerCount": 1,
+      "producerCount": 0,
+      "teamCount": 1
+    },
+    "public.event.subscriptions": {
+      "id": "public.event.subscriptions",
+      "consumers": [],
+      "producers": [
+        "lec-gateway-subscriptions"
+      ],
+      "consumerCount": 0,
+      "producerCount": 1,
+      "teamCount": 1
+    },
+    "public.event.webhooks.events": {
+      "id": "public.event.webhooks.events",
+      "consumers": [
+        "lec-integrations-webhooks-event-consumer-webhookevents"
+      ],
+      "producers": [
+        "lec-integrations-exporter-consumer-v2",
+        "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
+        "lec-integrations-webhooks-event-consumer-sourcesevents",
+        "lec-integrations-webhooks-event-consumer-trackingcommands"
+      ],
+      "consumerCount": 1,
+      "producerCount": 4,
+      "teamCount": 1
+    },
+    "integrationscontext.command.webhook-notifier": {
+      "id": "integrationscontext.command.webhook-notifier",
+      "consumers": [
+        "lec-integrations-webhooks-notifier-consumer-v2"
+      ],
+      "producers": [
+        "integrations-webhooks-asset-types",
+        "integrations-webhooks-vulnerabilities",
+        "lec-integrations-webhooks-checker-consumer",
+        "lec-integrations-webhooks-checker-consumer-testing",
+        "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
+        "lec-integrations-webhooks-event-consumer-sourcesevents",
+        "lec-integrations-webhooks-event-consumer-trackingcommands",
+        "lec-integrations-webhooks-event-consumer-webhookevents"
+      ],
+      "consumerCount": 1,
+      "producerCount": 8,
+      "teamCount": 1
+    },
+    "integrationscontext.command.webhook-retries": {
+      "id": "integrationscontext.command.webhook-retries",
+      "consumers": [
+        "lec-integrations-webhooks-notifier-consumer-v2",
+        "lec-integrations-webhooks-retry-job"
+      ],
+      "producers": [],
+      "consumerCount": 2,
+      "producerCount": 0,
+      "teamCount": 1
+    },
+    "public.event.deconcile.data-core": {
+      "id": "public.event.deconcile.data-core",
+      "consumers": [],
+      "producers": [
+        "lec-data-core-admin",
+        "lec-data-core-inbound-api",
+        "lec-data-core-processor-api-scan-asset",
+        "lec-data-core-processor-asset",
+        "lec-data-core-processor-asset-context",
+        "lec-data-core-processor-classic-asset",
+        "lec-data-core-processor-cloud-asset",
+        "lec-data-core-processor-deconcile",
+        "lec-data-core-processor-multitenant",
+        "lec-data-core-processor-traffic-asset"
+      ],
+      "consumerCount": 0,
+      "producerCount": 10,
+      "teamCount": 1
+    },
+    "public.event.reference.realign.data-core": {
+      "id": "public.event.reference.realign.data-core",
+      "consumers": [
+        "lec-data-core-integrity"
+      ],
+      "producers": [
+        "lec-data-core-admin",
+        "lec-data-core-processor-api-scan-asset",
+        "lec-data-core-processor-asset",
+        "lec-data-core-processor-asset-context",
+        "lec-data-core-processor-classic-asset",
+        "lec-data-core-processor-cloud-asset",
+        "lec-data-core-processor-deconcile",
+        "lec-data-core-processor-multitenant",
+        "lec-data-core-processor-traffic-asset"
+      ],
+      "consumerCount": 1,
+      "producerCount": 9,
+      "teamCount": 1
+    },
+    "public.edge.inbound.apiscan.event": {
+      "id": "public.edge.inbound.apiscan.event",
+      "consumers": [
+        "lec-data-core-processor-api-scan-asset"
+      ],
+      "producers": [
+        "discovery-syncer-api"
+      ],
+      "consumerCount": 1,
+      "producerCount": 1,
+      "teamCount": 2
+    },
+    "public.event.traffic-assets": {
+      "id": "public.event.traffic-assets",
+      "consumers": [
+        "lec-data-core-processor-traffic-asset"
+      ],
+      "producers": [
+        "discovery-syncer-api"
+      ],
+      "consumerCount": 1,
+      "producerCount": 1,
+      "teamCount": 2
+    },
+    "public.event.phonehome.incoming": {
+      "id": "public.event.phonehome.incoming",
+      "consumers": [],
+      "producers": [
+        "discovery-config-api"
+      ],
+      "consumerCount": 0,
+      "producerCount": 1,
+      "teamCount": 1
+    }
+  },
+  "services": {
+    "lec-backoffice-consumer": {
+      "id": "lec-backoffice-consumer",
+      "team": "cloud-1",
+      "repository": "backoffice-deployments",
+      "namespace": "backoffice-consumer",
+      "produces": [
+        "public.event.licensing",
+        "scannerproxy.event.licensing"
+      ],
+      "consumes": [
+        "public.edge.install-status.event",
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "acme-data-exporter-consumer": {
+      "id": "acme-data-exporter-consumer",
+      "team": "cloud-1",
+      "repository": "businesstools-deployments",
+      "namespace": "acme-data-exporter",
+      "produces": [
+        "public.edge.asset.event"
+      ],
+      "consumes": [
+        "assetscontext.event.assets",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-asset-api": {
+      "id": "lec-asset-api",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "private.event.assetoperations",
+        "public.command.tracking",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "public.event.assets",
+        "public.event.assets.statistics",
+        "public.event.eventlogs",
+        "public.event.inventory.management-entities",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-asset-api-avro-register-workflow": {
+      "id": "lec-asset-api-avro-register-workflow",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.edge.commands",
+        "public.event.assets",
+        "public.event.inventory.management-entities"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-api-check-uninvited-onprem-users-temp": {
+      "id": "lec-asset-api-check-uninvited-onprem-users-temp",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-api-delete-adusers-by-install": {
+      "id": "lec-asset-api-delete-adusers-by-install",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.edge.asset.event",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-api-delete-asset-temp": {
+      "id": "lec-asset-api-delete-asset-temp",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "private.event.assetoperations",
+        "public.command.tracking",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "public.event.assets",
+        "public.event.assets.statistics",
+        "public.event.eventlogs",
+        "public.event.inventory.management-entities",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-api-policy4-template": {
+      "id": "lec-asset-api-policy4-template",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-api-reconcile-classic-cleanup": {
+      "id": "lec-asset-api-reconcile-classic-cleanup",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.edge.asset.event"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-api-reconciliation": {
+      "id": "lec-asset-api-reconciliation",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.analytics.entity-changes"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-asset-api-resync-assets-by-site": {
+      "id": "lec-asset-api-resync-assets-by-site",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-asset-grpc-api": {
+      "id": "lec-asset-grpc-api",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "private.event.assetoperations",
+        "public.command.tracking",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "public.event.assets",
+        "public.event.assets.statistics",
+        "public.event.eventlogs",
+        "public.event.inventory.management-entities",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-assets-workflows": {
+      "id": "lec-assets-workflows",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-api",
+      "produces": [
+        "public.command.tracking",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "public.event.eventlogs"
+      ],
+      "consumes": [
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-asset-be": {
+      "id": "lec-asset-be",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-be",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "asset-operations-consumer": {
+      "id": "asset-operations-consumer",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-operation-consumer",
+      "produces": [
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "public.event.tracking"
+      ],
+      "consumes": [
+        "private.event.assetoperations",
+        "public.edge.asset.event",
+        "public.edge.roundtrip.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "asset-sync-status-consumer": {
+      "id": "asset-sync-status-consumer",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-sync-status",
+      "produces": [
+        "public.command.tracking"
+      ],
+      "consumes": [
+        "public.edge.roundtrip.event",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "asset-sync-status-tracking-consumer": {
+      "id": "asset-sync-status-tracking-consumer",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "asset-sync-status",
+      "produces": [
+        "public.command.tracking",
+        "public.event.eventlogs",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-duplicated-assets-consumer": {
+      "id": "lec-duplicated-assets-consumer",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "duplicated-asset-consumer",
+      "produces": [
+        "public.event.asset.entity-changes"
+      ],
+      "consumes": [
+        "assetscontext.event.assets"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-duplicated-assets-consumer-calculate-duplicates": {
+      "id": "lec-duplicated-assets-consumer-calculate-duplicates",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "duplicated-asset-consumer",
+      "produces": [
+        "public.event.asset.entity-changes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-duplicated-assets-consumer-notify-conflicts": {
+      "id": "lec-duplicated-assets-consumer-notify-conflicts",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "duplicated-asset-consumer",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-duplicated-assets-consumer-tracking": {
+      "id": "lec-duplicated-assets-consumer-tracking",
+      "team": "cloud-1",
+      "repository": "inventory-deployments",
+      "namespace": "duplicated-asset-consumer",
+      "produces": [
+        "public.command.tracking",
+        "public.event.asset.entity-changes",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "hard-soft-limits": {
+      "id": "hard-soft-limits",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "hard-soft-limits",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-licensing-api": {
+      "id": "lec-licensing-api",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "licensing",
+      "produces": [
+        "public.edge.commands",
+        "public.event.eventlogs",
+        "public.event.licensing"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-licensing-consumer": {
+      "id": "lec-licensing-consumer",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "licensing",
+      "produces": [
+        "public.event.assets.statistics",
+        "public.event.licensing"
+      ],
+      "consumes": [
+        "public.event.multitenant",
+        "scannerproxy.event.licensing"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-multitenant-api": {
+      "id": "lec-multitenant-api",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.eventlogs",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-multitenant-close-notifications-for-deleted-installs": {
+      "id": "lec-multitenant-close-notifications-for-deleted-installs",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-close-notifications-for-unlinked": {
+      "id": "lec-multitenant-close-notifications-for-unlinked",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-consumer": {
+      "id": "lec-multitenant-consumer",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "multitenantcontext.event.installer-location",
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-multitenant-delete-site-installs-temp": {
+      "id": "lec-multitenant-delete-site-installs-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [
+        "public.event.tracking"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-expired-subscriptions-temp": {
+      "id": "lec-multitenant-expired-subscriptions-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-grpc-api": {
+      "id": "lec-multitenant-grpc-api",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.eventlogs",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-multitenant-invite-account-temp": {
+      "id": "lec-multitenant-invite-account-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-modify-install-type": {
+      "id": "lec-multitenant-modify-install-type",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-remove-account-temp": {
+      "id": "lec-multitenant-remove-account-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-remove-site-subscription-temp": {
+      "id": "lec-multitenant-remove-site-subscription-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-rename-deleted-site-temp": {
+      "id": "lec-multitenant-rename-deleted-site-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-rename-site-temp": {
+      "id": "lec-multitenant-rename-site-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-retry-delete-soft-deleted-sites": {
+      "id": "lec-multitenant-retry-delete-soft-deleted-sites",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [
+        "public.event.tracking"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-sales-api": {
+      "id": "lec-multitenant-sales-api",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.eventlogs",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-multitenant-sync-installations-states": {
+      "id": "lec-multitenant-sync-installations-states",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.scopes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-multitenant-unlink-duplicated-installs-temp": {
+      "id": "lec-multitenant-unlink-duplicated-installs-temp",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "multitenant",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.notifications",
+        "public.event.scopes"
+      ],
+      "consumes": [
+        "public.event.tracking"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-permissions-consumer": {
+      "id": "lec-permissions-consumer",
+      "team": "cloud-1",
+      "repository": "tenancy-deployments",
+      "namespace": "permissions",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-tracking-api": {
+      "id": "lec-tracking-api",
+      "team": "cloud-1",
+      "repository": "tracking-deployments",
+      "namespace": "tracking",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.event.notifications",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-tracking-consumer": {
+      "id": "lec-tracking-consumer",
+      "team": "cloud-1",
+      "repository": "tracking-deployments",
+      "namespace": "tracking",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications",
+        "public.event.tracking"
+      ],
+      "consumes": [
+        "public.command.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-tracking-global-timeout-workflowtemplate": {
+      "id": "lec-tracking-global-timeout-workflowtemplate",
+      "team": "cloud-1",
+      "repository": "tracking-deployments",
+      "namespace": "tracking",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.event.notifications",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-tracking-push-avro-schemas-workflow": {
+      "id": "lec-tracking-push-avro-schemas-workflow",
+      "team": "cloud-1",
+      "repository": "tracking-deployments",
+      "namespace": "tracking",
+      "produces": [
+        "public.command.tracking",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-notifications-api": {
+      "id": "lec-notifications-api",
+      "team": "cloud-1",
+      "repository": "webapp-deployments",
+      "namespace": "notifications",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-notifications-consumer": {
+      "id": "lec-notifications-consumer",
+      "team": "cloud-1",
+      "repository": "webapp-deployments",
+      "namespace": "notifications",
+      "produces": [
+        "public.event.notifications"
+      ],
+      "consumes": [
+        "public.command.notifications",
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-api": {
+      "id": "lec-analytics-api",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-luzmo-api": {
+      "id": "lec-analytics-luzmo-api",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2": {
+      "id": "lec-analytics-assets-consumer-v2",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [
+        "public.event.analytics.entity-changes"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-certificates": {
+      "id": "lec-analytics-assets-consumer-v2-certificates",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [
+        "public.event.analytics.entity-changes"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-management-entities": {
+      "id": "lec-analytics-assets-consumer-v2-management-entities",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [],
+      "consumes": [
+        "public.event.inventory.management-entities",
+        "public.event.multitenant",
+        "public.event.scanning-config"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-reprocess": {
+      "id": "lec-analytics-assets-consumer-v2-reprocess",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [
+        "public.event.analytics.entity-changes-reprocess"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-softwares": {
+      "id": "lec-analytics-assets-consumer-v2-softwares",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [
+        "public.event.analytics.entity-changes"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-sync-deleted-entities": {
+      "id": "lec-analytics-assets-consumer-v2-sync-deleted-entities",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.analytics.entity-changes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-analytics-assets-consumer-v2-sync-entities": {
+      "id": "lec-analytics-assets-consumer-v2-sync-entities",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.analytics.entity-changes"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-analytics-assets-consumer-v2-sync-management-entities": {
+      "id": "lec-analytics-assets-consumer-v2-sync-management-entities",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.inventory.management-entities"
+      ],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-analytics-assets-consumer-v2-users": {
+      "id": "lec-analytics-assets-consumer-v2-users",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [
+        "public.event.analytics.entity-changes"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-vulnerabilities": {
+      "id": "lec-analytics-assets-consumer-v2-vulnerabilities",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.analytics.entity-changes",
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-analytics-assets-consumer-v2-windows-services": {
+      "id": "lec-analytics-assets-consumer-v2-windows-services",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "analytics-assets-consumer-v2",
+      "produces": [
+        "public.event.webhooks.asset-events"
+      ],
+      "consumes": [
+        "public.event.analytics.entity-changes"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-boards-api": {
+      "id": "lec-boards-api",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "boards-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-boards-consumer": {
+      "id": "lec-boards-consumer",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "boards-consumer",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-reports-api": {
+      "id": "lec-reports-api",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "reports-api",
+      "produces": [
+        "public.event.eventlogs",
+        "public.event.report"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-reports-api-consumer": {
+      "id": "lec-reports-api-consumer",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "reports-api",
+      "produces": [
+        "public.command.tracking",
+        "public.edge.activedirectory.event",
+        "public.edge.asset.event"
+      ],
+      "consumes": [
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-reports-integrations-grpc": {
+      "id": "lec-reports-integrations-grpc",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "reports-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-reports-executor": {
+      "id": "lec-reports-executor",
+      "team": "cloud-2",
+      "repository": "analytics-deployments",
+      "namespace": "reports-executor",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-event-logs-api": {
+      "id": "lec-event-logs-api",
+      "team": "cloud-2",
+      "repository": "devtools-deployments",
+      "namespace": "event-logs-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-diagrams-api": {
+      "id": "lec-diagrams-api",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "diagrams-deployments",
+      "namespace": "diagrams-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-diagrams-worker": {
+      "id": "lec-diagrams-worker",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "diagrams-deployments",
+      "namespace": "diagrams-worker",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "cloud-scanner": {
+      "id": "cloud-scanner",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "scanning-deployments",
+      "namespace": "cloud-scanner",
+      "produces": [
+        "public.edge.cloud.event",
+        "public.edge.inbound.event",
+        "public.edge.pending-changes.event"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "cloud-scanner-by-environment": {
+      "id": "cloud-scanner-by-environment",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "scanning-deployments",
+      "namespace": "cloud-scanner",
+      "produces": [
+        "public.edge.cloud.event",
+        "public.edge.inbound.event",
+        "public.edge.pending-changes.event"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "cloud-scanning-api": {
+      "id": "cloud-scanning-api",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "scanning-deployments",
+      "namespace": "cloud-scanning-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "cloud-scanning-api-consumer": {
+      "id": "cloud-scanning-api-consumer",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "scanning-deployments",
+      "namespace": "cloud-scanning-api",
+      "produces": [],
+      "consumes": [
+        "public.edge.commands"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-msmp-api": {
+      "id": "lec-msmp-api",
+      "team": "cloud-asset-and-visualisation",
+      "repository": "tenancy-deployments",
+      "namespace": "msmp-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-adapter-consumer-asset": {
+      "id": "lec-adapter-consumer-asset",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "datacore-deployments",
+      "namespace": "adapter-api",
+      "produces": [
+        "public.edge.activedirectory.event",
+        "public.edge.asset.event"
+      ],
+      "consumes": [
+        "public.event.data-core"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-adapter-consumer-ug": {
+      "id": "lec-adapter-consumer-ug",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "datacore-deployments",
+      "namespace": "adapter-api",
+      "produces": [
+        "public.edge.activedirectory.event",
+        "public.edge.asset.event"
+      ],
+      "consumes": [
+        "public.event.data-core"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-edge-command-api": {
+      "id": "lec-edge-command-api",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "edge-deployments",
+      "namespace": "edge-command",
+      "produces": [],
+      "consumes": [
+        "public.edge.install-status.event"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "public-broker": {
+      "id": "public-broker",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "edge-deployments",
+      "namespace": "public-broker",
+      "produces": [],
+      "consumes": [
+        "public.edge.commands",
+        "scannerapi.command.scanningtargets",
+        "scannerapi.command.syncsettings"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-syncer-api": {
+      "id": "lec-syncer-api",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "edge-deployments",
+      "namespace": "syncer-api",
+      "produces": [
+        "public.command.tracking",
+        "public.edge.activedirectory.event",
+        "public.edge.asserver.event",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.edge.pending-changes.event",
+        "public.edge.roundtrip.event",
+        "public.edge.scanning.event",
+        "public.event.tracking",
+        "scannerproxy.event.licensing"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-syncer-api-v2": {
+      "id": "lec-syncer-api-v2",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "edge-deployments",
+      "namespace": "syncer-api-v2",
+      "produces": [
+        "public.edge.activedirectory.event",
+        "public.edge.asserver.event",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.edge.classic.event",
+        "public.edge.roundtrip.event",
+        "public.edge.scanning.event",
+        "scannerproxy.event.licensing"
+      ],
+      "consumes": [
+        "public.edge.install-status.event",
+        "public.edge.pending-changes.event"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "syncer-status-api": {
+      "id": "syncer-status-api",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "edge-deployments",
+      "namespace": "syncer-status",
+      "produces": [],
+      "consumes": [
+        "public.edge.install-status.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "flex-save-duplicates": {
+      "id": "flex-save-duplicates",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "inventory-deployments",
+      "namespace": "asset-customer-deduplication",
+      "produces": [
+        "public.edge.asset.event",
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "gapac-remove-duplicates": {
+      "id": "gapac-remove-duplicates",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "inventory-deployments",
+      "namespace": "asset-customer-deduplication",
+      "produces": [
+        "public.edge.asset.event",
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "install-api-downgrade-policy-workflow": {
+      "id": "install-api-downgrade-policy-workflow",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "install-status",
+      "produces": [
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "install-status-api": {
+      "id": "install-status-api",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "install-status",
+      "produces": [
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "install-status-consumer": {
+      "id": "install-status-consumer",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "install-status",
+      "produces": [
+        "public.command.tracking"
+      ],
+      "consumes": [
+        "public.edge.install-status.event",
+        "public.edge.pending-changes.event",
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "install-status-consumer-notification": {
+      "id": "install-status-consumer-notification",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "install-status",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "install-status-subscriptions": {
+      "id": "install-status-subscriptions",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "install-status",
+      "produces": [
+        "public.edge.commands"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-scanning-api": {
+      "id": "lec-scanning-api",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "scanning",
+      "produces": [
+        "public.edge.commands",
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-scanning-check-installer-workflowtemplate": {
+      "id": "lec-scanning-check-installer-workflowtemplate",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "scanning",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-scanning-check-sync-server-version-workflowtemplate": {
+      "id": "lec-scanning-check-sync-server-version-workflowtemplate",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "scanning",
+      "produces": [
+        "public.command.notifications",
+        "public.event.notifications"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-scanning-consumer": {
+      "id": "lec-scanning-consumer",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "scanning",
+      "produces": [
+        "public.command.notifications",
+        "public.command.tracking",
+        "public.edge.asserver.event",
+        "public.edge.assetcommon.event",
+        "public.edge.commands",
+        "public.edge.roundtrip.event",
+        "public.edge.scanning.event",
+        "public.edge.scanning.fullsync.event",
+        "public.event.notifications"
+      ],
+      "consumes": [
+        "public.edge.install-status.event",
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-scanningconfig-api": {
+      "id": "lec-scanningconfig-api",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "scanning-config",
+      "produces": [
+        "public.command.tracking",
+        "public.edge.commands",
+        "public.event.scanning-config"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-scanningconfig-consumer": {
+      "id": "lec-scanningconfig-consumer",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "scanning-deployments",
+      "namespace": "scanning-config",
+      "produces": [
+        "public.edge.commands",
+        "public.event.scanning-config",
+        "public.event.webhooks.sources"
+      ],
+      "consumes": [
+        "public.edge.install-status.event",
+        "public.event.discovery",
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "audit-trails-consumer-go": {
+      "id": "audit-trails-consumer-go",
+      "team": "cloud-enrichment",
+      "repository": "audit-deployments",
+      "namespace": "audit-trails-consumer-go",
+      "produces": [],
+      "consumes": [
+        "public.command.audit-trails"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "vulnerabilities-engine-clickhouse-api": {
+      "id": "vulnerabilities-engine-clickhouse-api",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-clickhouse-api",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "assets-enriching": {
+      "id": "assets-enriching",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "consolidationcontext.event.reprocess-assets-enriching",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "usersenrichmentcontext.event.reprocess-users-enriching"
+      ],
+      "consumes": [
+        "assetscontext.event.assets"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "assets-enriching-api": {
+      "id": "assets-enriching-api",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "consolidationcontext.event.reprocess-assets-enriching",
+        "public.edge.commands",
+        "public.event.analytics.entity-changes",
+        "usersenrichmentcontext.event.reprocess-users-enriching"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "assets-enriching-retry": {
+      "id": "assets-enriching-retry",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "public.edge.commands",
+        "public.event.analytics.entity-changes-reprocess",
+        "usersenrichmentcontext.event.reprocess-users-enriching"
+      ],
+      "consumes": [
+        "consolidationcontext.event.reprocess-assets-enriching"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "consolidate-unsynced-assets-workflow-template": {
+      "id": "consolidate-unsynced-assets-workflow-template",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "consolidationcontext.event.reprocess-assets-enriching"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "iplocation-sync": {
+      "id": "iplocation-sync",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [],
+      "consumes": [
+        "public.event.inventory.management-entities"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "reprocess-unsynced-users-workflow-template": {
+      "id": "reprocess-unsynced-users-workflow-template",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "usersenrichmentcontext.event.reprocess-users-enriching"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "reprocess-unsynced-vulnerabilities-workflow-template": {
+      "id": "reprocess-unsynced-vulnerabilities-workflow-template",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "securitycontext.event.reprocess-vulnerabilities"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "users-enriching": {
+      "id": "users-enriching",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "public.event.analytics.entity-changes",
+        "usersenrichmentcontext.event.reprocess-users-enriching"
+      ],
+      "consumes": [
+        "assetscontext.event.ad"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "users-enriching-retry": {
+      "id": "users-enriching-retry",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "public.event.analytics.entity-changes"
+      ],
+      "consumes": [
+        "usersenrichmentcontext.event.reprocess-users-enriching"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "vulnerabilities-engine-enriching-go": {
+      "id": "vulnerabilities-engine-enriching-go",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "public.event.analytics.entity-changes",
+        "securitycontext.event.reprocess-vulnerabilities"
+      ],
+      "consumes": [
+        "assetscontext.event.assets"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "vulnerabilities-engine-enriching-go-retry": {
+      "id": "vulnerabilities-engine-enriching-go-retry",
+      "team": "cloud-enrichment",
+      "repository": "enriching-deployments",
+      "namespace": "vulnerabilities-engine-enriching-go",
+      "produces": [
+        "public.event.analytics.entity-changes-reprocess"
+      ],
+      "consumes": [
+        "securitycontext.event.reprocess-vulnerabilities"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-gateway-api": {
+      "id": "lec-gateway-api",
+      "team": "cloud-front-end",
+      "repository": "webapp-deployments",
+      "namespace": "web-gateway",
+      "produces": [
+        "public.command.audit-trails"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-gateway-subscriptions": {
+      "id": "lec-gateway-subscriptions",
+      "team": "cloud-front-end",
+      "repository": "webapp-deployments",
+      "namespace": "web-gateway",
+      "produces": [
+        "public.command.tracking",
+        "public.event.notifications",
+        "public.event.subscriptions",
+        "public.event.tracking"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-assets-api": {
+      "id": "lec-integrations-assets-api",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-assets-api",
+      "produces": [
+        "public.edge.asset.event",
+        "public.edge.commands",
+        "public.edge.inbound.event",
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-exporter-api-v2": {
+      "id": "lec-integrations-exporter-api-v2",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-exporter-api-v2",
+      "produces": [
+        "public.event.eventlogs"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-integrations-exporter-consumer-v2": {
+      "id": "lec-integrations-exporter-consumer-v2",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-exporter-consumer",
+      "produces": [
+        "public.event.webhooks.events"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-integrations-gateway-api-v2": {
+      "id": "lec-integrations-gateway-api-v2",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-gateway",
+      "produces": [
+        "public.command.audit-trails"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-integrations-reports-api": {
+      "id": "lec-integrations-reports-api",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-reports-api",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant",
+        "public.event.multitenant.integrations",
+        "public.event.report"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-integrations-webhooks-api": {
+      "id": "lec-integrations-webhooks-api",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-api",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant",
+        "public.event.multitenant.integrations"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "integrations-webhooks-asset-types": {
+      "id": "integrations-webhooks-asset-types",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-checker-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier"
+      ],
+      "consumes": [
+        "assetscontext.event.assets",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "integrations-webhooks-vulnerabilities": {
+      "id": "integrations-webhooks-vulnerabilities",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-checker-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier"
+      ],
+      "consumes": [
+        "assetscontext.event.assets",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-integrations-webhooks-checker-consumer": {
+      "id": "lec-integrations-webhooks-checker-consumer",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-checker-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier"
+      ],
+      "consumes": [
+        "assetscontext.event.assets",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-webhooks-checker-consumer-testing": {
+      "id": "lec-integrations-webhooks-checker-consumer-testing",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-checker-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier"
+      ],
+      "consumes": [
+        "assetscontext.event.assets",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event",
+        "public.event.multitenant",
+        "public.event.tracking"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-integrations-webhooks-event-consumer-asseteventsanalytics": {
+      "id": "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-event-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier",
+        "public.command.tracking",
+        "public.event.webhooks.events",
+        "public.event.webhooks.sources"
+      ],
+      "consumes": [
+        "public.event.webhooks.asset-events"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-webhooks-event-consumer-sourcesevents": {
+      "id": "lec-integrations-webhooks-event-consumer-sourcesevents",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-event-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier",
+        "public.command.tracking",
+        "public.event.webhooks.asset-events",
+        "public.event.webhooks.events"
+      ],
+      "consumes": [
+        "public.event.webhooks.sources"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-webhooks-event-consumer-trackingcommands": {
+      "id": "lec-integrations-webhooks-event-consumer-trackingcommands",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-event-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier",
+        "public.event.webhooks.asset-events",
+        "public.event.webhooks.events",
+        "public.event.webhooks.sources"
+      ],
+      "consumes": [
+        "public.command.tracking"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-webhooks-event-consumer-webhookevents": {
+      "id": "lec-integrations-webhooks-event-consumer-webhookevents",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-event-consumer",
+      "produces": [
+        "integrationscontext.command.webhook-notifier",
+        "public.command.tracking",
+        "public.event.webhooks.asset-events",
+        "public.event.webhooks.sources"
+      ],
+      "consumes": [
+        "public.event.webhooks.events"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-webhooks-notifier-consumer-v2": {
+      "id": "lec-integrations-webhooks-notifier-consumer-v2",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-notifier-consumer-v2",
+      "produces": [],
+      "consumes": [
+        "integrationscontext.command.webhook-notifier",
+        "integrationscontext.command.webhook-retries"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-integrations-webhooks-retry-job": {
+      "id": "lec-integrations-webhooks-retry-job",
+      "team": "cloud-integrations",
+      "repository": "integrations-deployments",
+      "namespace": "integrations-webhooks-notifier-consumer-v2",
+      "produces": [],
+      "consumes": [
+        "integrationscontext.command.webhook-retries"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "CronJob"
+    },
+    "lec-prismatic-api": {
+      "id": "lec-prismatic-api",
+      "team": "cloud-integrations",
+      "repository": "webapp-deployments",
+      "namespace": "prismatic-api",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-prismatic-api-retrieve-prismatic-data": {
+      "id": "lec-prismatic-api-retrieve-prismatic-data",
+      "team": "cloud-integrations",
+      "repository": "webapp-deployments",
+      "namespace": "prismatic-api",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "CronJob"
+    },
+    "lec-prismatic-consumer": {
+      "id": "lec-prismatic-consumer",
+      "team": "cloud-integrations",
+      "repository": "webapp-deployments",
+      "namespace": "prismatic-api",
+      "produces": [],
+      "consumes": [
+        "public.event.multitenant"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-admin": {
+      "id": "lec-data-core-admin",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-admin",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-data-core-inbound-api": {
+      "id": "lec-data-core-inbound-api",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-inbound-api",
+      "produces": [
+        "public.event.deconcile.data-core"
+      ],
+      "consumes": [],
+      "runningInCluster": false,
+      "deploymentType": "Unknown"
+    },
+    "lec-data-core-integrity": {
+      "id": "lec-data-core-integrity",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-integrity",
+      "produces": [
+        "public.event.data-core"
+      ],
+      "consumes": [
+        "public.event.reference.realign.data-core"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-api-scan-asset": {
+      "id": "lec-data-core-processor-api-scan-asset",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.inbound.apiscan.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-asset": {
+      "id": "lec-data-core-processor-asset",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.inbound.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-asset-context": {
+      "id": "lec-data-core-processor-asset-context",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.inbound.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-classic-asset": {
+      "id": "lec-data-core-processor-classic-asset",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.classic.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-cloud-asset": {
+      "id": "lec-data-core-processor-cloud-asset",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.cloud.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-deconcile": {
+      "id": "lec-data-core-processor-deconcile",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.inbound.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-multitenant": {
+      "id": "lec-data-core-processor-multitenant",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.edge.inbound.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "lec-data-core-processor-traffic-asset": {
+      "id": "lec-data-core-processor-traffic-asset",
+      "team": "data-core",
+      "repository": "datacore-deployments",
+      "namespace": "datacore-processor",
+      "produces": [
+        "assetscontext.event.assets",
+        "public.event.data-core",
+        "public.event.deconcile.data-core",
+        "public.event.multitenant",
+        "public.event.reference.realign.data-core"
+      ],
+      "consumes": [
+        "public.event.traffic-assets"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "discovery-config-api": {
+      "id": "discovery-config-api",
+      "team": "discovery-engineering",
+      "repository": "edge-deployments",
+      "namespace": "discovery-config-api",
+      "produces": [
+        "public.event.phonehome.incoming"
+      ],
+      "consumes": [
+        "public.edge.install-status.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    },
+    "discovery-syncer-api": {
+      "id": "discovery-syncer-api",
+      "team": "discovery-engineering",
+      "repository": "edge-deployments",
+      "namespace": "discovery-syncer-api",
+      "produces": [
+        "public.edge.inbound.apiscan.event",
+        "public.edge.inbound.event",
+        "public.event.discovery",
+        "public.event.traffic-assets"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment"
+    }
+  },
+  "metadata": {
+    "dataCollectionDate": "2026-04-19",
+    "totalTopics": 54,
+    "totalServices": 142,
+    "totalTeams": 9
+  }
+}
