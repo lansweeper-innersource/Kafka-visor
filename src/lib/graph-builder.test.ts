@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildGraph, filterByTeams } from './graph-builder'
+import { buildGraph, filterByTeams, getNeighborIds, getBlastRadius } from './graph-builder'
 import type { TopologyData } from '../types'
 
 const mockTopology: TopologyData = {
@@ -137,5 +137,38 @@ describe('filterByTeams', () => {
 
     const visibleServices = filtered.nodes.filter(n => n.type === 'service' && !n.hidden)
     expect(visibleServices).toHaveLength(0)
+  })
+})
+
+describe('getNeighborIds', () => {
+  const { edges } = buildGraph(mockTopology)
+
+  it('finds neighbors of a topic node', () => {
+    const neighbors = getNeighborIds('topic:public.event.foo', edges)
+    expect(neighbors.has('service:svc-alpha')).toBe(true) // consumer
+    expect(neighbors.has('service:svc-beta')).toBe(true)  // producer
+  })
+
+  it('finds neighbors of a service node', () => {
+    const neighbors = getNeighborIds('service:svc-alpha', edges)
+    expect(neighbors.has('topic:public.event.foo')).toBe(true) // consumes
+    expect(neighbors.has('topic:public.event.bar')).toBe(true) // produces
+  })
+})
+
+describe('getBlastRadius', () => {
+  it('returns all services affected by a service through shared topics', () => {
+    const result = getBlastRadius('svc-alpha', mockTopology)
+    // svc-alpha touches foo (consumer) and bar (producer)
+    // foo has svc-beta as producer, bar has svc-beta as consumer
+    expect(result.affectedServices).toContain('svc-beta')
+    expect(result.affectedServices).not.toContain('svc-alpha')
+    expect(result.sharedTopics).toHaveLength(2)
+  })
+
+  it('returns empty for non-existent service', () => {
+    const result = getBlastRadius('nonexistent', mockTopology)
+    expect(result.affectedServices).toHaveLength(0)
+    expect(result.sharedTopics).toHaveLength(0)
   })
 })

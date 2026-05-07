@@ -1,14 +1,16 @@
 import type { Node } from '@xyflow/react'
 import type { TopicNodeData, ServiceNodeData } from '../lib/graph-builder'
+import { getBlastRadius } from '../lib/graph-builder'
 import type { TopologyData } from '../types'
 
 interface DetailPanelProps {
   node: Node | null
   topology: TopologyData
   onClose: () => void
+  onNavigate: (nodeId: string, type: 'topic' | 'service') => void
 }
 
-export function DetailPanel({ node, topology, onClose }: DetailPanelProps) {
+export function DetailPanel({ node, topology, onClose, onNavigate }: DetailPanelProps) {
   if (!node) return null
 
   return (
@@ -25,21 +27,31 @@ export function DetailPanel({ node, topology, onClose }: DetailPanelProps) {
         </button>
       </div>
 
-      {node.type === 'topic' && <TopicDetails data={node.data as TopicNodeData} topology={topology} />}
-      {node.type === 'service' && <ServiceDetails data={node.data as ServiceNodeData} topology={topology} />}
+      {node.type === 'topic' && (
+        <TopicDetails data={node.data as TopicNodeData} topology={topology} onNavigate={onNavigate} />
+      )}
+      {node.type === 'service' && (
+        <ServiceDetails data={node.data as ServiceNodeData} topology={topology} onNavigate={onNavigate} />
+      )}
     </div>
   )
 }
 
-function TopicDetails({ data, topology }: { data: TopicNodeData; topology: TopologyData }) {
+function TopicDetails({
+  data,
+  topology,
+  onNavigate,
+}: {
+  data: TopicNodeData
+  topology: TopologyData
+  onNavigate: (nodeId: string, type: 'topic' | 'service') => void
+}) {
   const topic = topology.topics[data.label]
   if (!topic) return null
 
   return (
     <div className="space-y-4">
-      <div>
-        <div className="text-xs font-mono font-bold text-gray-800 break-all">{data.label}</div>
-      </div>
+      <div className="text-xs font-mono font-bold text-gray-800 break-all">{data.label}</div>
 
       <div className="grid grid-cols-3 gap-2 text-center">
         <Stat label="Producers" value={data.producerCount} color="text-green-600" />
@@ -47,32 +59,41 @@ function TopicDetails({ data, topology }: { data: TopicNodeData; topology: Topol
         <Stat label="Teams" value={data.teamCount} color="text-gray-600" />
       </div>
 
-      <ServiceList
+      <ClickableServiceList
         title="Producers"
         services={topic.producers}
         topology={topology}
         color="text-green-600"
+        onNavigate={onNavigate}
       />
-      <ServiceList
+      <ClickableServiceList
         title="Consumers"
         services={topic.consumers}
         topology={topology}
         color="text-blue-600"
+        onNavigate={onNavigate}
       />
     </div>
   )
 }
 
-function ServiceDetails({ data }: { data: ServiceNodeData; topology: TopologyData }) {
+function ServiceDetails({
+  data,
+  topology,
+  onNavigate,
+}: {
+  data: ServiceNodeData
+  topology: TopologyData
+  onNavigate: (nodeId: string, type: 'topic' | 'service') => void
+}) {
+  const blast = getBlastRadius(data.label, topology)
+
   return (
     <div className="space-y-4">
       <div>
         <div className="text-xs font-mono font-bold text-gray-800">{data.label}</div>
         <div className="flex items-center gap-1.5 mt-1">
-          <span
-            className="w-2.5 h-2.5 rounded-full"
-            style={{ backgroundColor: data.teamColor }}
-          />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: data.teamColor }} />
           <span className="text-xs text-gray-600">{data.team}</span>
         </div>
       </div>
@@ -88,8 +109,51 @@ function ServiceDetails({ data }: { data: ServiceNodeData; topology: TopologyDat
         />
       </div>
 
-      <TopicList title="Produces to" topics={data.produces} color="text-green-600" />
-      <TopicList title="Consumes from" topics={data.consumes} color="text-blue-600" />
+      {/* Blast Radius */}
+      <div className="bg-red-50 border border-red-100 rounded-lg p-3">
+        <div className="text-xs font-semibold text-red-700 mb-1">Blast Radius</div>
+        <div className="text-[11px] text-red-600">
+          {blast.affectedServices.length} services affected via {blast.sharedTopics.length} topics
+        </div>
+        {blast.affectedServices.length > 0 && (
+          <div className="mt-2 space-y-0.5 max-h-32 overflow-y-auto">
+            {blast.affectedServices.slice(0, 20).map(svcId => {
+              const svc = topology.services[svcId]
+              return (
+                <button
+                  key={svcId}
+                  onClick={() => onNavigate(svcId, 'service')}
+                  className="text-[10px] font-mono text-red-700 hover:text-red-900 hover:underline flex items-center gap-1 w-full text-left"
+                >
+                  <span
+                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: svc ? topology.teams[svc.team]?.color : '#6B7280' }}
+                  />
+                  {svcId}
+                </button>
+              )
+            })}
+            {blast.affectedServices.length > 20 && (
+              <div className="text-[10px] text-red-400">
+                +{blast.affectedServices.length - 20} more
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <ClickableTopicList
+        title="Produces to"
+        topics={data.produces}
+        color="text-green-600"
+        onNavigate={onNavigate}
+      />
+      <ClickableTopicList
+        title="Consumes from"
+        topics={data.consumes}
+        color="text-blue-600"
+        onNavigate={onNavigate}
+      />
     </div>
   )
 }
@@ -120,16 +184,18 @@ function InfoRow({
   )
 }
 
-function ServiceList({
+function ClickableServiceList({
   title,
   services,
   topology,
   color,
+  onNavigate,
 }: {
   title: string
   services: string[]
   topology: TopologyData
   color: string
+  onNavigate: (nodeId: string, type: 'topic' | 'service') => void
 }) {
   if (services.length === 0) return null
   return (
@@ -141,16 +207,17 @@ function ServiceList({
         {services.map(svcId => {
           const svc = topology.services[svcId]
           return (
-            <div
+            <button
               key={svcId}
-              className="text-[11px] font-mono text-gray-700 flex items-center gap-1.5 py-0.5"
+              onClick={() => onNavigate(svcId, 'service')}
+              className="text-[11px] font-mono text-gray-700 hover:text-blue-600 hover:underline flex items-center gap-1.5 py-0.5 w-full text-left"
             >
               <span
                 className="w-2 h-2 rounded-full flex-shrink-0"
                 style={{ backgroundColor: svc ? topology.teams[svc.team]?.color : '#6B7280' }}
               />
               {svcId}
-            </div>
+            </button>
           )
         })}
       </div>
@@ -158,14 +225,16 @@ function ServiceList({
   )
 }
 
-function TopicList({
+function ClickableTopicList({
   title,
   topics,
   color,
+  onNavigate,
 }: {
   title: string
   topics: string[]
   color: string
+  onNavigate: (nodeId: string, type: 'topic' | 'service') => void
 }) {
   if (topics.length === 0) return null
   return (
@@ -175,9 +244,13 @@ function TopicList({
       </div>
       <div className="space-y-0.5 max-h-40 overflow-y-auto">
         {topics.map(topicId => (
-          <div key={topicId} className="text-[11px] font-mono text-gray-700 py-0.5">
+          <button
+            key={topicId}
+            onClick={() => onNavigate(topicId, 'topic')}
+            className="text-[11px] font-mono text-gray-700 hover:text-blue-600 hover:underline py-0.5 w-full text-left"
+          >
             {topicId}
-          </div>
+          </button>
         ))}
       </div>
     </div>

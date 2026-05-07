@@ -96,6 +96,41 @@ export function buildGraph(topology: TopologyData): {
   return { nodes, edges }
 }
 
+/** Returns the set of node IDs directly connected to the given node via edges */
+export function getNeighborIds(nodeId: string, edges: Edge[]): Set<string> {
+  const neighbors = new Set<string>()
+  for (const edge of edges) {
+    if (edge.source === nodeId) neighbors.add(edge.target)
+    if (edge.target === nodeId) neighbors.add(edge.source)
+  }
+  return neighbors
+}
+
+/** Blast radius: all services reachable through shared topics from a given service */
+export function getBlastRadius(serviceId: string, topology: TopologyData): {
+  affectedServices: string[]
+  sharedTopics: string[]
+} {
+  const service = topology.services[serviceId]
+  if (!service) return { affectedServices: [], sharedTopics: [] }
+
+  const touchedTopics = [...service.produces, ...service.consumes]
+  const affectedSet = new Set<string>()
+
+  for (const topicId of touchedTopics) {
+    const topic = topology.topics[topicId]
+    if (!topic) continue
+    for (const svcId of [...topic.consumers, ...topic.producers]) {
+      if (svcId !== serviceId) affectedSet.add(svcId)
+    }
+  }
+
+  return {
+    affectedServices: [...affectedSet],
+    sharedTopics: touchedTopics,
+  }
+}
+
 export function filterByTeams(
   nodes: Node[],
   edges: Edge[],
