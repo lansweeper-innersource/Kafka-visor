@@ -21,6 +21,8 @@ export interface ServiceNodeData {
   consumes: string[]
   githubUrl?: string
   sourceRepos?: { name: string; url: string }[]
+  grpcCalls?: string[]
+  databases?: string[]
   [key: string]: unknown
 }
 
@@ -70,6 +72,8 @@ export function buildGraph(topology: TopologyData): {
         consumes: service.consumes,
         githubUrl: service.githubUrl,
         sourceRepos: service.sourceRepos,
+        grpcCalls: service.grpcCalls,
+        databases: service.databases,
       } satisfies ServiceNodeData,
     })
   }

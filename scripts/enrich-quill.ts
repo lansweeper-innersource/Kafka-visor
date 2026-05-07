@@ -106,21 +106,113 @@ const SERVICE_SOURCE_REPOS: Record<string, { name: string; url: string }[]> = {
   'lec-msmp-api': [{ name: 'LECMspApi', url: 'https://github.com/Lansweeper/LECMspApi' }],
 }
 
-function enrichWithQuill(topology: TopologyData): TopologyData {
-  let enriched = 0
+// gRPC calls: service -> [callee services] (from Quill pipeline_evidence)
+// Normalized: stripped ports and namespace suffixes for readability
+const GRPC_CALLS: Record<string, string[]> = {
+  'acme-data-exporter-consumer': ['multitenant-grpc-api'],
+  'asset-operations-consumer': ['multitenant-grpc-api', 'permissions-server'],
+  'asset-sync-status-consumer': ['permissions-server'],
+  'hard-soft-limits': ['permissions-server'],
+  'install-status-api': ['multitenant-grpc-api', 'analytics-grpc-api'],
+  'lec-edge-manager': ['install-status-api', 'asset-grpc-api', 'licensing-grpc', 'multitenant-grpc-api', 'scanning-api'],
+  'lec-gateway-api': ['multitenant-grpc-api', 'permissions-server', 'analytics-grpc-api', 'luzmo-plugin-grpc', 'notifications-api', 'reports-api', 'tracking-api', 'scanning-config', 'scanning-status', 'cloud-scanning-api', 'diagrams-api', 'asset-sync-status', 'install-status', 'ai-chat-assistant'],
+  'lec-multitenant-api': ['hard-soft-limits-grpc', 'analytics-grpc-api', 'licensing-grpc', 'permissions-server', 'scanning-api', 'scanning-status'],
+  'lec-permissions-consumer': ['multitenant-grpc-api'],
+  'lec-asset-api': ['analytics-grpc-api', 'install-status-api', 'scanning-api', 'permissions-server', 'consolidation-api'],
+  'lec-duplicated-assets-consumer': ['multitenant-grpc-api'],
+  'lec-diagrams-api': ['diagrams-executor', 'permissions-server'],
+  'cloud-scanning-api': ['multitenant-grpc-api', 'scanning-config'],
+  'lec-licensing-api': ['multitenant-grpc-api', 'permissions-server'],
+  'lec-reports-api': ['permissions-server', 'multitenant-postgres'],
+  'lec-integrations-reports-api': ['boards-api', 'integrations-limit-checker', 'permissions-server', 'reports-integrations-grpc'],
+  'lec-integrations-webhooks-api': ['webhooks-notifier-consumer', 'multitenant-grpc-api', 'permissions-server'],
+  'lec-integrations-webhooks-checker-consumer': ['multitenant-grpc-api', 'permissions-server'],
+  'lec-integrations-assets-api': ['asset-api', 'multitenant-grpc-api'],
+  'lec-integrations-exporter-api-v2': ['integrations-limit-checker', 'multitenant-grpc-api', 'permissions-server'],
+  'lec-data-core-processor-asset': ['multitenant-grpc-api', 'scanning-config'],
+  'lec-tracking-api': ['permissions-server'],
+  'lec-notifications-api': ['permissions-server'],
+  'lec-prismatic-api': ['multitenant-grpc-api'],
+  'public-broker': ['multitenant-grpc-api'],
+  'discovery-config-api': ['scanning-config'],
+  'discovery-syncer-api': ['data-core-outbound-api'],
+  'lec-adapter-consumer-asset': ['data-core-inbound-api'],
+  'lec-adapter-consumer-ug': ['data-core-inbound-api'],
+  'vulnerabilities-engine-enriching-go': ['assets-api', 'multitenant-grpc-api', 'scanning-api', 'users-api'],
+  'lec-msmp-api': ['analytics-grpc-api', 'documents-api', 'multitenant-grpc-api', 'permissions-server', 'reports-integrations-grpc'],
+}
 
+// Database connections per service (from Quill pipeline_evidence)
+// Normalized to logical DB names
+const DB_CONNECTIONS: Record<string, string[]> = {
+  'acme-data-exporter-consumer': ['mongodb', 'redis-shared'],
+  'asset-operations-consumer': ['inventory-mongodb', 'redis-shared'],
+  'asset-sync-status-consumer': ['inventory-mongodb', 'redis-shared'],
+  'lec-asset-api': ['inventory-mongodb', 'redis-shared'],
+  'lec-asset-be': ['inventory-mongodb'],
+  'lec-duplicated-assets-consumer': ['inventory-mongodb', 'redis-shared'],
+  'lec-backoffice-consumer': ['mongodb', 'redis-shared'],
+  'lec-multitenant-api': ['redis-shared', 'permissions-redis'],
+  'lec-permissions-consumer': ['permissions-redis'],
+  'lec-licensing-api': ['mongodb', 'redis-shared'],
+  'lec-tracking-api': ['redis-shared'],
+  'lec-gateway-api': ['redis-shared'],
+  'lec-reports-api': ['multitenant-postgres', 'reports-redis'],
+  'lec-reports-executor': ['mongodb', 'reports-redis'],
+  'lec-boards-api': ['boards-mongodb'],
+  'lec-boards-consumer': ['boards-mongodb'],
+  'lec-analytics-assets-consumer-v2': ['clickhouse', 'mongodb', 'redis'],
+  'lec-analytics-api': ['clickhouse', 'redis'],
+  'lec-diagrams-api': ['mongodb', 'redis-shared'],
+  'cloud-scanning-api': ['redis-shared'],
+  'lec-scanning-api': ['redis-shared'],
+  'lec-scanningconfig-api': ['redis-shared'],
+  'lec-integrations-assets-api': ['clickhouse', 'inventory-mongodb', 'redis-shared'],
+  'lec-integrations-exporter-api-v2': ['redis-shared'],
+  'lec-integrations-webhooks-api': ['integrations-webhooks-mongodb'],
+  'lec-integrations-webhooks-checker-consumer': ['clickhouse', 'integrations-webhooks-mongodb', 'inventory-mongodb', 'redis-shared'],
+  'lec-integrations-webhooks-notifier-consumer-v2': ['redis-shared'],
+  'lec-edge-command-api': ['commands-queue-mongodb', 'redis-shared'],
+  'public-broker': ['commands-queue-mongodb', 'redis-shared'],
+  'lec-syncer-api': ['redis-shared'],
+  'syncer-status-api': ['redis-shared'],
+  'install-status-api': ['clickhouse', 'postgresql', 'redis-shared'],
+  'hard-soft-limits': ['postgresql'],
+  'lec-prismatic-api': ['aurora'],
+  'lec-data-core-admin': ['postgresql'],
+  'lec-data-core-processor-asset': ['postgresql'],
+  'audit-trails-consumer-go': ['clickhouse'],
+  'vulnerabilities-engine-enriching-go': ['clickhouse', 'inventory-mongodb'],
+  'vulnerabilities-engine-clickhouse-api': ['clickhouse'],
+  'lec-msmp-api': ['redis-shared'],
+  'discovery-config-api': ['s3-phonehome'],
+  'discovery-syncer-api': ['s3-largescandata'],
+}
+
+function enrichWithQuill(topology: TopologyData): TopologyData {
   for (const service of Object.values(topology.services)) {
-    // Add deployment repo GitHub URL
+    // GitHub URL for deployment repo
     const deployUrl = GITHUB_URLS[service.repository]
     if (deployUrl) {
-      ;(service as Record<string, unknown>).githubUrl = deployUrl
+      service.githubUrl = deployUrl
     }
 
-    // Add source code repos
+    // Source code repos
     const sourceRepos = SERVICE_SOURCE_REPOS[service.id]
     if (sourceRepos) {
-      ;(service as Record<string, unknown>).sourceRepos = sourceRepos
-      enriched++
+      service.sourceRepos = sourceRepos
+    }
+
+    // gRPC calls
+    const grpc = GRPC_CALLS[service.id]
+    if (grpc) {
+      service.grpcCalls = grpc
+    }
+
+    // Database connections
+    const dbs = DB_CONNECTIONS[service.id]
+    if (dbs) {
+      service.databases = dbs
     }
   }
 
@@ -133,14 +225,12 @@ if (process.argv[1]?.includes('enrich-quill')) {
   const enriched = enrichWithQuill(topology)
   writeFileSync(TOPOLOGY_PATH, JSON.stringify(enriched, null, 2))
 
-  const withSource = Object.values(enriched.services).filter(
-    (s) => (s as Record<string, unknown>).sourceRepos
-  ).length
-  const withGithub = Object.values(enriched.services).filter(
-    (s) => (s as Record<string, unknown>).githubUrl
-  ).length
+  const svcs = Object.values(enriched.services)
+  const count = (fn: (s: typeof svcs[0]) => boolean) => svcs.filter(fn).length
 
   console.log('Enriched with Quill data:')
-  console.log(`  Services with GitHub URL: ${withGithub}/142`)
-  console.log(`  Services with source repo: ${withSource}/142`)
+  console.log(`  GitHub URL:   ${count(s => !!s.githubUrl)}/142`)
+  console.log(`  Source repos: ${count(s => !!s.sourceRepos)}/142`)
+  console.log(`  gRPC calls:   ${count(s => !!s.grpcCalls)}/142`)
+  console.log(`  Databases:    ${count(s => !!s.databases)}/142`)
 }

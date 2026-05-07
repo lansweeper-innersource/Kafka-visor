@@ -178,6 +178,40 @@ function ServiceDetails({
         color="text-blue-600"
         onNavigate={onNavigate}
       />
+
+      {/* gRPC dependencies */}
+      {data.grpcCalls && data.grpcCalls.length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-purple-600 mb-1">
+            gRPC calls ({data.grpcCalls.length})
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {data.grpcCalls.map(callee => (
+              <div key={callee} className="text-[11px] font-mono text-gray-600 py-0.5 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0" />
+                {callee}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Database connections */}
+      {data.databases && data.databases.length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-amber-600 mb-1">
+            Databases ({data.databases.length})
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {data.databases.map(db => (
+              <div key={db} className="text-[11px] font-mono text-gray-600 py-0.5 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-sm bg-amber-400 flex-shrink-0" />
+                {db}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

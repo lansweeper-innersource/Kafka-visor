@@ -29,6 +29,8 @@ export interface Service {
   deploymentType: 'Deployment' | 'CronJob' | 'ScaledJob' | 'WorkflowTemplate' | 'Unknown'
   githubUrl?: string
   sourceRepos?: SourceRepo[]
+  grpcCalls?: string[]
+  databases?: string[]
 }
 
 export interface TopologyData {

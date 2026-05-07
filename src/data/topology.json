@@ -1073,6 +1073,10 @@
           "name": "LECBackofficeConsumer",
           "url": "https://github.com/Lansweeper/LECBackofficeConsumer"
         }
+      ],
+      "databases": [
+        "mongodb",
+        "redis-shared"
       ]
     },
     "acme-data-exporter-consumer": {
@@ -1095,6 +1099,13 @@
           "name": "acme-data-exporter",
           "url": "https://github.com/Lansweeper/acme-data-exporter"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api"
+      ],
+      "databases": [
+        "mongodb",
+        "redis-shared"
       ]
     },
     "lec-asset-api": {
@@ -1124,6 +1135,17 @@
           "name": "LECAssetsAPI",
           "url": "https://github.com/Lansweeper/LECAssetsAPI"
         }
+      ],
+      "grpcCalls": [
+        "analytics-grpc-api",
+        "install-status-api",
+        "scanning-api",
+        "permissions-server",
+        "consolidation-api"
+      ],
+      "databases": [
+        "inventory-mongodb",
+        "redis-shared"
       ]
     },
     "lec-asset-api-avro-register-workflow": {
@@ -1306,6 +1328,9 @@
           "name": "LECAssetsBE",
           "url": "https://github.com/Lansweeper/LECAssetsBE"
         }
+      ],
+      "databases": [
+        "inventory-mongodb"
       ]
     },
     "asset-operations-consumer": {
@@ -1332,6 +1357,14 @@
           "name": "AssetOperationsConsumer",
           "url": "https://github.com/Lansweeper/AssetOperationsConsumer"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "permissions-server"
+      ],
+      "databases": [
+        "inventory-mongodb",
+        "redis-shared"
       ]
     },
     "asset-sync-status-consumer": {
@@ -1354,6 +1387,13 @@
           "name": "AssetSyncStatus",
           "url": "https://github.com/Lansweeper/AssetSyncStatus"
         }
+      ],
+      "grpcCalls": [
+        "permissions-server"
+      ],
+      "databases": [
+        "inventory-mongodb",
+        "redis-shared"
       ]
     },
     "asset-sync-status-tracking-consumer": {
@@ -1396,6 +1436,13 @@
           "name": "LECDuplicatedAssetsConsumer",
           "url": "https://github.com/Lansweeper/LECDuplicatedAssetsConsumer"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api"
+      ],
+      "databases": [
+        "inventory-mongodb",
+        "redis-shared"
       ]
     },
     "lec-duplicated-assets-consumer-calculate-duplicates": {
@@ -1457,6 +1504,12 @@
           "name": "HardSoftLimits",
           "url": "https://github.com/Lansweeper/HardSoftLimits"
         }
+      ],
+      "grpcCalls": [
+        "permissions-server"
+      ],
+      "databases": [
+        "postgresql"
       ]
     },
     "lec-licensing-api": {
@@ -1478,6 +1531,14 @@
           "name": "LECLicensing",
           "url": "https://github.com/Lansweeper/LECLicensing"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "permissions-server"
+      ],
+      "databases": [
+        "mongodb",
+        "redis-shared"
       ]
     },
     "lec-licensing-consumer": {
@@ -1529,6 +1590,18 @@
           "name": "LECMultitenant",
           "url": "https://github.com/Lansweeper/LECMultitenant"
         }
+      ],
+      "grpcCalls": [
+        "hard-soft-limits-grpc",
+        "analytics-grpc-api",
+        "licensing-grpc",
+        "permissions-server",
+        "scanning-api",
+        "scanning-status"
+      ],
+      "databases": [
+        "redis-shared",
+        "permissions-redis"
       ]
     },
     "lec-multitenant-close-notifications-for-deleted-installs": {
@@ -1840,6 +1913,12 @@
           "name": "LECPermissions",
           "url": "https://github.com/Lansweeper/LECPermissions"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api"
+      ],
+      "databases": [
+        "permissions-redis"
       ]
     },
     "lec-tracking-api": {
@@ -1862,6 +1941,12 @@
           "name": "LECTracking",
           "url": "https://github.com/Lansweeper/LECTracking"
         }
+      ],
+      "grpcCalls": [
+        "permissions-server"
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-tracking-consumer": {
@@ -1935,6 +2020,9 @@
           "name": "LECNotifications",
           "url": "https://github.com/Lansweeper/LECNotifications"
         }
+      ],
+      "grpcCalls": [
+        "permissions-server"
       ]
     },
     "lec-notifications-consumer": {
@@ -1976,6 +2064,10 @@
           "name": "LECLuzmoPlugin",
           "url": "https://github.com/Lansweeper/LECLuzmoPlugin"
         }
+      ],
+      "databases": [
+        "clickhouse",
+        "redis"
       ]
     },
     "lec-analytics-luzmo-api": {
@@ -2010,6 +2102,11 @@
           "name": "LECAnalyticsAssetsConsumerV2",
           "url": "https://github.com/Lansweeper/LECAnalyticsAssetsConsumerV2"
         }
+      ],
+      "databases": [
+        "clickhouse",
+        "mongodb",
+        "redis"
       ]
     },
     "lec-analytics-assets-consumer-v2-certificates": {
@@ -2174,6 +2271,9 @@
           "name": "LECBoardsAPI",
           "url": "https://github.com/Lansweeper/LECBoardsAPI"
         }
+      ],
+      "databases": [
+        "boards-mongodb"
       ]
     },
     "lec-boards-consumer": {
@@ -2193,6 +2293,9 @@
           "name": "LECBoardsConsumer",
           "url": "https://github.com/Lansweeper/LECBoardsConsumer"
         }
+      ],
+      "databases": [
+        "boards-mongodb"
       ]
     },
     "lec-reports-api": {
@@ -2213,6 +2316,14 @@
           "name": "LECReportsAPI",
           "url": "https://github.com/Lansweeper/LECReportsAPI"
         }
+      ],
+      "grpcCalls": [
+        "permissions-server",
+        "multitenant-postgres"
+      ],
+      "databases": [
+        "multitenant-postgres",
+        "reports-redis"
       ]
     },
     "lec-reports-api-consumer": {
@@ -2263,6 +2374,10 @@
           "name": "LECReportsExecutor",
           "url": "https://github.com/Lansweeper/LECReportsExecutor"
         }
+      ],
+      "databases": [
+        "mongodb",
+        "reports-redis"
       ]
     },
     "lec-event-logs-api": {
@@ -2300,6 +2415,14 @@
           "name": "LECDiagramsExecutor",
           "url": "https://github.com/Lansweeper/LECDiagramsExecutor"
         }
+      ],
+      "grpcCalls": [
+        "diagrams-executor",
+        "permissions-server"
+      ],
+      "databases": [
+        "mongodb",
+        "redis-shared"
       ]
     },
     "lec-diagrams-worker": {
@@ -2362,6 +2485,13 @@
           "name": "LECCloudScanningAPI",
           "url": "https://github.com/Lansweeper/LECCloudScanningAPI"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "scanning-config"
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "cloud-scanning-api-consumer": {
@@ -2400,6 +2530,16 @@
           "name": "LECMspApi",
           "url": "https://github.com/Lansweeper/LECMspApi"
         }
+      ],
+      "grpcCalls": [
+        "analytics-grpc-api",
+        "documents-api",
+        "multitenant-grpc-api",
+        "permissions-server",
+        "reports-integrations-grpc"
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-adapter-consumer-asset": {
@@ -2422,6 +2562,9 @@
           "name": "LECAdapterAPI",
           "url": "https://github.com/Lansweeper/LECAdapterAPI"
         }
+      ],
+      "grpcCalls": [
+        "data-core-inbound-api"
       ]
     },
     "lec-adapter-consumer-ug": {
@@ -2444,6 +2587,9 @@
           "name": "LECAdapterAPI",
           "url": "https://github.com/Lansweeper/LECAdapterAPI"
         }
+      ],
+      "grpcCalls": [
+        "data-core-inbound-api"
       ]
     },
     "lec-edge-command-api": {
@@ -2455,14 +2601,18 @@
       "consumes": [
         "public.edge.install-status.event"
       ],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/edge-deployments",
       "sourceRepos": [
         {
           "name": "EdgeCommandAPI",
           "url": "https://github.com/Lansweeper/EdgeCommandAPI"
         }
+      ],
+      "databases": [
+        "commands-queue-mongodb",
+        "redis-shared"
       ]
     },
     "public-broker": {
@@ -2484,6 +2634,13 @@
           "name": "edge-deployments",
           "url": "https://github.com/Lansweeper/edge-deployments"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api"
+      ],
+      "databases": [
+        "commands-queue-mongodb",
+        "redis-shared"
       ]
     },
     "lec-syncer-api": {
@@ -2504,14 +2661,17 @@
         "scannerproxy.event.licensing"
       ],
       "consumes": [],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/edge-deployments",
       "sourceRepos": [
         {
           "name": "LECSyncerAPI",
           "url": "https://github.com/Lansweeper/LECSyncerAPI"
         }
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-syncer-api-v2": {
@@ -2533,8 +2693,8 @@
         "public.edge.install-status.event",
         "public.edge.pending-changes.event"
       ],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/edge-deployments",
       "sourceRepos": [
         {
@@ -2560,6 +2720,9 @@
           "name": "LECSyncerStatusAPI",
           "url": "https://github.com/Lansweeper/LECSyncerStatusAPI"
         }
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "flex-save-duplicates": {
@@ -2620,6 +2783,15 @@
           "name": "InstallStatus",
           "url": "https://github.com/Lansweeper/InstallStatus"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "analytics-grpc-api"
+      ],
+      "databases": [
+        "clickhouse",
+        "postgresql",
+        "redis-shared"
       ]
     },
     "install-status-consumer": {
@@ -2669,8 +2841,8 @@
         "public.edge.commands"
       ],
       "consumes": [],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "lec-scanning-api": {
@@ -2691,6 +2863,9 @@
           "name": "LECScanningAPI",
           "url": "https://github.com/Lansweeper/LECScanningAPI"
         }
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-scanning-check-installer-workflowtemplate": {
@@ -2771,6 +2946,9 @@
           "name": "LECScanningConfig",
           "url": "https://github.com/Lansweeper/LECScanningConfig"
         }
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-scanningconfig-consumer": {
@@ -2815,6 +2993,9 @@
           "name": "audit-deployments",
           "url": "https://github.com/Lansweeper/audit-deployments"
         }
+      ],
+      "databases": [
+        "clickhouse"
       ]
     },
     "vulnerabilities-engine-clickhouse-api": {
@@ -2828,7 +3009,10 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "databases": [
+        "clickhouse"
+      ]
     },
     "assets-enriching": {
       "id": "assets-enriching",
@@ -2996,6 +3180,16 @@
           "name": "enriching-deployments",
           "url": "https://github.com/Lansweeper/enriching-deployments"
         }
+      ],
+      "grpcCalls": [
+        "assets-api",
+        "multitenant-grpc-api",
+        "scanning-api",
+        "users-api"
+      ],
+      "databases": [
+        "clickhouse",
+        "inventory-mongodb"
       ]
     },
     "vulnerabilities-engine-enriching-go-retry": {
@@ -3030,6 +3224,25 @@
           "name": "LECGatewayAPI",
           "url": "https://github.com/Lansweeper/LECGatewayAPI"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "permissions-server",
+        "analytics-grpc-api",
+        "luzmo-plugin-grpc",
+        "notifications-api",
+        "reports-api",
+        "tracking-api",
+        "scanning-config",
+        "scanning-status",
+        "cloud-scanning-api",
+        "diagrams-api",
+        "asset-sync-status",
+        "install-status",
+        "ai-chat-assistant"
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-gateway-subscriptions": {
@@ -3074,6 +3287,15 @@
           "name": "LECIntegrationsAssetsAPI",
           "url": "https://github.com/Lansweeper/LECIntegrationsAssetsAPI"
         }
+      ],
+      "grpcCalls": [
+        "asset-api",
+        "multitenant-grpc-api"
+      ],
+      "databases": [
+        "clickhouse",
+        "inventory-mongodb",
+        "redis-shared"
       ]
     },
     "lec-integrations-exporter-api-v2": {
@@ -3093,6 +3315,14 @@
           "name": "LECIntegrationsExporterAPI",
           "url": "https://github.com/Lansweeper/LECIntegrationsExporterAPI"
         }
+      ],
+      "grpcCalls": [
+        "integrations-limit-checker",
+        "multitenant-grpc-api",
+        "permissions-server"
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-integrations-exporter-consumer-v2": {
@@ -3140,6 +3370,12 @@
           "name": "LECIntegrationsReportsAPI",
           "url": "https://github.com/Lansweeper/LECIntegrationsReportsAPI"
         }
+      ],
+      "grpcCalls": [
+        "boards-api",
+        "integrations-limit-checker",
+        "permissions-server",
+        "reports-integrations-grpc"
       ]
     },
     "lec-integrations-webhooks-api": {
@@ -3160,6 +3396,14 @@
           "name": "LECIntegrationsWebhooksAPI",
           "url": "https://github.com/Lansweeper/LECIntegrationsWebhooksAPI"
         }
+      ],
+      "grpcCalls": [
+        "webhooks-notifier-consumer",
+        "multitenant-grpc-api",
+        "permissions-server"
+      ],
+      "databases": [
+        "integrations-webhooks-mongodb"
       ]
     },
     "integrations-webhooks-asset-types": {
@@ -3223,6 +3467,16 @@
           "name": "LECIntegrationsWebhooksCheckerConsumer",
           "url": "https://github.com/Lansweeper/LECIntegrationsWebhooksCheckerConsumer"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "permissions-server"
+      ],
+      "databases": [
+        "clickhouse",
+        "integrations-webhooks-mongodb",
+        "inventory-mongodb",
+        "redis-shared"
       ]
     },
     "lec-integrations-webhooks-checker-consumer-testing": {
@@ -3334,6 +3588,9 @@
           "name": "LECIntegrationsWebhooksNotifierConsumerV2",
           "url": "https://github.com/Lansweeper/LECIntegrationsWebhooksNotifierConsumerV2"
         }
+      ],
+      "databases": [
+        "redis-shared"
       ]
     },
     "lec-integrations-webhooks-retry-job": {
@@ -3366,6 +3623,12 @@
           "name": "LECPrismaticAPI",
           "url": "https://github.com/Lansweeper/LECPrismaticAPI"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api"
+      ],
+      "databases": [
+        "aurora"
       ]
     },
     "lec-prismatic-api-retrieve-prismatic-data": {
@@ -3412,14 +3675,17 @@
         "public.event.reference.realign.data-core"
       ],
       "consumes": [],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
       "sourceRepos": [
         {
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
+      ],
+      "databases": [
+        "postgresql"
       ]
     },
     "lec-data-core-inbound-api": {
@@ -3431,8 +3697,8 @@
         "public.event.deconcile.data-core"
       ],
       "consumes": [],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
       "sourceRepos": [
         {
@@ -3510,6 +3776,13 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "scanning-config"
+      ],
+      "databases": [
+        "postgresql"
       ]
     },
     "lec-data-core-processor-asset-context": {
@@ -3681,6 +3954,12 @@
           "name": "discovery-config-api",
           "url": "https://github.com/Lansweeper/discovery-config-api"
         }
+      ],
+      "grpcCalls": [
+        "scanning-config"
+      ],
+      "databases": [
+        "s3-phonehome"
       ]
     },
     "discovery-syncer-api": {
@@ -3703,6 +3982,12 @@
           "name": "discovery-syncer-api",
           "url": "https://github.com/Lansweeper/discovery-syncer-api"
         }
+      ],
+      "grpcCalls": [
+        "data-core-outbound-api"
+      ],
+      "databases": [
+        "s3-largescandata"
       ]
     }
   },
