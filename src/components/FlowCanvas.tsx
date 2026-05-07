@@ -20,6 +20,7 @@ import { ServiceNode } from './nodes/ServiceNode'
 import { useElkLayout } from '../lib/use-elk-layout'
 import type { TopologyData } from '../types'
 import { buildGraph, filterByTeams, getNeighborIds } from '../lib/graph-builder'
+import type { ContextMenuState } from './ContextMenu'
 
 // CRITICAL: Define outside component to prevent remounts
 const nodeTypes = {
@@ -56,9 +57,10 @@ function styleEdge(e: Edge): Edge {
 interface FlowCanvasProps {
   topology: TopologyData
   selectedTeams: Set<string>
-  onNodeClick: (node: Node) => void
+  onNodeClick: (node: Node | null) => void
   focusNodeId: string | null
   highlightNodeId: string | null
+  onContextMenu: (menu: ContextMenuState | null) => void
 }
 
 export function FlowCanvas({
@@ -67,6 +69,7 @@ export function FlowCanvas({
   onNodeClick,
   focusNodeId,
   highlightNodeId,
+  onContextMenu,
 }: FlowCanvasProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
@@ -75,7 +78,6 @@ export function FlowCanvas({
   const layoutDone = useRef(false)
   const prevTeamsRef = useRef<string>('')
   const prevFocusRef = useRef<string | null>(null)
-  const baseNodesRef = useRef<Node[]>([])
   const baseEdgesRef = useRef<Edge[]>([])
 
   // Build and filter graph when teams change
@@ -88,7 +90,6 @@ export function FlowCanvas({
     const styledEdges = rawEdges.map(styleEdge)
     const filtered = filterByTeams(rawNodes, styledEdges, selectedTeams)
 
-    baseNodesRef.current = filtered.nodes
     baseEdgesRef.current = filtered.edges
     setNodes(filtered.nodes)
     setEdges(filtered.edges)
@@ -103,26 +104,14 @@ export function FlowCanvas({
     }
   }, [topology, selectedTeams, setNodes, setEdges, layoutNodes])
 
-  // Neighbor highlight: dim non-connected nodes when one is selected
+  // Neighbor highlight
   useEffect(() => {
-    const base = baseNodesRef.current
     const baseEdges = baseEdgesRef.current
-    if (base.length === 0) return
+    if (baseEdges.length === 0) return
 
     if (!highlightNodeId) {
-      // Restore full opacity
-      setNodes(nds =>
-        nds.map(n => ({
-          ...n,
-          style: { ...n.style, opacity: undefined },
-        }))
-      )
-      setEdges(eds =>
-        eds.map(e => ({
-          ...e,
-          style: { ...e.style, opacity: undefined },
-        }))
-      )
+      setNodes(nds => nds.map(n => ({ ...n, style: { ...n.style, opacity: undefined } })))
+      setEdges(eds => eds.map(e => ({ ...e, style: { ...e.style, opacity: undefined } })))
       return
     }
 
@@ -141,21 +130,17 @@ export function FlowCanvas({
 
     setEdges(eds =>
       eds.map(e => {
-        const connected =
-          e.source === highlightNodeId || e.target === highlightNodeId
+        const connected = e.source === highlightNodeId || e.target === highlightNodeId
         return {
           ...e,
-          style: {
-            ...e.style,
-            opacity: e.hidden ? undefined : connected ? 1 : DIM_OPACITY,
-          },
+          style: { ...e.style, opacity: e.hidden ? undefined : connected ? 1 : DIM_OPACITY },
           animated: connected,
         }
       })
     )
   }, [highlightNodeId, setNodes, setEdges])
 
-  // Focus on a specific node when focusNodeId changes
+  // Focus on a node
   useEffect(() => {
     if (!focusNodeId || focusNodeId === prevFocusRef.current) return
     prevFocusRef.current = focusNodeId
@@ -175,14 +160,24 @@ export function FlowCanvas({
 
   const handleNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
+      onContextMenu(null)
       onNodeClick(node)
     },
-    [onNodeClick]
+    [onNodeClick, onContextMenu]
   )
 
   const handlePaneClick = useCallback(() => {
-    onNodeClick(null as unknown as Node)
-  }, [onNodeClick])
+    onContextMenu(null)
+    onNodeClick(null)
+  }, [onNodeClick, onContextMenu])
+
+  const handleContextMenu = useCallback(
+    (event: React.MouseEvent, node: Node) => {
+      event.preventDefault()
+      onContextMenu({ node, x: event.clientX, y: event.clientY })
+    },
+    [onContextMenu]
+  )
 
   return (
     <ReactFlow
@@ -192,6 +187,7 @@ export function FlowCanvas({
       onEdgesChange={onEdgesChange as OnEdgesChange<Edge>}
       onNodeClick={handleNodeClick}
       onPaneClick={handlePaneClick}
+      onNodeContextMenu={handleContextMenu}
       nodeTypes={nodeTypes}
       defaultEdgeOptions={defaultEdgeOptions}
       onlyRenderVisibleElements
