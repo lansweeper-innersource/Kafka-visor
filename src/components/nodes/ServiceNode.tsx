@@ -29,8 +29,28 @@ function ServiceNodeComponent({ data, selected }: NodeProps) {
             onClick={handleCopyNamespace}
             className="text-[10px] px-2 py-1 rounded hover:bg-gray-100 text-gray-700"
           >
-            Copy namespace
+            Copy ns
           </button>
+          {d.sourceRepos?.[0]?.url && (
+            <a
+              href={d.sourceRepos[0].url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] px-2 py-1 rounded hover:bg-gray-100 text-blue-600 nodrag"
+            >
+              Code
+            </a>
+          )}
+          {d.githubUrl && (
+            <a
+              href={d.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] px-2 py-1 rounded hover:bg-gray-100 text-blue-600 nodrag"
+            >
+              Deploy
+            </a>
+          )}
         </div>
       </NodeToolbar>
 

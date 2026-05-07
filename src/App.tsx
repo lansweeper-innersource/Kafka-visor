@@ -64,6 +64,7 @@ function AppInner() {
         })
       }
     } else {
+      // For topics, activate ALL teams that touch it so we see the full picture
       const topic = topology.topics[id]
       if (topic) {
         const touchingTeams = new Set<string>()
@@ -72,10 +73,8 @@ function AppInner() {
           if (svc) touchingTeams.add(svc.team)
         }
         setSelectedTeams(prev => {
-          if ([...touchingTeams].some(t => prev.has(t))) return prev
           const next = new Set(prev)
-          const firstTeam = [...touchingTeams][0]
-          if (firstTeam) next.add(firstTeam)
+          for (const t of touchingTeams) next.add(t)
           return next
         })
       }

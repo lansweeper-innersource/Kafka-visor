@@ -19,6 +19,8 @@ export interface ServiceNodeData {
   deploymentType: string
   produces: string[]
   consumes: string[]
+  githubUrl?: string
+  sourceRepos?: { name: string; url: string }[]
   [key: string]: unknown
 }
 
@@ -66,6 +68,8 @@ export function buildGraph(topology: TopologyData): {
         deploymentType: service.deploymentType,
         produces: service.produces,
         consumes: service.consumes,
+        githubUrl: service.githubUrl,
+        sourceRepos: service.sourceRepos,
       } satisfies ServiceNodeData,
     })
   }

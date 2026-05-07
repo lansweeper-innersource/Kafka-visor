@@ -99,7 +99,6 @@ function ServiceDetails({
       </div>
 
       <div className="space-y-1 text-xs">
-        <InfoRow label="Repository" value={data.repository} />
         <InfoRow label="Namespace" value={data.namespace} />
         <InfoRow label="Type" value={data.deploymentType} />
         <InfoRow
@@ -107,6 +106,31 @@ function ServiceDetails({
           value={data.runningInCluster ? 'Running' : 'Not found'}
           valueClass={data.runningInCluster ? 'text-green-600' : 'text-amber-600'}
         />
+      </div>
+
+      {/* GitHub Links */}
+      <div className="space-y-1">
+        {data.sourceRepos && data.sourceRepos.length > 0 && (
+          <div className="text-xs">
+            <span className="text-gray-500">Source: </span>
+            {data.sourceRepos.map((r, i) => (
+              <span key={r.name}>
+                {i > 0 && ', '}
+                <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-mono">
+                  {r.name}
+                </a>
+              </span>
+            ))}
+          </div>
+        )}
+        {data.githubUrl && (
+          <div className="text-xs">
+            <span className="text-gray-500">Deploy: </span>
+            <a href={data.githubUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-mono">
+              {data.repository}
+            </a>
+          </div>
+        )}
       </div>
 
       {/* Blast Radius */}

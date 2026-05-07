@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "extract": "tsx scripts/extract-topology.ts",
     "enrich": "tsx scripts/enrich-kubectl.ts",
-    "data": "npm run extract && npm run enrich"
+    "enrich:quill": "tsx scripts/enrich-quill.ts",
+    "data": "npm run extract && npm run enrich && npm run enrich:quill"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.2",

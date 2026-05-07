@@ -1066,7 +1066,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/backoffice-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECBackofficeConsumer",
+          "url": "https://github.com/Lansweeper/LECBackofficeConsumer"
+        }
+      ]
     },
     "acme-data-exporter-consumer": {
       "id": "acme-data-exporter-consumer",
@@ -1081,7 +1088,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/businesstools-deployments",
+      "sourceRepos": [
+        {
+          "name": "acme-data-exporter",
+          "url": "https://github.com/Lansweeper/acme-data-exporter"
+        }
+      ]
     },
     "lec-asset-api": {
       "id": "lec-asset-api",
@@ -1103,7 +1117,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAssetsAPI",
+          "url": "https://github.com/Lansweeper/LECAssetsAPI"
+        }
+      ]
     },
     "lec-asset-api-avro-register-workflow": {
       "id": "lec-asset-api-avro-register-workflow",
@@ -1117,7 +1138,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-check-uninvited-onprem-users-temp": {
       "id": "lec-asset-api-check-uninvited-onprem-users-temp",
@@ -1130,7 +1152,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-delete-adusers-by-install": {
       "id": "lec-asset-api-delete-adusers-by-install",
@@ -1144,7 +1167,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-delete-asset-temp": {
       "id": "lec-asset-api-delete-asset-temp",
@@ -1166,7 +1190,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-policy4-template": {
       "id": "lec-asset-api-policy4-template",
@@ -1178,7 +1203,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-reconcile-classic-cleanup": {
       "id": "lec-asset-api-reconcile-classic-cleanup",
@@ -1190,7 +1216,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-reconciliation": {
       "id": "lec-asset-api-reconciliation",
@@ -1203,7 +1230,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-api-resync-assets-by-site": {
       "id": "lec-asset-api-resync-assets-by-site",
@@ -1215,7 +1243,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-grpc-api": {
       "id": "lec-asset-grpc-api",
@@ -1237,7 +1266,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-assets-workflows": {
       "id": "lec-assets-workflows",
@@ -1256,7 +1286,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-asset-be": {
       "id": "lec-asset-be",
@@ -1268,7 +1299,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAssetsBE",
+          "url": "https://github.com/Lansweeper/LECAssetsBE"
+        }
+      ]
     },
     "asset-operations-consumer": {
       "id": "asset-operations-consumer",
@@ -1287,7 +1325,14 @@
         "public.edge.roundtrip.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "AssetOperationsConsumer",
+          "url": "https://github.com/Lansweeper/AssetOperationsConsumer"
+        }
+      ]
     },
     "asset-sync-status-consumer": {
       "id": "asset-sync-status-consumer",
@@ -1302,7 +1347,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "AssetSyncStatus",
+          "url": "https://github.com/Lansweeper/AssetSyncStatus"
+        }
+      ]
     },
     "asset-sync-status-tracking-consumer": {
       "id": "asset-sync-status-tracking-consumer",
@@ -1316,7 +1368,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "AssetSyncStatus",
+          "url": "https://github.com/Lansweeper/AssetSyncStatus"
+        }
+      ]
     },
     "lec-duplicated-assets-consumer": {
       "id": "lec-duplicated-assets-consumer",
@@ -1330,7 +1389,14 @@
         "assetscontext.event.assets"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDuplicatedAssetsConsumer",
+          "url": "https://github.com/Lansweeper/LECDuplicatedAssetsConsumer"
+        }
+      ]
     },
     "lec-duplicated-assets-consumer-calculate-duplicates": {
       "id": "lec-duplicated-assets-consumer-calculate-duplicates",
@@ -1342,7 +1408,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-duplicated-assets-consumer-notify-conflicts": {
       "id": "lec-duplicated-assets-consumer-notify-conflicts",
@@ -1355,7 +1422,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "lec-duplicated-assets-consumer-tracking": {
       "id": "lec-duplicated-assets-consumer-tracking",
@@ -1369,7 +1437,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "hard-soft-limits": {
       "id": "hard-soft-limits",
@@ -1381,7 +1450,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "HardSoftLimits",
+          "url": "https://github.com/Lansweeper/HardSoftLimits"
+        }
+      ]
     },
     "lec-licensing-api": {
       "id": "lec-licensing-api",
@@ -1395,7 +1471,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECLicensing",
+          "url": "https://github.com/Lansweeper/LECLicensing"
+        }
+      ]
     },
     "lec-licensing-consumer": {
       "id": "lec-licensing-consumer",
@@ -1411,7 +1494,14 @@
         "scannerproxy.event.licensing"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECLicensing",
+          "url": "https://github.com/Lansweeper/LECLicensing"
+        }
+      ]
     },
     "lec-multitenant-api": {
       "id": "lec-multitenant-api",
@@ -1432,7 +1522,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECMultitenant",
+          "url": "https://github.com/Lansweeper/LECMultitenant"
+        }
+      ]
     },
     "lec-multitenant-close-notifications-for-deleted-installs": {
       "id": "lec-multitenant-close-notifications-for-deleted-installs",
@@ -1449,7 +1546,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-close-notifications-for-unlinked": {
       "id": "lec-multitenant-close-notifications-for-unlinked",
@@ -1466,7 +1564,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-consumer": {
       "id": "lec-multitenant-consumer",
@@ -1487,7 +1586,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECMultitenant",
+          "url": "https://github.com/Lansweeper/LECMultitenant"
+        }
+      ]
     },
     "lec-multitenant-delete-site-installs-temp": {
       "id": "lec-multitenant-delete-site-installs-temp",
@@ -1507,7 +1613,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-expired-subscriptions-temp": {
       "id": "lec-multitenant-expired-subscriptions-temp",
@@ -1520,7 +1627,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-grpc-api": {
       "id": "lec-multitenant-grpc-api",
@@ -1541,7 +1649,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-invite-account-temp": {
       "id": "lec-multitenant-invite-account-temp",
@@ -1556,7 +1665,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-modify-install-type": {
       "id": "lec-multitenant-modify-install-type",
@@ -1571,7 +1681,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-remove-account-temp": {
       "id": "lec-multitenant-remove-account-temp",
@@ -1586,7 +1697,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-remove-site-subscription-temp": {
       "id": "lec-multitenant-remove-site-subscription-temp",
@@ -1601,7 +1713,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-rename-deleted-site-temp": {
       "id": "lec-multitenant-rename-deleted-site-temp",
@@ -1616,7 +1729,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-rename-site-temp": {
       "id": "lec-multitenant-rename-site-temp",
@@ -1631,7 +1745,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-retry-delete-soft-deleted-sites": {
       "id": "lec-multitenant-retry-delete-soft-deleted-sites",
@@ -1651,7 +1766,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-sales-api": {
       "id": "lec-multitenant-sales-api",
@@ -1667,7 +1783,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-sync-installations-states": {
       "id": "lec-multitenant-sync-installations-states",
@@ -1682,7 +1799,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-multitenant-unlink-duplicated-installs-temp": {
       "id": "lec-multitenant-unlink-duplicated-installs-temp",
@@ -1702,7 +1820,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
     },
     "lec-permissions-consumer": {
       "id": "lec-permissions-consumer",
@@ -1714,7 +1833,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECPermissions",
+          "url": "https://github.com/Lansweeper/LECPermissions"
+        }
+      ]
     },
     "lec-tracking-api": {
       "id": "lec-tracking-api",
@@ -1729,7 +1855,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tracking-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECTracking",
+          "url": "https://github.com/Lansweeper/LECTracking"
+        }
+      ]
     },
     "lec-tracking-consumer": {
       "id": "lec-tracking-consumer",
@@ -1745,7 +1878,14 @@
         "public.command.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tracking-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECTracking",
+          "url": "https://github.com/Lansweeper/LECTracking"
+        }
+      ]
     },
     "lec-tracking-global-timeout-workflowtemplate": {
       "id": "lec-tracking-global-timeout-workflowtemplate",
@@ -1760,7 +1900,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tracking-deployments"
     },
     "lec-tracking-push-avro-schemas-workflow": {
       "id": "lec-tracking-push-avro-schemas-workflow",
@@ -1773,7 +1914,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/tracking-deployments"
     },
     "lec-notifications-api": {
       "id": "lec-notifications-api",
@@ -1786,7 +1928,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECNotifications",
+          "url": "https://github.com/Lansweeper/LECNotifications"
+        }
+      ]
     },
     "lec-notifications-consumer": {
       "id": "lec-notifications-consumer",
@@ -1801,7 +1950,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECNotifications",
+          "url": "https://github.com/Lansweeper/LECNotifications"
+        }
+      ]
     },
     "lec-analytics-api": {
       "id": "lec-analytics-api",
@@ -1813,7 +1969,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECLuzmoPlugin",
+          "url": "https://github.com/Lansweeper/LECLuzmoPlugin"
+        }
+      ]
     },
     "lec-analytics-luzmo-api": {
       "id": "lec-analytics-luzmo-api",
@@ -1825,7 +1988,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2": {
       "id": "lec-analytics-assets-consumer-v2",
@@ -1839,7 +2003,14 @@
         "public.event.analytics.entity-changes"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAnalyticsAssetsConsumerV2",
+          "url": "https://github.com/Lansweeper/LECAnalyticsAssetsConsumerV2"
+        }
+      ]
     },
     "lec-analytics-assets-consumer-v2-certificates": {
       "id": "lec-analytics-assets-consumer-v2-certificates",
@@ -1853,7 +2024,8 @@
         "public.event.analytics.entity-changes"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-management-entities": {
       "id": "lec-analytics-assets-consumer-v2-management-entities",
@@ -1867,7 +2039,8 @@
         "public.event.scanning-config"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-reprocess": {
       "id": "lec-analytics-assets-consumer-v2-reprocess",
@@ -1881,7 +2054,8 @@
         "public.event.analytics.entity-changes-reprocess"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-softwares": {
       "id": "lec-analytics-assets-consumer-v2-softwares",
@@ -1895,7 +2069,8 @@
         "public.event.analytics.entity-changes"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-sync-deleted-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-deleted-entities",
@@ -1907,7 +2082,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-sync-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-entities",
@@ -1919,7 +2095,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-sync-management-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-management-entities",
@@ -1933,7 +2110,8 @@
         "public.event.multitenant"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-users": {
       "id": "lec-analytics-assets-consumer-v2-users",
@@ -1947,7 +2125,8 @@
         "public.event.analytics.entity-changes"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-vulnerabilities": {
       "id": "lec-analytics-assets-consumer-v2-vulnerabilities",
@@ -1960,7 +2139,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-analytics-assets-consumer-v2-windows-services": {
       "id": "lec-analytics-assets-consumer-v2-windows-services",
@@ -1974,7 +2154,8 @@
         "public.event.analytics.entity-changes"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-boards-api": {
       "id": "lec-boards-api",
@@ -1986,7 +2167,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECBoardsAPI",
+          "url": "https://github.com/Lansweeper/LECBoardsAPI"
+        }
+      ]
     },
     "lec-boards-consumer": {
       "id": "lec-boards-consumer",
@@ -1998,7 +2186,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECBoardsConsumer",
+          "url": "https://github.com/Lansweeper/LECBoardsConsumer"
+        }
+      ]
     },
     "lec-reports-api": {
       "id": "lec-reports-api",
@@ -2011,7 +2206,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECReportsAPI",
+          "url": "https://github.com/Lansweeper/LECReportsAPI"
+        }
+      ]
     },
     "lec-reports-api-consumer": {
       "id": "lec-reports-api-consumer",
@@ -2028,7 +2230,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-reports-integrations-grpc": {
       "id": "lec-reports-integrations-grpc",
@@ -2040,7 +2243,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
     },
     "lec-reports-executor": {
       "id": "lec-reports-executor",
@@ -2052,7 +2256,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECReportsExecutor",
+          "url": "https://github.com/Lansweeper/LECReportsExecutor"
+        }
+      ]
     },
     "lec-event-logs-api": {
       "id": "lec-event-logs-api",
@@ -2064,7 +2275,13 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "sourceRepos": [
+        {
+          "name": "LECBoardsAPI",
+          "url": "https://github.com/Lansweeper/LECBoardsAPI"
+        }
+      ]
     },
     "lec-diagrams-api": {
       "id": "lec-diagrams-api",
@@ -2076,7 +2293,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/diagrams-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDiagramsExecutor",
+          "url": "https://github.com/Lansweeper/LECDiagramsExecutor"
+        }
+      ]
     },
     "lec-diagrams-worker": {
       "id": "lec-diagrams-worker",
@@ -2088,7 +2312,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/diagrams-deployments"
     },
     "cloud-scanner": {
       "id": "cloud-scanner",
@@ -2102,7 +2327,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "cloud-scanner-by-environment": {
       "id": "cloud-scanner-by-environment",
@@ -2116,7 +2342,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "cloud-scanning-api": {
       "id": "cloud-scanning-api",
@@ -2128,7 +2355,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECCloudScanningAPI",
+          "url": "https://github.com/Lansweeper/LECCloudScanningAPI"
+        }
+      ]
     },
     "cloud-scanning-api-consumer": {
       "id": "cloud-scanning-api-consumer",
@@ -2140,7 +2374,14 @@
         "public.edge.commands"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECCloudScanningAPI",
+          "url": "https://github.com/Lansweeper/LECCloudScanningAPI"
+        }
+      ]
     },
     "lec-msmp-api": {
       "id": "lec-msmp-api",
@@ -2152,7 +2393,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECMspApi",
+          "url": "https://github.com/Lansweeper/LECMspApi"
+        }
+      ]
     },
     "lec-adapter-consumer-asset": {
       "id": "lec-adapter-consumer-asset",
@@ -2167,7 +2415,14 @@
         "public.event.data-core"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAdapterAPI",
+          "url": "https://github.com/Lansweeper/LECAdapterAPI"
+        }
+      ]
     },
     "lec-adapter-consumer-ug": {
       "id": "lec-adapter-consumer-ug",
@@ -2182,7 +2437,14 @@
         "public.event.data-core"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAdapterAPI",
+          "url": "https://github.com/Lansweeper/LECAdapterAPI"
+        }
+      ]
     },
     "lec-edge-command-api": {
       "id": "lec-edge-command-api",
@@ -2194,7 +2456,14 @@
         "public.edge.install-status.event"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "EdgeCommandAPI",
+          "url": "https://github.com/Lansweeper/EdgeCommandAPI"
+        }
+      ]
     },
     "public-broker": {
       "id": "public-broker",
@@ -2208,7 +2477,14 @@
         "scannerapi.command.syncsettings"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "edge-deployments",
+          "url": "https://github.com/Lansweeper/edge-deployments"
+        }
+      ]
     },
     "lec-syncer-api": {
       "id": "lec-syncer-api",
@@ -2229,7 +2505,14 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECSyncerAPI",
+          "url": "https://github.com/Lansweeper/LECSyncerAPI"
+        }
+      ]
     },
     "lec-syncer-api-v2": {
       "id": "lec-syncer-api-v2",
@@ -2251,7 +2534,14 @@
         "public.edge.pending-changes.event"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECSyncerAPIv2",
+          "url": "https://github.com/Lansweeper/LECSyncerAPIv2"
+        }
+      ]
     },
     "syncer-status-api": {
       "id": "syncer-status-api",
@@ -2263,7 +2553,14 @@
         "public.edge.install-status.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECSyncerStatusAPI",
+          "url": "https://github.com/Lansweeper/LECSyncerStatusAPI"
+        }
+      ]
     },
     "flex-save-duplicates": {
       "id": "flex-save-duplicates",
@@ -2276,7 +2573,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "gapac-remove-duplicates": {
       "id": "gapac-remove-duplicates",
@@ -2289,7 +2587,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
     },
     "install-api-downgrade-policy-workflow": {
       "id": "install-api-downgrade-policy-workflow",
@@ -2301,7 +2600,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "install-status-api": {
       "id": "install-status-api",
@@ -2313,7 +2613,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "InstallStatus",
+          "url": "https://github.com/Lansweeper/InstallStatus"
+        }
+      ]
     },
     "install-status-consumer": {
       "id": "install-status-consumer",
@@ -2330,7 +2637,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "InstallStatus",
+          "url": "https://github.com/Lansweeper/InstallStatus"
+        }
+      ]
     },
     "install-status-consumer-notification": {
       "id": "install-status-consumer-notification",
@@ -2343,7 +2657,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "install-status-subscriptions": {
       "id": "install-status-subscriptions",
@@ -2355,7 +2670,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "lec-scanning-api": {
       "id": "lec-scanning-api",
@@ -2368,7 +2684,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECScanningAPI",
+          "url": "https://github.com/Lansweeper/LECScanningAPI"
+        }
+      ]
     },
     "lec-scanning-check-installer-workflowtemplate": {
       "id": "lec-scanning-check-installer-workflowtemplate",
@@ -2381,7 +2704,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "lec-scanning-check-sync-server-version-workflowtemplate": {
       "id": "lec-scanning-check-sync-server-version-workflowtemplate",
@@ -2394,7 +2718,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
     },
     "lec-scanning-consumer": {
       "id": "lec-scanning-consumer",
@@ -2418,7 +2743,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECScanningAPI",
+          "url": "https://github.com/Lansweeper/LECScanningAPI"
+        }
+      ]
     },
     "lec-scanningconfig-api": {
       "id": "lec-scanningconfig-api",
@@ -2432,7 +2764,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECScanningConfig",
+          "url": "https://github.com/Lansweeper/LECScanningConfig"
+        }
+      ]
     },
     "lec-scanningconfig-consumer": {
       "id": "lec-scanningconfig-consumer",
@@ -2450,7 +2789,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECScanningConfig",
+          "url": "https://github.com/Lansweeper/LECScanningConfig"
+        }
+      ]
     },
     "audit-trails-consumer-go": {
       "id": "audit-trails-consumer-go",
@@ -2462,7 +2808,14 @@
         "public.command.audit-trails"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/audit-deployments",
+      "sourceRepos": [
+        {
+          "name": "audit-deployments",
+          "url": "https://github.com/Lansweeper/audit-deployments"
+        }
+      ]
     },
     "vulnerabilities-engine-clickhouse-api": {
       "id": "vulnerabilities-engine-clickhouse-api",
@@ -2474,7 +2827,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "assets-enriching": {
       "id": "assets-enriching",
@@ -2491,7 +2845,14 @@
         "assetscontext.event.assets"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "sourceRepos": [
+        {
+          "name": "enriching-deployments",
+          "url": "https://github.com/Lansweeper/enriching-deployments"
+        }
+      ]
     },
     "assets-enriching-api": {
       "id": "assets-enriching-api",
@@ -2506,7 +2867,8 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "assets-enriching-retry": {
       "id": "assets-enriching-retry",
@@ -2522,7 +2884,8 @@
         "consolidationcontext.event.reprocess-assets-enriching"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "consolidate-unsynced-assets-workflow-template": {
       "id": "consolidate-unsynced-assets-workflow-template",
@@ -2534,7 +2897,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "iplocation-sync": {
       "id": "iplocation-sync",
@@ -2546,7 +2910,8 @@
         "public.event.inventory.management-entities"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "reprocess-unsynced-users-workflow-template": {
       "id": "reprocess-unsynced-users-workflow-template",
@@ -2558,7 +2923,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "reprocess-unsynced-vulnerabilities-workflow-template": {
       "id": "reprocess-unsynced-vulnerabilities-workflow-template",
@@ -2570,7 +2936,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "users-enriching": {
       "id": "users-enriching",
@@ -2585,7 +2952,14 @@
         "assetscontext.event.ad"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "sourceRepos": [
+        {
+          "name": "enriching-deployments",
+          "url": "https://github.com/Lansweeper/enriching-deployments"
+        }
+      ]
     },
     "users-enriching-retry": {
       "id": "users-enriching-retry",
@@ -2599,7 +2973,8 @@
         "usersenrichmentcontext.event.reprocess-users-enriching"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "vulnerabilities-engine-enriching-go": {
       "id": "vulnerabilities-engine-enriching-go",
@@ -2614,7 +2989,14 @@
         "assetscontext.event.assets"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "sourceRepos": [
+        {
+          "name": "enriching-deployments",
+          "url": "https://github.com/Lansweeper/enriching-deployments"
+        }
+      ]
     },
     "vulnerabilities-engine-enriching-go-retry": {
       "id": "vulnerabilities-engine-enriching-go-retry",
@@ -2628,7 +3010,8 @@
         "securitycontext.event.reprocess-vulnerabilities"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
     },
     "lec-gateway-api": {
       "id": "lec-gateway-api",
@@ -2640,7 +3023,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECGatewayAPI",
+          "url": "https://github.com/Lansweeper/LECGatewayAPI"
+        }
+      ]
     },
     "lec-gateway-subscriptions": {
       "id": "lec-gateway-subscriptions",
@@ -2655,7 +3045,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECGatewayAPI",
+          "url": "https://github.com/Lansweeper/LECGatewayAPI"
+        }
+      ]
     },
     "lec-integrations-assets-api": {
       "id": "lec-integrations-assets-api",
@@ -2670,7 +3067,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECIntegrationsAssetsAPI",
+          "url": "https://github.com/Lansweeper/LECIntegrationsAssetsAPI"
+        }
+      ]
     },
     "lec-integrations-exporter-api-v2": {
       "id": "lec-integrations-exporter-api-v2",
@@ -2682,7 +3086,14 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECIntegrationsExporterAPI",
+          "url": "https://github.com/Lansweeper/LECIntegrationsExporterAPI"
+        }
+      ]
     },
     "lec-integrations-exporter-consumer-v2": {
       "id": "lec-integrations-exporter-consumer-v2",
@@ -2694,7 +3105,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-gateway-api-v2": {
       "id": "lec-integrations-gateway-api-v2",
@@ -2706,7 +3118,8 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-reports-api": {
       "id": "lec-integrations-reports-api",
@@ -2720,7 +3133,14 @@
         "public.event.report"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECIntegrationsReportsAPI",
+          "url": "https://github.com/Lansweeper/LECIntegrationsReportsAPI"
+        }
+      ]
     },
     "lec-integrations-webhooks-api": {
       "id": "lec-integrations-webhooks-api",
@@ -2733,7 +3153,14 @@
         "public.event.multitenant.integrations"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECIntegrationsWebhooksAPI",
+          "url": "https://github.com/Lansweeper/LECIntegrationsWebhooksAPI"
+        }
+      ]
     },
     "integrations-webhooks-asset-types": {
       "id": "integrations-webhooks-asset-types",
@@ -2751,7 +3178,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "integrations-webhooks-vulnerabilities": {
       "id": "integrations-webhooks-vulnerabilities",
@@ -2769,7 +3197,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-webhooks-checker-consumer": {
       "id": "lec-integrations-webhooks-checker-consumer",
@@ -2787,7 +3216,14 @@
         "public.event.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECIntegrationsWebhooksCheckerConsumer",
+          "url": "https://github.com/Lansweeper/LECIntegrationsWebhooksCheckerConsumer"
+        }
+      ]
     },
     "lec-integrations-webhooks-checker-consumer-testing": {
       "id": "lec-integrations-webhooks-checker-consumer-testing",
@@ -2805,7 +3241,8 @@
         "public.event.tracking"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-webhooks-event-consumer-asseteventsanalytics": {
       "id": "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
@@ -2822,7 +3259,8 @@
         "public.event.webhooks.asset-events"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-webhooks-event-consumer-sourcesevents": {
       "id": "lec-integrations-webhooks-event-consumer-sourcesevents",
@@ -2839,7 +3277,8 @@
         "public.event.webhooks.sources"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-webhooks-event-consumer-trackingcommands": {
       "id": "lec-integrations-webhooks-event-consumer-trackingcommands",
@@ -2856,7 +3295,8 @@
         "public.command.tracking"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-webhooks-event-consumer-webhookevents": {
       "id": "lec-integrations-webhooks-event-consumer-webhookevents",
@@ -2873,7 +3313,8 @@
         "public.event.webhooks.events"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-integrations-webhooks-notifier-consumer-v2": {
       "id": "lec-integrations-webhooks-notifier-consumer-v2",
@@ -2886,7 +3327,14 @@
         "integrationscontext.command.webhook-retries"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECIntegrationsWebhooksNotifierConsumerV2",
+          "url": "https://github.com/Lansweeper/LECIntegrationsWebhooksNotifierConsumerV2"
+        }
+      ]
     },
     "lec-integrations-webhooks-retry-job": {
       "id": "lec-integrations-webhooks-retry-job",
@@ -2898,7 +3346,8 @@
         "integrationscontext.command.webhook-retries"
       ],
       "runningInCluster": true,
-      "deploymentType": "CronJob"
+      "deploymentType": "CronJob",
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
     },
     "lec-prismatic-api": {
       "id": "lec-prismatic-api",
@@ -2910,7 +3359,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECPrismaticAPI",
+          "url": "https://github.com/Lansweeper/LECPrismaticAPI"
+        }
+      ]
     },
     "lec-prismatic-api-retrieve-prismatic-data": {
       "id": "lec-prismatic-api-retrieve-prismatic-data",
@@ -2922,7 +3378,8 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "CronJob"
+      "deploymentType": "CronJob",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments"
     },
     "lec-prismatic-consumer": {
       "id": "lec-prismatic-consumer",
@@ -2934,7 +3391,14 @@
         "public.event.multitenant"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECPrismaticAPI",
+          "url": "https://github.com/Lansweeper/LECPrismaticAPI"
+        }
+      ]
     },
     "lec-data-core-admin": {
       "id": "lec-data-core-admin",
@@ -2949,7 +3413,14 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-inbound-api": {
       "id": "lec-data-core-inbound-api",
@@ -2961,7 +3432,14 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown"
+      "deploymentType": "Unknown",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-integrity": {
       "id": "lec-data-core-integrity",
@@ -2975,7 +3453,14 @@
         "public.event.reference.realign.data-core"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-api-scan-asset": {
       "id": "lec-data-core-processor-api-scan-asset",
@@ -2993,7 +3478,14 @@
         "public.edge.inbound.apiscan.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-asset": {
       "id": "lec-data-core-processor-asset",
@@ -3011,7 +3503,14 @@
         "public.edge.inbound.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-asset-context": {
       "id": "lec-data-core-processor-asset-context",
@@ -3029,7 +3528,14 @@
         "public.edge.inbound.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-classic-asset": {
       "id": "lec-data-core-processor-classic-asset",
@@ -3047,7 +3553,14 @@
         "public.edge.classic.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-cloud-asset": {
       "id": "lec-data-core-processor-cloud-asset",
@@ -3065,7 +3578,14 @@
         "public.edge.cloud.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-deconcile": {
       "id": "lec-data-core-processor-deconcile",
@@ -3083,7 +3603,14 @@
         "public.edge.inbound.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-multitenant": {
       "id": "lec-data-core-processor-multitenant",
@@ -3101,7 +3628,14 @@
         "public.edge.inbound.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "lec-data-core-processor-traffic-asset": {
       "id": "lec-data-core-processor-traffic-asset",
@@ -3119,7 +3653,14 @@
         "public.event.traffic-assets"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/datacore-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECDataCore",
+          "url": "https://github.com/Lansweeper/LECDataCore"
+        }
+      ]
     },
     "discovery-config-api": {
       "id": "discovery-config-api",
@@ -3133,7 +3674,14 @@
         "public.edge.install-status.event"
       ],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "discovery-config-api",
+          "url": "https://github.com/Lansweeper/discovery-config-api"
+        }
+      ]
     },
     "discovery-syncer-api": {
       "id": "discovery-syncer-api",
@@ -3148,7 +3696,14 @@
       ],
       "consumes": [],
       "runningInCluster": true,
-      "deploymentType": "Deployment"
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "discovery-syncer-api",
+          "url": "https://github.com/Lansweeper/discovery-syncer-api"
+        }
+      ]
     }
   },
   "metadata": {

@@ -13,6 +13,11 @@ export interface Topic {
   teamCount: number
 }
 
+export interface SourceRepo {
+  name: string
+  url: string
+}
+
 export interface Service {
   id: string
   team: string
@@ -22,6 +27,8 @@ export interface Service {
   consumes: string[]
   runningInCluster: boolean
   deploymentType: 'Deployment' | 'CronJob' | 'ScaledJob' | 'WorkflowTemplate' | 'Unknown'
+  githubUrl?: string
+  sourceRepos?: SourceRepo[]
 }
 
 export interface TopologyData {
