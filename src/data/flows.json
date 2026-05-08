@@ -1,24 +1,20 @@
 [
   {
-    "id": "asset-ingestion-current",
-    "name": "Asset Ingestion (Current)",
-    "description": "End-to-end scanning pipeline — Discovery + Classic paths converging into AssetConsumer → MongoDB",
+    "id": "asset-ingestion-discovery",
+    "name": "Asset Ingestion — Discovery (vNext)",
+    "description": "IT Agent scans → HUB aggregates → Discovery syncer → DataCore ETL → Adapter → AssetConsumer → MongoDB",
     "nodes": [
-      { "id": "it-agent-discovery", "type": "scanner", "label": "IT Agent (Discovery)", "position": [0, 0] },
-      { "id": "hub", "type": "scanner", "label": "HUB", "position": [220, 0] },
-      { "id": "discovery-syncer-api", "type": "service", "position": [440, 0] },
-      { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [700, -30] },
-      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [700, 80] },
-      { "id": "public.event.data-core", "type": "topic", "position": [960, -30] },
-      { "id": "public.edge.inbound.event", "type": "topic", "position": [960, 80] },
-      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "AdapterAPI", "position": [1200, 30] },
-
-      { "id": "onprem-classic", "type": "scanner", "label": "On-Prem Classic", "position": [0, 280] },
-      { "id": "lec-syncer-api", "type": "service", "label": "SyncerAPIv2", "position": [300, 280] },
-
-      { "id": "public.edge.asset.event", "type": "topic", "label": "public.edge.asset.event", "position": [1200, 200] },
-      { "id": "lec-asset-consumer-asset", "type": "service", "label": "AssetConsumer", "position": [1480, 200] },
-      { "id": "mongodb", "type": "database", "label": "MongoDB", "position": [1700, 200] }
+      { "id": "it-agent", "type": "scanner", "label": "IT Agent", "position": [0, 50] },
+      { "id": "hub", "type": "scanner", "label": "HUB", "position": [200, 50] },
+      { "id": "discovery-syncer-api", "type": "service", "position": [420, 50] },
+      { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [680, 50] },
+      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [680, 170] },
+      { "id": "public.event.data-core", "type": "topic", "position": [940, 90] },
+      { "id": "public.edge.inbound.event", "type": "topic", "position": [940, 200] },
+      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "AdapterAPI", "position": [1180, 140] },
+      { "id": "public.edge.asset.event", "type": "topic", "position": [1400, 140] },
+      { "id": "lec-asset-consumer-asset", "type": "service", "label": "AssetConsumer", "position": [1620, 140] },
+      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [1840, 140] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "scan data" },
@@ -29,13 +25,95 @@
       { "source": 4, "target": 6, "type": "kafka" },
       { "source": 5, "target": 7, "type": "kafka" },
       { "source": 6, "target": 7, "type": "kafka" },
-      { "source": 7, "target": 10, "type": "kafka", "label": "asset.proto" },
-
-      { "source": 8, "target": 9, "type": "https", "label": "scan data" },
-      { "source": 9, "target": 10, "type": "kafka", "label": "asset.proto" },
-
-      { "source": 10, "target": 11, "type": "kafka" },
-      { "source": 11, "target": 12, "type": "db" }
+      { "source": 7, "target": 8, "type": "kafka", "label": "asset.proto" },
+      { "source": 8, "target": 9, "type": "kafka" },
+      { "source": 9, "target": 10, "type": "db" }
+    ]
+  },
+  {
+    "id": "asset-ingestion-classic",
+    "name": "Asset Ingestion — Classic (On-Prem)",
+    "description": "On-Prem scanner → SyncerAPI (gRPC, batches of 100, protobuf) → Kafka → AssetConsumer → MongoDB",
+    "nodes": [
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 50] },
+      { "id": "lec-syncer-api", "type": "service", "label": "SyncerAPI v2", "position": [260, 50] },
+      { "id": "public.edge.asset.event", "type": "topic", "position": [540, 50] },
+      { "id": "public.edge.assetcommon.event", "type": "topic", "position": [540, 160] },
+      { "id": "public.command.tracking", "type": "topic", "position": [540, 270] },
+      { "id": "lec-asset-consumer-asset", "type": "service", "label": "AssetConsumer", "position": [820, 50] },
+      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [1060, 50] }
+    ],
+    "edges": [
+      { "source": 0, "target": 1, "type": "grpc", "label": "protobuf stream (batches of 100)" },
+      { "source": 1, "target": 2, "type": "kafka", "label": "asset.proto" },
+      { "source": 1, "target": 3, "type": "kafka" },
+      { "source": 1, "target": 4, "type": "kafka" },
+      { "source": 2, "target": 5, "type": "kafka" },
+      { "source": 5, "target": 6, "type": "db" }
+    ]
+  },
+  {
+    "id": "scanning-status-flow",
+    "name": "Scanning Status — On-Prem → Cloud",
+    "description": "On-Prem reports scan status → SyncerStatus → Redis → ScanningStatus → Gateway (subscriptions)",
+    "nodes": [
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 50] },
+      { "id": "syncer-status-api", "type": "service", "label": "SyncerStatus API", "position": [260, 50] },
+      { "id": "redis-shared", "type": "database", "label": "Redis", "position": [500, 50] },
+      { "id": "public.edge.commands", "type": "topic", "position": [500, 180] },
+      { "id": "lec-scanningstatus-api", "type": "service", "label": "ScanningStatus API", "position": [740, 50] },
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway API", "position": [980, 50] }
+    ],
+    "edges": [
+      { "source": 0, "target": 1, "type": "grpc", "label": "status updates" },
+      { "source": 1, "target": 2, "type": "db", "label": "scanning queue" },
+      { "source": 1, "target": 3, "type": "kafka", "label": "commands" },
+      { "source": 2, "target": 4, "type": "internal", "label": "read status" },
+      { "source": 4, "target": 5, "type": "grpc", "label": "subscriptions" }
+    ]
+  },
+  {
+    "id": "cloud-to-scanner-commands",
+    "name": "Cloud → Scanner Commands",
+    "description": "Cloud sends commands to on-prem scanner: scanning-api → Kafka → public-broker → MongoDB → EdgeCommands → gRPC → scanner",
+    "nodes": [
+      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [0, 50] },
+      { "id": "public.edge.commands", "type": "topic", "position": [260, 50] },
+      { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [520, 50] },
+      { "id": "mongodb-commands", "type": "database", "label": "MongoDB (Commands)", "position": [520, 180] },
+      { "id": "lec-edge-command-api", "type": "service", "label": "Edge Command API", "position": [780, 50] },
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [1040, 50] }
+    ],
+    "edges": [
+      { "source": 0, "target": 1, "type": "kafka", "label": "command event" },
+      { "source": 1, "target": 2, "type": "kafka" },
+      { "source": 2, "target": 3, "type": "db", "label": "commands collection" },
+      { "source": 3, "target": 4, "type": "internal", "label": "poll commands" },
+      { "source": 4, "target": 5, "type": "grpc", "label": "execute command" }
+    ]
+  },
+  {
+    "id": "edge-manager-flow",
+    "name": "Edge Manager — Install Lifecycle",
+    "description": "On-Prem connects directly to Edge Manager (GraphQL) for configuration, licensing, and scanning management",
+    "nodes": [
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 120] },
+      { "id": "lec-edge-manager", "type": "service", "label": "Edge Manager", "position": [300, 120] },
+      { "id": "lec-multitenant-api", "type": "service", "label": "Multitenant API", "position": [600, 0] },
+      { "id": "lec-licensing-api", "type": "service", "label": "Licensing API", "position": [600, 80] },
+      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [600, 160] },
+      { "id": "lec-asset-api", "type": "service", "label": "Asset API", "position": [600, 240] },
+      { "id": "install-status-api", "type": "service", "position": [600, 320] },
+      { "id": "public.edge.install-status.event", "type": "topic", "position": [300, 320] }
+    ],
+    "edges": [
+      { "source": 0, "target": 1, "type": "https", "label": "GraphQL" },
+      { "source": 1, "target": 2, "type": "grpc", "label": "sites/installs" },
+      { "source": 1, "target": 3, "type": "grpc", "label": "license check" },
+      { "source": 1, "target": 4, "type": "grpc", "label": "scanning config" },
+      { "source": 1, "target": 5, "type": "grpc", "label": "asset lookup" },
+      { "source": 1, "target": 6, "type": "grpc", "label": "install status" },
+      { "source": 7, "target": 1, "type": "kafka", "label": "status events" }
     ]
   }
 ]
