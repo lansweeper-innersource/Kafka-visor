@@ -42,7 +42,8 @@
       { "source": 4, "target": 5, "type": "kafka", "label": "produces" },
 
       { "source": 5, "target": 7, "type": "kafka", "label": "event notification" },
-      { "source": 7, "target": 6, "type": "grpc", "label": "outbound.proto (fetch full data)" },
+      { "source": 7, "target": 6, "type": "grpc", "label": "outbound.proto (request)" },
+      { "source": 6, "target": 7, "type": "grpc", "label": "full asset data (response)" },
       { "source": 7, "target": 8, "type": "kafka", "label": "produces asset.event" },
 
       { "source": 8, "target": 9, "type": "kafka" },
