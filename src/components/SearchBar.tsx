@@ -1,21 +1,22 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
-import type { TopologyData } from '../types'
+import type { TopologyData, FlowDefinition } from '../types'
 
 interface SearchResult {
   id: string
-  type: 'topic' | 'service'
+  type: 'topic' | 'service' | 'flow'
   label: string
   detail: string
 }
 
 interface SearchBarProps {
   topology: TopologyData
+  flows: FlowDefinition[]
   onSelect: (result: SearchResult) => void
 }
 
 export type { SearchResult }
 
-export function SearchBar({ topology, onSelect }: SearchBarProps) {
+export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -25,6 +26,18 @@ export function SearchBar({ topology, onSelect }: SearchBarProps) {
     if (query.length < 2) return []
     const q = query.toLowerCase()
     const matches: SearchResult[] = []
+
+    // Flows first
+    for (const flow of flows) {
+      if (flow.name.toLowerCase().includes(q) || flow.id.toLowerCase().includes(q)) {
+        matches.push({
+          id: flow.id,
+          type: 'flow',
+          label: flow.name,
+          detail: `${flow.nodes.length} nodes — ${flow.description}`,
+        })
+      }
+    }
 
     for (const topic of Object.values(topology.topics)) {
       if (topic.id.toLowerCase().includes(q)) {
@@ -121,12 +134,14 @@ export function SearchBar({ topology, onSelect }: SearchBarProps) {
             >
               <span
                 className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                  r.type === 'topic'
+                  r.type === 'flow'
+                    ? 'bg-purple-700 text-white'
+                    : r.type === 'topic'
                     ? 'bg-gray-900 text-white'
                     : 'bg-blue-100 text-blue-700'
                 }`}
               >
-                {r.type === 'topic' ? 'T' : 'S'}
+                {r.type === 'flow' ? 'F' : r.type === 'topic' ? 'T' : 'S'}
               </span>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-mono text-gray-800 truncate">{r.label}</div>

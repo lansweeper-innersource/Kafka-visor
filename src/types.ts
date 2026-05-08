@@ -45,6 +45,32 @@ export interface TopologyData {
   }
 }
 
+// Flow Mode types
+export type InteractionType = 'kafka' | 'grpc' | 'https' | 'protobuf' | 'db' | 'internal' | 'sensor'
+export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database'
+
+export interface FlowNodeDef {
+  id: string
+  type: FlowNodeType
+  label?: string
+  position: [number, number]
+}
+
+export interface FlowEdgeDef {
+  source: number  // index into nodes array
+  target: number
+  type: InteractionType
+  label?: string
+}
+
+export interface FlowDefinition {
+  id: string
+  name: string
+  description: string
+  nodes: FlowNodeDef[]
+  edges: FlowEdgeDef[]
+}
+
 export const TEAM_COLORS: Record<string, string> = {
   'cloud-1': '#3B82F6',
   'cloud-2': '#8B5CF6',

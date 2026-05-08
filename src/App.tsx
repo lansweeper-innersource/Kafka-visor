@@ -7,17 +7,20 @@ import { SearchBar, type SearchResult } from './components/SearchBar'
 import { ContextMenu, type ContextMenuState } from './components/ContextMenu'
 import { useDownloadImage } from './lib/use-download-image'
 import { buildGraph } from './lib/graph-builder'
-import type { TopologyData } from './types'
+import type { TopologyData, FlowDefinition } from './types'
 import topologyData from './data/topology.json'
+import flowsData from './data/flows.json'
 import './index.css'
 
 const topology = topologyData as TopologyData
+const flows = flowsData as FlowDefinition[]
 
 function AppInner() {
   const [selectedTeams, setSelectedTeams] = useState<Set<string>>(new Set())
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
   const [focusNodeId, setFocusNodeId] = useState<string | null>(null)
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null)
+  const [activeFlow, setActiveFlow] = useState<FlowDefinition | null>(null)
   const focusCounter = useRef(0)
   const downloadImage = useDownloadImage()
 
@@ -49,8 +52,12 @@ function AppInner() {
     setSelectedNode(null)
   }, [])
 
-  // Navigate to a node: ensure its team is visible, select it, focus on it
   const navigateToNode = useCallback((id: string, type: 'topic' | 'service') => {
+    // If in flow mode, exit first
+    if (activeFlow) {
+      setActiveFlow(null)
+    }
+
     const nodeId = `${type}:${id}`
 
     if (type === 'service') {
@@ -64,7 +71,6 @@ function AppInner() {
         })
       }
     } else {
-      // For topics, activate ALL teams that touch it so we see the full picture
       const topic = topology.topics[id]
       if (topic) {
         const touchingTeams = new Set<string>()
@@ -86,11 +92,24 @@ function AppInner() {
 
     focusCounter.current++
     setFocusNodeId(`${nodeId}::${focusCounter.current}`)
-  }, [])
+  }, [activeFlow])
 
   const handleSearchSelect = useCallback((result: SearchResult) => {
+    if (result.type === 'flow') {
+      const flow = flows.find(f => f.id === result.id)
+      if (flow) {
+        setActiveFlow(flow)
+        setSelectedNode(null)
+      }
+      return
+    }
     navigateToNode(result.id, result.type)
   }, [navigateToNode])
+
+  const handleExitFlowMode = useCallback(() => {
+    setActiveFlow(null)
+    setSelectedNode(null)
+  }, [])
 
   const handleFilterToTeam = useCallback((team: string) => {
     setSelectedTeams(new Set([team]))
@@ -108,54 +127,94 @@ function AppInner() {
       <header className="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <h1 className="text-lg font-bold text-gray-800">Kafka Visor</h1>
-          <span className="text-xs text-gray-400">Topology Map</span>
+          {activeFlow ? (
+            <span className="text-xs text-purple-600 font-semibold bg-purple-50 px-2 py-0.5 rounded">
+              Flow: {activeFlow.name}
+            </span>
+          ) : (
+            <span className="text-xs text-gray-400">Topology Map</span>
+          )}
         </div>
 
-        <SearchBar topology={topology} onSelect={handleSearchSelect} />
+        <SearchBar topology={topology} flows={flows} onSelect={handleSearchSelect} />
 
         <div className="flex items-center gap-4 text-xs text-gray-500">
-          <span>{topology.metadata.totalTopics} topics</span>
-          <span>{topology.metadata.totalServices} services</span>
-          <span>{topology.metadata.totalTeams} teams</span>
+          {!activeFlow && (
+            <>
+              <span>{topology.metadata.totalTopics} topics</span>
+              <span>{topology.metadata.totalServices} services</span>
+              <span>{topology.metadata.totalTeams} teams</span>
+            </>
+          )}
           <button
             onClick={downloadImage}
             className="px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-600"
-            title="Download topology as PNG"
+            title="Download as PNG"
           >
             Export PNG
           </button>
         </div>
       </header>
 
-      {/* Legend */}
-      <div className="bg-white border-b border-gray-100 px-4 py-1.5 flex items-center gap-6 text-[11px] text-gray-500 flex-shrink-0">
-        <span className="flex items-center gap-1.5">
-          <span className="w-6 h-0.5 bg-green-500 inline-block" />
-          Producer (solid)
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-6 h-0.5 border-t-2 border-dashed border-blue-500 inline-block" />
-          Consumer (dashed)
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-3 h-3 bg-gray-900 rounded-full inline-block" />
-          Topic
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-3 h-3 bg-white border-l-4 border-blue-500 inline-block" />
-          Service
-        </span>
-      </div>
+      {/* Flow mode banner OR Legend */}
+      {activeFlow ? (
+        <div className="bg-purple-50 border-b border-purple-200 px-4 py-2 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleExitFlowMode}
+              className="text-xs text-purple-700 hover:text-purple-900 font-semibold flex items-center gap-1"
+            >
+              ← Back to topology
+            </button>
+            <span className="text-xs text-purple-600">{activeFlow.description}</span>
+          </div>
+          <div className="flex items-center gap-4 text-[11px] text-purple-500">
+            <span className="flex items-center gap-1">
+              <span className="w-4 h-0.5 bg-green-500 inline-block" /> kafka
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-4 h-0.5 bg-purple-500 inline-block" /> grpc
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-4 h-0.5 bg-orange-500 inline-block" /> https
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-4 h-0.5 bg-amber-500 inline-block" /> db
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white border-b border-gray-100 px-4 py-1.5 flex items-center gap-6 text-[11px] text-gray-500 flex-shrink-0">
+          <span className="flex items-center gap-1.5">
+            <span className="w-6 h-0.5 bg-green-500 inline-block" />
+            Producer (solid)
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-6 h-0.5 border-t-2 border-dashed border-blue-500 inline-block" />
+            Consumer (dashed)
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 bg-gray-900 rounded-full inline-block" />
+            Topic
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 bg-white border-l-4 border-blue-500 inline-block" />
+            Service
+          </span>
+        </div>
+      )}
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
-        <TeamFilter
-          topology={topology}
-          selectedTeams={selectedTeams}
-          onToggleTeam={handleToggleTeam}
-          onSelectAll={handleSelectAll}
-          onSelectNone={handleSelectNone}
-        />
+        {!activeFlow && (
+          <TeamFilter
+            topology={topology}
+            selectedTeams={selectedTeams}
+            onToggleTeam={handleToggleTeam}
+            onSelectAll={handleSelectAll}
+            onSelectNone={handleSelectNone}
+          />
+        )}
 
         <div className="flex-1 relative">
           <FlowCanvas
@@ -165,6 +224,7 @@ function AppInner() {
             focusNodeId={cleanFocusNodeId}
             highlightNodeId={highlightNodeId}
             onContextMenu={setContextMenu}
+            activeFlow={activeFlow}
           />
 
           {contextMenu && (

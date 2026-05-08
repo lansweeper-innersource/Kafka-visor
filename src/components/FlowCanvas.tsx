@@ -17,15 +17,25 @@ import {
 } from '@xyflow/react'
 import { TopicNode } from './nodes/TopicNode'
 import { ServiceNode } from './nodes/ServiceNode'
+import { ScannerNode } from './nodes/ScannerNode'
+import { DatabaseNode } from './nodes/DatabaseNode'
+import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
-import type { TopologyData } from '../types'
+import type { TopologyData, FlowDefinition } from '../types'
 import { buildGraph, filterByTeams, getNeighborIds } from '../lib/graph-builder'
+import { buildFlowNodes, buildFlowEdges } from '../lib/flow-builder'
 import type { ContextMenuState } from './ContextMenu'
 
 // CRITICAL: Define outside component to prevent remounts
 const nodeTypes = {
   topic: TopicNode,
   service: ServiceNode,
+  scanner: ScannerNode,
+  database: DatabaseNode,
+}
+
+const edgeTypes = {
+  flow: FlowEdge,
 }
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
@@ -61,6 +71,7 @@ interface FlowCanvasProps {
   focusNodeId: string | null
   highlightNodeId: string | null
   onContextMenu: (menu: ContextMenuState | null) => void
+  activeFlow: FlowDefinition | null
 }
 
 export function FlowCanvas({
@@ -70,18 +81,24 @@ export function FlowCanvas({
   focusNodeId,
   highlightNodeId,
   onContextMenu,
+  activeFlow,
 }: FlowCanvasProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const layoutNodes = useElkLayout()
-  const { setCenter, getNodes } = useReactFlow()
+  const { setCenter, getNodes, fitView } = useReactFlow()
   const layoutDone = useRef(false)
   const prevTeamsRef = useRef<string>('')
   const prevFocusRef = useRef<string | null>(null)
   const baseEdgesRef = useRef<Edge[]>([])
+  const topologyNodesRef = useRef<Node[]>([])
+  const topologyEdgesRef = useRef<Edge[]>([])
+  const prevFlowRef = useRef<string | null>(null)
 
-  // Build and filter graph when teams change
+  // TOPOLOGY MODE: Build and filter graph when teams change
   useEffect(() => {
+    if (activeFlow) return // skip in flow mode
+
     const teamsKey = [...selectedTeams].sort().join(',')
     if (teamsKey === prevTeamsRef.current && layoutDone.current) return
     prevTeamsRef.current = teamsKey
@@ -91,6 +108,8 @@ export function FlowCanvas({
     const filtered = filterByTeams(rawNodes, styledEdges, selectedTeams)
 
     baseEdgesRef.current = filtered.edges
+    topologyNodesRef.current = filtered.nodes
+    topologyEdgesRef.current = filtered.edges
     setNodes(filtered.nodes)
     setEdges(filtered.edges)
 
@@ -102,10 +121,30 @@ export function FlowCanvas({
         })
       }, 50)
     }
-  }, [topology, selectedTeams, setNodes, setEdges, layoutNodes])
+  }, [topology, selectedTeams, setNodes, setEdges, layoutNodes, activeFlow])
 
-  // Neighbor highlight
+  // FLOW MODE: Swap in flow nodes/edges
   useEffect(() => {
+    const flowId = activeFlow?.id ?? null
+    if (flowId === prevFlowRef.current) return
+    prevFlowRef.current = flowId
+
+    if (activeFlow) {
+      const flowNodes = buildFlowNodes(activeFlow, topology)
+      const flowEdges = buildFlowEdges(activeFlow)
+      setNodes(flowNodes)
+      setEdges(flowEdges)
+      setTimeout(() => fitView({ duration: 400, padding: 0.15 }), 100)
+    } else {
+      // Restore topology
+      prevTeamsRef.current = '' // force rebuild
+      layoutDone.current = false
+    }
+  }, [activeFlow, topology, setNodes, setEdges, fitView])
+
+  // Neighbor highlight (topology mode only)
+  useEffect(() => {
+    if (activeFlow) return
     const baseEdges = baseEdgesRef.current
     if (baseEdges.length === 0) return
 
@@ -127,7 +166,6 @@ export function FlowCanvas({
         },
       }))
     )
-
     setEdges(eds =>
       eds.map(e => {
         const connected = e.source === highlightNodeId || e.target === highlightNodeId
@@ -138,7 +176,7 @@ export function FlowCanvas({
         }
       })
     )
-  }, [highlightNodeId, setNodes, setEdges])
+  }, [highlightNodeId, setNodes, setEdges, activeFlow])
 
   // Focus on a node
   useEffect(() => {
@@ -189,6 +227,7 @@ export function FlowCanvas({
       onPaneClick={handlePaneClick}
       onNodeContextMenu={handleContextMenu}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       defaultEdgeOptions={defaultEdgeOptions}
       onlyRenderVisibleElements
       fitView
@@ -201,6 +240,8 @@ export function FlowCanvas({
         position="bottom-left"
         nodeColor={(node) => {
           if (node.type === 'topic') return '#1F2937'
+          if (node.type === 'scanner') return '#9CA3AF'
+          if (node.type === 'database') return '#F59E0B'
           return (node.data as { teamColor?: string }).teamColor ?? '#6B7280'
         }}
         maskColor="rgba(0,0,0,0.1)"
