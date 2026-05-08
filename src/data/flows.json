@@ -1,5 +1,130 @@
 [
   {
+    "id": "full-data-pipeline",
+    "name": "Full Data Pipeline — Scanning Context",
+    "description": "Complete architecture: On-Prem scanners → Cloud services → Consumers → Databases → Gateway → Portal",
+    "nodes": [
+      { "id": "sensors", "type": "scanner", "label": "Sensors", "position": [0, 200] },
+      { "id": "vnext", "type": "scanner", "label": "vNext (IOT, IT Agent)", "position": [160, 200] },
+      { "id": "sqlite", "type": "database", "label": "SQLite", "position": [160, 340] },
+      { "id": "hub", "type": "scanner", "label": "HUB", "position": [160, 80] },
+
+      { "id": "discovery-config-api", "type": "service", "label": "LinkingAPI", "position": [420, 0] },
+      { "id": "lec-data-core-inbound-api", "type": "service", "label": "Cluster Ingest API", "position": [420, 100] },
+      { "id": "lec-edge-manager", "type": "service", "label": "Edge Manager", "position": [420, 230] },
+      { "id": "lec-syncer-api", "type": "service", "label": "Syncer API", "position": [420, 340] },
+      { "id": "syncer-status-api", "type": "service", "label": "Syncer Status", "position": [420, 440] },
+      { "id": "lec-edge-command-api", "type": "service", "label": "Edge Command API", "position": [420, 560] },
+
+      { "id": "lec-multitenant-api", "type": "service", "label": "Multitenant", "position": [420, 140], "annotations": [{ "text": "Shared service — used by most flows", "severity": "info" }] },
+      { "id": "lec-licensing-api", "type": "service", "label": "Licensing", "position": [420, 180] },
+
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [680, 0] },
+      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB ScanningConfig", "position": [940, 0] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [680, 50] },
+
+      { "id": "public.edge.inbound.event", "type": "topic", "position": [680, 100] },
+      { "id": "public.edge.cloud.event", "type": "topic", "position": [680, 140] },
+      { "id": "public.edge.pending-changes.event", "type": "topic", "position": [680, 180] },
+
+      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore", "position": [680, 230], "annotations": [{ "text": "High throughput ETL — processes all asset types", "severity": "info" }] },
+      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [680, 290] },
+
+      { "id": "public.edge.asset.event", "type": "topic", "position": [680, 340] },
+      { "id": "public.edge.activedirectory.event", "type": "topic", "position": [680, 380] },
+      { "id": "public.edge.assetcommon.event", "type": "topic", "position": [680, 420] },
+      { "id": "public.edge.scanning.event", "type": "topic", "position": [680, 460] },
+      { "id": "public.edge.install-status.event", "type": "topic", "position": [680, 500] },
+      { "id": "scannerproxy.event.licensing", "type": "topic", "position": [680, 540] },
+      { "id": "public.edge.commands", "type": "topic", "position": [680, 580] },
+
+      { "id": "lec-asset-consumer-asset", "type": "service", "label": "Asset Consumer", "position": [940, 340] },
+      { "id": "mongodb-assets", "type": "database", "label": "MongoDB Assets", "position": [1100, 340] },
+
+      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [940, 420] },
+      { "id": "mongodb-scanning", "type": "database", "label": "MongoDB Scanning", "position": [1100, 420] },
+
+      { "id": "install-status-consumer", "type": "service", "label": "Install Consumer", "position": [940, 480] },
+      { "id": "mongodb-install", "type": "database", "label": "MongoDB Install", "position": [1100, 480] },
+
+      { "id": "lec-backoffice-consumer", "type": "service", "label": "BackOffice Consumer", "position": [940, 540] },
+      { "id": "mongodb-backoffice", "type": "database", "label": "MongoDB BackOffice", "position": [1100, 540] },
+
+      { "id": "lec-asset-api", "type": "service", "label": "AssetsAPI", "position": [1260, 340] },
+      { "id": "lec-scanningstatus-api", "type": "service", "label": "ScanningStatus", "position": [1260, 420] },
+      { "id": "redis-scanning", "type": "database", "label": "Redis", "position": [1260, 460] },
+      { "id": "install-status-api", "type": "service", "label": "Install API", "position": [1260, 480] },
+
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo Federation)", "position": [1460, 400], "annotations": [{ "text": "GraphQL federation — aggregates all APIs", "severity": "info" }] },
+      { "id": "portal", "type": "scanner", "label": "Portal", "position": [1660, 400] },
+      { "id": "backoffice-app", "type": "scanner", "label": "BackOffice (Lsec)", "position": [1660, 540] },
+
+      { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [940, 580] },
+      { "id": "mongodb-commands", "type": "database", "label": "MongoDB Commands", "position": [940, 620] },
+      { "id": "keda", "type": "service", "label": "Keda", "position": [420, 500] }
+    ],
+    "edges": [
+      { "source": 0, "target": 1, "type": "sensor", "label": "scan data" },
+      { "source": 1, "target": 2, "type": "db", "label": "local cache" },
+      { "source": 1, "target": 3, "type": "https" },
+
+      { "source": 1, "target": 4, "type": "grpc", "label": "CLAST proto" },
+      { "source": 1, "target": 5, "type": "grpc", "label": "proto as body" },
+      { "source": 1, "target": 6, "type": "grpc" },
+      { "source": 1, "target": 7, "type": "grpc" },
+      { "source": 1, "target": 8, "type": "grpc", "label": "scanning status" },
+      { "source": 1, "target": 9, "type": "grpc" },
+      { "source": 1, "target": 44, "type": "grpc" },
+
+      { "source": 6, "target": 10, "type": "grpc" },
+      { "source": 6, "target": 11, "type": "grpc" },
+
+      { "source": 4, "target": 12, "type": "grpc" },
+      { "source": 12, "target": 13, "type": "db" },
+      { "source": 14, "target": 18, "type": "kafka" },
+
+      { "source": 5, "target": 15, "type": "kafka" },
+      { "source": 5, "target": 16, "type": "kafka" },
+      { "source": 5, "target": 17, "type": "kafka" },
+      { "source": 18, "target": 19, "type": "grpc", "label": "outbound.proto" },
+      { "source": 15, "target": 18, "type": "kafka" },
+
+      { "source": 7, "target": 20, "type": "kafka" },
+      { "source": 7, "target": 21, "type": "kafka" },
+      { "source": 7, "target": 22, "type": "kafka" },
+      { "source": 7, "target": 23, "type": "kafka" },
+      { "source": 7, "target": 24, "type": "kafka" },
+      { "source": 7, "target": 25, "type": "kafka" },
+
+      { "source": 20, "target": 27, "type": "kafka" },
+      { "source": 27, "target": 28, "type": "db" },
+
+      { "source": 23, "target": 29, "type": "kafka" },
+      { "source": 29, "target": 30, "type": "db" },
+
+      { "source": 24, "target": 31, "type": "kafka" },
+      { "source": 31, "target": 32, "type": "db" },
+
+      { "source": 25, "target": 33, "type": "kafka" },
+      { "source": 33, "target": 34, "type": "db" },
+
+      { "source": 28, "target": 35, "type": "internal" },
+      { "source": 30, "target": 36, "type": "internal" },
+      { "source": 36, "target": 37, "type": "db" },
+      { "source": 32, "target": 38, "type": "internal" },
+
+      { "source": 35, "target": 39, "type": "https", "label": "GraphQL" },
+      { "source": 38, "target": 39, "type": "https", "label": "GraphQL" },
+      { "source": 39, "target": 40, "type": "https" },
+      { "source": 33, "target": 41, "type": "internal" },
+
+      { "source": 26, "target": 42, "type": "kafka" },
+      { "source": 42, "target": 43, "type": "db", "label": "commands collection" },
+      { "source": 43, "target": 9, "type": "internal", "label": "poll" },
+      { "source": 9, "target": 1, "type": "grpc", "label": "execute command" }
+    ]
+  },
+  {
     "id": "asset-ingestion-discovery",
     "name": "Asset Ingestion — Discovery (vNext)",
     "description": "IT Agent scans → HUB aggregates → Discovery syncer → DataCore ETL → Adapter → AssetConsumer → MongoDB",
