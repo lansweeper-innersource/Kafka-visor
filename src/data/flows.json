@@ -2,30 +2,30 @@
   {
     "id": "asset-data-path-discovery",
     "name": "Asset Data Path — Discovery (vNext)",
-    "description": "IT Agent scans → HUB → Discovery Syncer → DataCore → Adapter → Asset Consumer → MongoDB → Assets API → Gateway → Portal",
+    "description": "IT Agent → HUB → discovery-syncer → DataCore (gRPC) → Kafka → Adapter → asset.event → operations-consumer → MongoDB → Assets API → Gateway",
     "nodes": [
       { "id": "sensors", "type": "scanner", "label": "Sensors", "position": [0, 150] },
-      { "id": "vnext", "type": "scanner", "label": "vNext (IT Agent)", "position": [220, 150] },
-      { "id": "hub", "type": "scanner", "label": "HUB", "position": [220, 0] },
+      { "id": "vnext", "type": "scanner", "label": "vNext (IT Agent)", "position": [250, 150] },
+      { "id": "hub", "type": "scanner", "label": "HUB", "position": [250, 0] },
 
-      { "id": "discovery-syncer-api", "type": "service", "position": [500, 80] },
-      { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [800, 0], "annotations": [{ "text": "Receives data via gRPC/protobuf from syncers", "severity": "info" }] },
-      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [800, 150], "annotations": [{ "text": "High throughput — processes all asset types", "severity": "info" }] },
+      { "id": "discovery-syncer-api", "type": "service", "position": [550, 80], "annotations": [{ "text": "Bridge to DataCore — transport via HTTPS/Protobuf", "severity": "info" }] },
+      { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [900, 0] },
+      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [900, 180], "annotations": [{ "text": "High throughput — processes all asset types", "severity": "info" }] },
 
-      { "id": "public.event.data-core", "type": "topic", "position": [1100, 50] },
-      { "id": "public.edge.inbound.event", "type": "topic", "position": [1100, 200] },
+      { "id": "public.event.data-core", "type": "topic", "position": [1250, 80] },
+      { "id": "public.edge.inbound.event", "type": "topic", "position": [1250, 240] },
 
-      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [1400, 120] },
-      { "id": "public.edge.asset.event", "type": "topic", "position": [1700, 120] },
+      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [1550, 80], "annotations": [{ "text": "Adapts external models into edge asset model", "severity": "info" }] },
+      { "id": "public.edge.asset.event", "type": "topic", "position": [1550, 280] },
 
-      { "id": "lec-asset-consumer-asset", "type": "service", "label": "Asset Consumer", "position": [2000, 0] },
-      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [2300, 0] },
-      { "id": "lec-asset-api", "type": "service", "label": "Assets API", "position": [2600, 0] },
+      { "id": "asset-operations-consumer", "type": "service", "label": "Asset Operations Consumer", "position": [1900, 0] },
+      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [2250, 0] },
+      { "id": "lec-asset-api", "type": "service", "label": "Assets API (GraphQL)", "position": [2550, 0] },
 
-      { "id": "assets-enriching", "type": "service", "label": "Enriching", "position": [2000, 250] },
-      { "id": "public.event.analytics.entity-changes", "type": "topic", "position": [2300, 250] },
-      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [2600, 250] },
-      { "id": "clickhouse", "type": "database", "label": "ClickHouse", "position": [2900, 250] },
+      { "id": "assets-enriching", "type": "service", "label": "Assets Enriching", "position": [1900, 280] },
+      { "id": "public.event.analytics.entity-changes", "type": "topic", "position": [2250, 280] },
+      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [2550, 280] },
+      { "id": "clickhouse", "type": "database", "label": "ClickHouse", "position": [2900, 280] },
 
       { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [2900, 0] },
       { "id": "portal", "type": "scanner", "label": "Portal", "position": [3200, 0] }
@@ -34,12 +34,11 @@
       { "source": 0, "target": 1, "type": "sensor", "label": "scan data" },
       { "source": 1, "target": 2, "type": "https" },
       { "source": 2, "target": 3, "type": "protobuf", "label": "protobuf/HTTPS" },
-      { "source": 3, "target": 4, "type": "grpc", "label": "inbound.proto", "annotations": [{ "text": "Bottleneck under high scan load", "severity": "warning" }] },
+      { "source": 3, "target": 4, "type": "grpc", "label": "inbound.proto" },
       { "source": 4, "target": 5, "type": "internal" },
       { "source": 5, "target": 6, "type": "kafka" },
       { "source": 5, "target": 7, "type": "kafka" },
-      { "source": 6, "target": 8, "type": "kafka" },
-      { "source": 7, "target": 8, "type": "kafka" },
+      { "source": 6, "target": 8, "type": "kafka", "annotations": [{ "text": "Adapter consumes public.event.data-core", "severity": "info" }] },
       { "source": 8, "target": 9, "type": "kafka", "label": "asset.proto" },
       { "source": 9, "target": 10, "type": "kafka" },
       { "source": 10, "target": 11, "type": "db" },
@@ -55,49 +54,47 @@
   {
     "id": "asset-data-path-classic",
     "name": "Asset Data Path — Classic (On-Prem)",
-    "description": "On-Prem scanner → SyncerAPI v2 (gRPC protobuf batches of 100) → Kafka topics → Asset Consumer → MongoDB",
+    "description": "On-Prem scanner → SyncerAPI v2 (gRPC protobuf, batches of 100) → publishes to multiple Kafka topics → various consumers",
     "nodes": [
-      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 100] },
-      { "id": "lec-syncer-api", "type": "service", "label": "SyncerAPI v2", "position": [350, 100], "annotations": [{ "text": "Go rewrite — improved performance over Node.js v1", "severity": "info" }] },
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 150] },
+      { "id": "lec-syncer-api", "type": "service", "label": "SyncerAPI v2", "position": [350, 150], "annotations": [{ "text": "Go rewrite — receives gRPC protobuf stream, publishes to 10 Kafka topics", "severity": "info" }] },
 
-      { "id": "public.edge.asset.event", "type": "topic", "position": [700, 0] },
-      { "id": "public.edge.assetcommon.event", "type": "topic", "position": [700, 130] },
-      { "id": "public.edge.activedirectory.event", "type": "topic", "position": [700, 260] },
-      { "id": "public.command.tracking", "type": "topic", "position": [700, 390] },
+      { "id": "public.edge.asset.event", "type": "topic", "position": [750, 0] },
+      { "id": "public.edge.assetcommon.event", "type": "topic", "position": [750, 130] },
+      { "id": "public.edge.activedirectory.event", "type": "topic", "position": [750, 260] },
+      { "id": "public.command.tracking", "type": "topic", "position": [750, 390] },
 
-      { "id": "lec-asset-consumer-asset", "type": "service", "label": "Asset Consumer", "position": [1050, 0] },
-      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [1350, 0] },
+      { "id": "asset-operations-consumer", "type": "service", "label": "Asset Operations Consumer", "position": [1150, 0] },
+      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [1500, 0] },
 
-      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [1050, 130] },
-      { "id": "mongodb-scanning", "type": "database", "label": "MongoDB (Scanning)", "position": [1350, 130] },
+      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [1150, 260] },
 
-      { "id": "lec-tracking-consumer", "type": "service", "label": "Tracking Consumer", "position": [1050, 390] }
+      { "id": "lec-tracking-consumer", "type": "service", "label": "Tracking Consumer", "position": [1150, 390] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "grpc", "label": "protobuf stream (batches of 100)" },
-      { "source": 1, "target": 2, "type": "kafka", "label": "asset.proto" },
+      { "source": 1, "target": 2, "type": "kafka" },
       { "source": 1, "target": 3, "type": "kafka" },
       { "source": 1, "target": 4, "type": "kafka" },
       { "source": 1, "target": 5, "type": "kafka" },
       { "source": 2, "target": 6, "type": "kafka" },
       { "source": 6, "target": 7, "type": "db" },
       { "source": 3, "target": 8, "type": "kafka" },
-      { "source": 8, "target": 9, "type": "db" },
-      { "source": 5, "target": 10, "type": "kafka" }
+      { "source": 5, "target": 9, "type": "kafka" }
     ]
   },
   {
     "id": "scanning-config-flow",
     "name": "Scanning Configuration",
-    "description": "ScanningConfig API manages scanning profiles, persists to MongoDB, notifies consumers via Kafka",
+    "description": "ScanningConfig API manages scanning profiles → MongoDB → notifies consumers via Kafka topic public.event.scanning-config",
     "nodes": [
       { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 100] },
-      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [350, 100] },
-      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB (ScanningConfig)", "position": [350, 280] },
-      { "id": "public.event.scanning-config", "type": "topic", "position": [700, 100] },
-      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [1050, 0] },
-      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [1050, 200] },
-      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [1050, 330] }
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [380, 100] },
+      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB (ScanningConfig)", "position": [380, 300] },
+      { "id": "public.event.scanning-config", "type": "topic", "position": [780, 100] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [1150, 0] },
+      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [1150, 150] },
+      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [1150, 300] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "GraphQL mutation" },
@@ -111,38 +108,36 @@
   {
     "id": "scanning-status-flow",
     "name": "Scanning Status — On-Prem → Cloud",
-    "description": "On-Prem reports scan progress → SyncerStatus (gRPC) → Redis queue → ScanningStatus API → Gateway subscriptions → Portal",
+    "description": "On-Prem reports scan progress via gRPC → SyncerStatus stores in Redis → ScanningStatus reads → Gateway serves to Portal",
     "nodes": [
       { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 100] },
-      { "id": "syncer-status-api", "type": "service", "label": "SyncerStatus API", "position": [350, 100], "annotations": [{ "text": "This IS the scanning queue", "severity": "info" }] },
-      { "id": "redis-scanning", "type": "database", "label": "Redis", "position": [350, 280] },
-      { "id": "public.edge.commands", "type": "topic", "position": [700, 280] },
-      { "id": "lec-scanningstatus-api", "type": "service", "label": "ScanningStatus API", "position": [700, 100] },
-      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [1050, 100] },
-      { "id": "portal", "type": "scanner", "label": "Portal", "position": [1350, 100] }
+      { "id": "syncer-status-api", "type": "service", "label": "SyncerStatus API", "position": [380, 100], "annotations": [{ "text": "This IS the scanning queue — gRPC server for status from On-Prem", "severity": "info" }] },
+      { "id": "redis-scanning", "type": "database", "label": "Redis (Queue)", "position": [780, 100] },
+      { "id": "lec-scanningstatus-api", "type": "service", "label": "ScanningStatus API", "position": [1150, 100], "annotations": [{ "text": "Reads from Redis — not in Kafka topology", "severity": "info" }] },
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [1520, 100] },
+      { "id": "portal", "type": "scanner", "label": "Portal", "position": [1880, 100] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "grpc", "label": "status updates" },
       { "source": 1, "target": 2, "type": "db", "label": "scanning queue" },
-      { "source": 1, "target": 3, "type": "kafka", "label": "publishes commands" },
-      { "source": 2, "target": 4, "type": "internal", "label": "reads status" },
-      { "source": 4, "target": 5, "type": "https", "label": "subscriptions" },
-      { "source": 5, "target": 6, "type": "https" }
+      { "source": 2, "target": 3, "type": "internal", "label": "reads status" },
+      { "source": 3, "target": 4, "type": "https", "label": "subscriptions" },
+      { "source": 4, "target": 5, "type": "https" }
     ]
   },
   {
     "id": "cloud-to-scanner-commands",
     "name": "Cloud → Scanner Commands",
-    "description": "Cloud sends commands to on-prem: scanning-api → Kafka → public-broker → MongoDB (commands) → EdgeCommand API (gRPC polling) → scanner",
+    "description": "Cloud sends commands to On-Prem: services publish to public.edge.commands → public-broker reads → MongoDB → EdgeCommand API polls → gRPC to scanner",
     "nodes": [
       { "id": "portal", "type": "scanner", "label": "Portal", "position": [0, 100] },
-      { "id": "lec-gateway-api", "type": "service", "label": "Gateway", "position": [300, 100] },
-      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [600, 100] },
-      { "id": "public.edge.commands", "type": "topic", "position": [900, 100] },
-      { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [1200, 100], "annotations": [{ "text": "Kafka command ingestion bridge for On-Premises (Go)", "severity": "info" }] },
-      { "id": "mongodb-commands", "type": "database", "label": "MongoDB (Commands)", "position": [1200, 280] },
-      { "id": "lec-edge-command-api", "type": "service", "label": "Edge Command API", "position": [1550, 100], "annotations": [{ "text": "Replaced SQS — authenticated gRPC polling, processes queue 1-by-1 until empty", "severity": "info" }] },
-      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [1900, 100] }
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway", "position": [350, 100] },
+      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [700, 100], "annotations": [{ "text": "One of 40 producers of public.edge.commands", "severity": "info" }] },
+      { "id": "public.edge.commands", "type": "topic", "position": [1050, 100], "annotations": [{ "text": "40 producers, 2 consumers — busiest command topic", "severity": "warning" }] },
+      { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [1400, 100], "annotations": [{ "text": "Go app — Kafka command ingestion bridge for On-Prem", "severity": "info" }] },
+      { "id": "mongodb-commands", "type": "database", "label": "MongoDB (Commands)", "position": [1400, 300] },
+      { "id": "lec-edge-command-api", "type": "service", "label": "Edge Command API", "position": [1800, 100], "annotations": [{ "text": "Replaced SQS — authenticated gRPC polling, processes queue 1-by-1", "severity": "info" }] },
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [2200, 100] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https" },
@@ -151,24 +146,22 @@
       { "source": 3, "target": 4, "type": "kafka" },
       { "source": 4, "target": 5, "type": "db", "label": "commands collection" },
       { "source": 5, "target": 6, "type": "internal", "label": "poll" },
-      { "source": 6, "target": 7, "type": "grpc", "label": "execute + ack" }
+      { "source": 6, "target": 7, "type": "grpc", "label": "execute + ack receipt" }
     ]
   },
   {
     "id": "edge-manager-flow",
     "name": "Edge Manager — Install Lifecycle",
-    "description": "On-Prem connects directly to Edge Manager (GraphQL) for configuration, licensing, linking/unlinking and scanning management",
+    "description": "On-Prem connects directly to Edge Manager (GraphQL) for linking, unlinking, license checks, config — calls 5 backend services via gRPC",
     "nodes": [
-      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 200] },
-      { "id": "lec-edge-manager", "type": "service", "label": "Edge Manager", "position": [380, 200], "annotations": [{ "text": "Manages install lifecycle — link, unlink, license check", "severity": "info" }] },
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [0, 240] },
+      { "id": "lec-edge-manager", "type": "service", "label": "Edge Manager", "position": [400, 240], "annotations": [{ "text": "Not in Kafka topology — communicates via gRPC only", "severity": "info" }] },
 
-      { "id": "lec-multitenant-api", "type": "service", "label": "Multitenant API", "position": [800, 0] },
-      { "id": "lec-licensing-api", "type": "service", "label": "Licensing API", "position": [800, 120] },
-      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [800, 240] },
-      { "id": "lec-asset-api", "type": "service", "label": "Asset API", "position": [800, 360] },
-      { "id": "install-status-api", "type": "service", "label": "Install Status API", "position": [800, 480] },
-
-      { "id": "public.edge.install-status.event", "type": "topic", "position": [380, 480] }
+      { "id": "lec-multitenant-api", "type": "service", "label": "Multitenant API", "position": [850, 0] },
+      { "id": "lec-licensing-api", "type": "service", "label": "Licensing API", "position": [850, 130] },
+      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [850, 260] },
+      { "id": "lec-asset-api", "type": "service", "label": "Asset API", "position": [850, 390] },
+      { "id": "install-status-api", "type": "service", "label": "Install Status API", "position": [850, 520] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "GraphQL" },
@@ -176,29 +169,28 @@
       { "source": 1, "target": 3, "type": "grpc", "label": "license check" },
       { "source": 1, "target": 4, "type": "grpc", "label": "scanning config" },
       { "source": 1, "target": 5, "type": "grpc", "label": "asset lookup" },
-      { "source": 1, "target": 6, "type": "grpc", "label": "install status" },
-      { "source": 7, "target": 1, "type": "kafka", "label": "status events" }
+      { "source": 1, "target": 6, "type": "grpc", "label": "install status" }
     ]
   },
   {
     "id": "install-backoffice-flow",
     "name": "Install Status & BackOffice",
-    "description": "Install status events and backoffice operations from Kafka to MongoDB to APIs and BackOffice app",
+    "description": "Install status + multitenant + licensing events flow to dedicated consumers with their own MongoDB, then to BackOffice app",
     "nodes": [
-      { "id": "public.edge.install-status.event", "type": "topic", "position": [0, 0] },
-      { "id": "public.event.multitenant", "type": "topic", "position": [0, 150] },
-      { "id": "public.event.licensing", "type": "topic", "position": [0, 300] },
+      { "id": "public.edge.install-status.event", "type": "topic", "position": [0, 0], "annotations": [{ "text": "No Kafka producers — populated by other mechanism", "severity": "warning" }] },
+      { "id": "public.event.multitenant", "type": "topic", "position": [0, 180] },
+      { "id": "public.event.licensing", "type": "topic", "position": [0, 360] },
 
-      { "id": "install-status-consumer", "type": "service", "label": "Install Consumer", "position": [400, 0] },
-      { "id": "mongodb-install", "type": "database", "label": "MongoDB (Install)", "position": [750, 0] },
-      { "id": "install-status-api", "type": "service", "label": "Install Status API", "position": [1100, 0] },
+      { "id": "install-status-consumer", "type": "service", "label": "Install Consumer", "position": [450, 0] },
+      { "id": "mongodb-install", "type": "database", "label": "MongoDB (Install)", "position": [850, 0] },
+      { "id": "install-status-api", "type": "service", "label": "Install Status API", "position": [1250, 0] },
 
-      { "id": "lec-backoffice-consumer", "type": "service", "label": "BackOffice Consumer", "position": [400, 150] },
-      { "id": "mongodb-backoffice", "type": "database", "label": "MongoDB (BackOffice)", "position": [750, 150] },
+      { "id": "lec-backoffice-consumer", "type": "service", "label": "BackOffice Consumer", "position": [450, 180] },
+      { "id": "mongodb-backoffice", "type": "database", "label": "MongoDB (BackOffice)", "position": [850, 180] },
 
-      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [1100, 150] },
-      { "id": "portal", "type": "scanner", "label": "Portal", "position": [1450, 75] },
-      { "id": "backoffice-app", "type": "scanner", "label": "BackOffice (Lsec)", "position": [1450, 250] }
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [1250, 180] },
+      { "id": "portal", "type": "scanner", "label": "Portal", "position": [1650, 100] },
+      { "id": "backoffice-app", "type": "scanner", "label": "BackOffice (Lsec)", "position": [1650, 280] }
     ],
     "edges": [
       { "source": 0, "target": 3, "type": "kafka" },
