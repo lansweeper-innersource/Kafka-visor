@@ -18,7 +18,7 @@
 
       { "id": "public.event.data-core", "type": "topic", "position": [1900, 130] },
 
-      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [2300, 130], "annotations": [{ "text": "Consumes data-core, produces asset.event", "severity": "info" }] },
+      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [2300, 130], "annotations": [{ "text": "Consumes data-core event → calls DataCore outbound.proto via gRPC for full data → produces asset.event", "severity": "info" }] },
 
       { "id": "public.edge.asset.event", "type": "topic", "position": [2700, 130] },
 
@@ -46,6 +46,7 @@
 
       { "source": 6, "target": 7, "type": "kafka", "label": "ETL produces" },
       { "source": 7, "target": 8, "type": "kafka" },
+      { "source": 8, "target": 6, "type": "grpc", "label": "outbound.proto (fetch full data)" },
       { "source": 8, "target": 9, "type": "kafka", "label": "asset.proto" },
 
       { "source": 9, "target": 10, "type": "kafka" },
