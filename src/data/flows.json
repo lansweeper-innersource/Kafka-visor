@@ -87,28 +87,44 @@
   },
   {
     "id": "scanning-config-flow",
-    "name": "Scanning Configuration",
-    "description": "Two paths: API publishes config changes → Analytics. Consumer reacts to install/discovery/multitenant events.",
+    "name": "Scanning Configuration → On-Prem",
+    "description": "Config changes in cloud reach the on-prem scanner: API + Consumer both publish to edge.commands → public-broker → EdgeCommand → scanner",
     "nodes": [
       { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 50] },
       { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [400, 50] },
-      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB", "position": [400, 220] },
-      { "id": "public.event.scanning-config", "type": "topic", "position": [830, 50] },
+      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB", "position": [400, 230] },
+
+      { "id": "public.event.scanning-config", "type": "topic", "position": [850, 50] },
       { "id": "lec-analytics-assets-consumer-v2-management-entities", "type": "service", "label": "Analytics Consumer (mgmt)", "position": [1300, 50] },
 
-      { "id": "public.edge.install-status.event", "type": "topic", "position": [400, 420] },
-      { "id": "public.event.discovery", "type": "topic", "position": [400, 560] },
-      { "id": "public.event.multitenant", "type": "topic", "position": [400, 700] },
-      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [900, 560], "annotations": [{ "text": "Reacts to 3 event sources → produces to scanning-config + webhooks.sources + edge.commands", "severity": "info" }] }
+      { "id": "public.edge.install-status.event", "type": "topic", "position": [400, 450] },
+      { "id": "public.event.discovery", "type": "topic", "position": [400, 590] },
+      { "id": "public.event.multitenant", "type": "topic", "position": [400, 730] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [900, 590], "annotations": [{ "text": "Reacts to 3 event sources → produces to edge.commands + scanning-config + webhooks.sources", "severity": "info" }] },
+
+      { "id": "public.edge.commands", "type": "topic", "position": [1400, 400], "annotations": [{ "text": "Both API and Consumer publish here — this is how config reaches on-prem", "severity": "warning" }] },
+      { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [1850, 400] },
+      { "id": "mongodb-commands", "type": "database", "label": "MongoDB (Commands)", "position": [1850, 600] },
+      { "id": "lec-edge-command-api", "type": "service", "label": "Edge Command API", "position": [2300, 400] },
+      { "id": "onprem-scanner", "type": "scanner", "label": "On-Prem Scanner", "position": [2750, 400] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "GraphQL mutation" },
       { "source": 1, "target": 2, "type": "db" },
       { "source": 1, "target": 3, "type": "kafka", "label": "config changed" },
       { "source": 3, "target": 4, "type": "kafka" },
+
       { "source": 5, "target": 8, "type": "kafka" },
       { "source": 6, "target": 8, "type": "kafka" },
-      { "source": 7, "target": 8, "type": "kafka" }
+      { "source": 7, "target": 8, "type": "kafka" },
+
+      { "source": 1, "target": 9, "type": "kafka", "label": "config command" },
+      { "source": 8, "target": 9, "type": "kafka", "label": "reacted command" },
+
+      { "source": 9, "target": 10, "type": "kafka" },
+      { "source": 10, "target": 11, "type": "db", "label": "commands collection" },
+      { "source": 11, "target": 12, "type": "internal", "label": "poll" },
+      { "source": 12, "target": 13, "type": "grpc", "label": "execute command" }
     ]
   },
   {
