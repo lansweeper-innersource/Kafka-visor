@@ -160,6 +160,7 @@
       ],
       "producers": [
         "lec-asset-api-reconciliation",
+        "lec-asset-consumer",
         "lec-data-core-admin",
         "lec-data-core-processor-api-scan-asset",
         "lec-data-core-processor-asset",
@@ -171,8 +172,8 @@
         "lec-data-core-processor-traffic-asset"
       ],
       "consumerCount": 8,
-      "producerCount": 10,
-      "teamCount": 4
+      "producerCount": 11,
+      "teamCount": 5
     },
     "public.edge.asset.event": {
       "id": "public.edge.asset.event",
@@ -180,6 +181,7 @@
         "asset-operations-consumer",
         "integrations-webhooks-asset-types",
         "integrations-webhooks-vulnerabilities",
+        "lec-asset-consumer",
         "lec-integrations-webhooks-checker-consumer",
         "lec-integrations-webhooks-checker-consumer-testing"
       ],
@@ -200,7 +202,7 @@
         "gapac-remove-duplicates",
         "lec-integrations-assets-api"
       ],
-      "consumerCount": 5,
+      "consumerCount": 6,
       "producerCount": 15,
       "teamCount": 4
     },
@@ -227,6 +229,7 @@
       "producers": [
         "lec-asset-api",
         "lec-asset-api-delete-asset-temp",
+        "lec-asset-consumer",
         "lec-asset-grpc-api",
         "asset-operations-consumer",
         "asset-sync-status-tracking-consumer",
@@ -239,7 +242,7 @@
         "lec-gateway-subscriptions"
       ],
       "consumerCount": 16,
-      "producerCount": 12,
+      "producerCount": 13,
       "teamCount": 5
     },
     "private.event.assetoperations": {
@@ -265,6 +268,7 @@
       "producers": [
         "lec-asset-api",
         "lec-asset-api-delete-asset-temp",
+        "lec-asset-consumer",
         "lec-asset-grpc-api",
         "lec-assets-workflows",
         "asset-operations-consumer",
@@ -291,7 +295,7 @@
         "lec-integrations-webhooks-event-consumer-webhookevents"
       ],
       "consumerCount": 2,
-      "producerCount": 26,
+      "producerCount": 27,
       "teamCount": 5
     },
     "public.edge.assetcommon.event": {
@@ -299,6 +303,7 @@
       "consumers": [
         "integrations-webhooks-asset-types",
         "integrations-webhooks-vulnerabilities",
+        "lec-asset-consumer",
         "lec-integrations-webhooks-checker-consumer",
         "lec-integrations-webhooks-checker-consumer-testing"
       ],
@@ -311,7 +316,7 @@
         "lec-syncer-api-v2",
         "lec-scanning-consumer"
       ],
-      "consumerCount": 4,
+      "consumerCount": 5,
       "producerCount": 7,
       "teamCount": 3
     },
@@ -381,6 +386,7 @@
         "lec-asset-api-delete-adusers-by-install",
         "lec-asset-api-delete-asset-temp",
         "lec-asset-api-reconciliation",
+        "lec-asset-consumer",
         "lec-asset-grpc-api",
         "lec-assets-workflows",
         "asset-operations-consumer",
@@ -394,8 +400,8 @@
         "vulnerabilities-engine-enriching-go"
       ],
       "consumerCount": 5,
-      "producerCount": 15,
-      "teamCount": 3
+      "producerCount": 16,
+      "teamCount": 4
     },
     "public.event.assets": {
       "id": "public.event.assets",
@@ -467,12 +473,13 @@
         "lec-asset-api",
         "lec-asset-api-avro-register-workflow",
         "lec-asset-api-delete-asset-temp",
+        "lec-asset-consumer",
         "lec-asset-grpc-api",
         "lec-analytics-assets-consumer-v2-sync-management-entities"
       ],
       "consumerCount": 2,
-      "producerCount": 5,
-      "teamCount": 3
+      "producerCount": 6,
+      "teamCount": 4
     },
     "public.command.notifications": {
       "id": "public.command.notifications",
@@ -683,7 +690,9 @@
     },
     "public.edge.activedirectory.event": {
       "id": "public.edge.activedirectory.event",
-      "consumers": [],
+      "consumers": [
+        "lec-asset-consumer"
+      ],
       "producers": [
         "lec-reports-api-consumer",
         "lec-adapter-consumer-asset",
@@ -691,7 +700,7 @@
         "lec-syncer-api",
         "lec-syncer-api-v2"
       ],
-      "consumerCount": 0,
+      "consumerCount": 1,
       "producerCount": 5,
       "teamCount": 2
     },
@@ -785,13 +794,15 @@
     },
     "public.edge.asserver.event": {
       "id": "public.edge.asserver.event",
-      "consumers": [],
+      "consumers": [
+        "lec-asset-consumer"
+      ],
       "producers": [
         "lec-syncer-api",
         "lec-syncer-api-v2",
         "lec-scanning-consumer"
       ],
-      "consumerCount": 0,
+      "consumerCount": 1,
       "producerCount": 3,
       "teamCount": 1
     },
@@ -917,10 +928,12 @@
       "consumers": [
         "users-enriching"
       ],
-      "producers": [],
+      "producers": [
+        "lec-asset-consumer"
+      ],
       "consumerCount": 1,
-      "producerCount": 0,
-      "teamCount": 1
+      "producerCount": 1,
+      "teamCount": 2
     },
     "public.event.subscriptions": {
       "id": "public.event.subscriptions",
@@ -1270,6 +1283,45 @@
       "runningInCluster": false,
       "deploymentType": "Unknown",
       "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+    },
+    "lec-asset-consumer": {
+      "id": "lec-asset-consumer",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "inventory-deployments",
+      "namespace": "asset-consumer",
+      "produces": [
+        "assetscontext.event.ad",
+        "assetscontext.event.assets",
+        "public.command.tracking",
+        "public.event.analytics.entity-changes",
+        "public.event.inventory.management-entities",
+        "public.event.tracking"
+      ],
+      "consumes": [
+        "public.edge.activedirectory.event",
+        "public.edge.asserver.event",
+        "public.edge.asset.event",
+        "public.edge.assetcommon.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAssetConsumer",
+          "url": "https://github.com/Lansweeper/LECAssetConsumer"
+        }
+      ],
+      "grpcCalls": [
+        "lec-multitenant-grpc-api",
+        "lec-analytics-luzmo-api"
+      ],
+      "databases": [
+        "inventory-mongodb",
+        "redis-shared",
+        "aurora"
+      ],
+      "description": "Core asset pipeline consumer — consumes edge asset events, writes MongoDB, publishes assetscontext + analytics entity-changes + management-entities. Owned by Cloud Data Pipeline and Scanning per lansweeper-apps-catalog."
     },
     "lec-asset-grpc-api": {
       "id": "lec-asset-grpc-api",
@@ -3259,7 +3311,7 @@
     },
     "lec-gateway-api": {
       "id": "lec-gateway-api",
-      "team": "cloud-front-end",
+      "team": "cloud-enrichment",
       "repository": "webapp-deployments",
       "namespace": "web-gateway",
       "produces": [
@@ -3298,7 +3350,7 @@
     },
     "lec-gateway-subscriptions": {
       "id": "lec-gateway-subscriptions",
-      "team": "cloud-front-end",
+      "team": "cloud-enrichment",
       "repository": "webapp-deployments",
       "namespace": "web-gateway",
       "produces": [

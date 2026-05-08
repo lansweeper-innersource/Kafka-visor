@@ -94,17 +94,21 @@ function AppInner() {
     setFocusNodeId(`${nodeId}::${focusCounter.current}`)
   }, [activeFlow])
 
+  const handleOpenFlow = useCallback((flowId: string) => {
+    const flow = flows.find(f => f.id === flowId)
+    if (flow) {
+      setActiveFlow(flow)
+      setSelectedNode(null)
+    }
+  }, [])
+
   const handleSearchSelect = useCallback((result: SearchResult) => {
     if (result.type === 'flow') {
-      const flow = flows.find(f => f.id === result.id)
-      if (flow) {
-        setActiveFlow(flow)
-        setSelectedNode(null)
-      }
+      handleOpenFlow(result.id)
       return
     }
     navigateToNode(result.id, result.type)
-  }, [navigateToNode])
+  }, [navigateToNode, handleOpenFlow])
 
   const handleExitFlowMode = useCallback(() => {
     setActiveFlow(null)
@@ -201,6 +205,11 @@ function AppInner() {
             <span className="w-3 h-3 bg-white border-l-4 border-blue-500 inline-block" />
             Service
           </span>
+          <span className="ml-auto flex items-center gap-1.5">
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-700 text-white">F</span>
+            Workflow / Flow
+            <span className="text-gray-400 ml-1">— search to open ({flows.length} available)</span>
+          </span>
         </div>
       )}
 
@@ -240,8 +249,10 @@ function AppInner() {
         <DetailPanel
           node={selectedNode}
           topology={topology}
+          flows={flows}
           onClose={handleCloseDetail}
           onNavigate={navigateToNode}
+          onOpenFlow={handleOpenFlow}
         />
       </div>
     </div>

@@ -1,11 +1,17 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import type { TopologyData, FlowDefinition } from '../types'
 
+interface FlowRef {
+  id: string
+  name: string
+}
+
 interface SearchResult {
   id: string
   type: 'topic' | 'service' | 'flow'
   label: string
   detail: string
+  flows?: FlowRef[]
 }
 
 interface SearchBarProps {
@@ -21,6 +27,19 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // Precompute: which flows mention each node id (service or topic)?
+  const flowsByNodeId = useMemo(() => {
+    const map = new Map<string, FlowRef[]>()
+    for (const flow of flows) {
+      for (const node of flow.nodes) {
+        const list = map.get(node.id) ?? []
+        list.push({ id: flow.id, name: flow.name })
+        map.set(node.id, list)
+      }
+    }
+    return map
+  }, [flows])
 
   const results = useMemo(() => {
     if (query.length < 2) return []
@@ -46,6 +65,7 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
           type: 'topic',
           label: topic.id,
           detail: `${topic.producerCount}P / ${topic.consumerCount}C / ${topic.teamCount} teams`,
+          flows: flowsByNodeId.get(topic.id),
         })
       }
     }
@@ -57,12 +77,13 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
           type: 'service',
           label: svc.id,
           detail: `${svc.team} - ${svc.produces.length}P / ${svc.consumes.length}C`,
+          flows: flowsByNodeId.get(svc.id),
         })
       }
     }
 
     return matches.slice(0, 15)
-  }, [query, topology])
+  }, [query, topology, flows, flowsByNodeId])
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -121,33 +142,57 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
       </div>
 
       {isOpen && results.length > 0 && (
-        <div className="absolute top-full left-0 mt-1 w-96 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-80 overflow-y-auto">
+        <div className="absolute top-full left-0 mt-1 w-[28rem] bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
           {results.map(r => (
-            <button
+            <div
               key={`${r.type}:${r.id}`}
-              onClick={() => {
-                onSelect(r)
-                setQuery('')
-                setIsOpen(false)
-              }}
-              className="w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-50 last:border-0"
+              className="border-b border-gray-50 last:border-0"
             >
-              <span
-                className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                  r.type === 'flow'
-                    ? 'bg-purple-700 text-white'
-                    : r.type === 'topic'
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-blue-100 text-blue-700'
-                }`}
+              <button
+                onClick={() => {
+                  onSelect(r)
+                  setQuery('')
+                  setIsOpen(false)
+                }}
+                className="w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center gap-2"
               >
-                {r.type === 'flow' ? 'F' : r.type === 'topic' ? 'T' : 'S'}
-              </span>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-mono text-gray-800 truncate">{r.label}</div>
-                <div className="text-[10px] text-gray-400">{r.detail}</div>
-              </div>
-            </button>
+                <span
+                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                    r.type === 'flow'
+                      ? 'bg-purple-700 text-white'
+                      : r.type === 'topic'
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-blue-100 text-blue-700'
+                  }`}
+                >
+                  {r.type === 'flow' ? 'F' : r.type === 'topic' ? 'T' : 'S'}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-mono text-gray-800 truncate">{r.label}</div>
+                  <div className="text-[10px] text-gray-400">{r.detail}</div>
+                </div>
+              </button>
+              {r.flows && r.flows.length > 0 && (
+                <div className="px-3 pb-2 pt-0 -mt-1 flex flex-wrap items-center gap-1">
+                  <span className="text-[9px] uppercase tracking-wide text-gray-400 mr-1">in flow{r.flows.length > 1 ? 's' : ''}:</span>
+                  {r.flows.map(f => (
+                    <button
+                      key={f.id}
+                      onClick={() => {
+                        onSelect({ id: f.id, type: 'flow', label: f.name, detail: '' })
+                        setQuery('')
+                        setIsOpen(false)
+                      }}
+                      title={`Open flow: ${f.name}`}
+                      className="text-[10px] px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 inline-flex items-center gap-1"
+                    >
+                      <span className="font-bold">F</span>
+                      <span className="truncate max-w-[180px]">{f.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </div>
       )}

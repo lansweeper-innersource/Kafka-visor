@@ -1,16 +1,18 @@
 import type { Node } from '@xyflow/react'
 import type { TopicNodeData, ServiceNodeData } from '../lib/graph-builder'
 import { getBlastRadius } from '../lib/graph-builder'
-import type { TopologyData } from '../types'
+import type { TopologyData, FlowDefinition } from '../types'
 
 interface DetailPanelProps {
   node: Node | null
   topology: TopologyData
+  flows: FlowDefinition[]
   onClose: () => void
   onNavigate: (nodeId: string, type: 'topic' | 'service') => void
+  onOpenFlow: (flowId: string) => void
 }
 
-export function DetailPanel({ node, topology, onClose, onNavigate }: DetailPanelProps) {
+export function DetailPanel({ node, topology, flows, onClose, onNavigate, onOpenFlow }: DetailPanelProps) {
   if (!node) return null
 
   return (
@@ -28,11 +30,52 @@ export function DetailPanel({ node, topology, onClose, onNavigate }: DetailPanel
       </div>
 
       {node.type === 'topic' && (
-        <TopicDetails data={node.data as TopicNodeData} topology={topology} onNavigate={onNavigate} />
+        <TopicDetails
+          data={node.data as TopicNodeData}
+          topology={topology}
+          flows={flows}
+          onNavigate={onNavigate}
+          onOpenFlow={onOpenFlow}
+        />
       )}
       {node.type === 'service' && (
-        <ServiceDetails data={node.data as ServiceNodeData} topology={topology} onNavigate={onNavigate} />
+        <ServiceDetails
+          data={node.data as ServiceNodeData}
+          topology={topology}
+          flows={flows}
+          onNavigate={onNavigate}
+          onOpenFlow={onOpenFlow}
+        />
       )}
+    </div>
+  )
+}
+
+function flowsContaining(nodeId: string, flows: FlowDefinition[]): FlowDefinition[] {
+  return flows.filter(f => f.nodes.some(n => n.id === nodeId))
+}
+
+function FlowsSection({ flows, onOpenFlow }: { flows: FlowDefinition[]; onOpenFlow: (id: string) => void }) {
+  if (flows.length === 0) return null
+  return (
+    <div>
+      <div className="text-xs font-semibold text-purple-700 mb-1 flex items-center gap-1.5">
+        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-700 text-white">F</span>
+        Appears in {flows.length} workflow{flows.length > 1 ? 's' : ''}
+      </div>
+      <div className="space-y-1">
+        {flows.map(f => (
+          <button
+            key={f.id}
+            onClick={() => onOpenFlow(f.id)}
+            className="w-full text-left text-[11px] px-2 py-1.5 rounded bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 flex items-center gap-1.5"
+            title={f.description}
+          >
+            <span className="font-bold flex-shrink-0">F</span>
+            <span className="truncate">{f.name}</span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -40,14 +83,20 @@ export function DetailPanel({ node, topology, onClose, onNavigate }: DetailPanel
 function TopicDetails({
   data,
   topology,
+  flows,
   onNavigate,
+  onOpenFlow,
 }: {
   data: TopicNodeData
   topology: TopologyData
+  flows: FlowDefinition[]
   onNavigate: (nodeId: string, type: 'topic' | 'service') => void
+  onOpenFlow: (flowId: string) => void
 }) {
   const topic = topology.topics[data.label]
   if (!topic) return null
+
+  const inFlows = flowsContaining(data.label, flows)
 
   return (
     <div className="space-y-4">
@@ -58,6 +107,8 @@ function TopicDetails({
         <Stat label="Consumers" value={data.consumerCount} color="text-blue-600" />
         <Stat label="Teams" value={data.teamCount} color="text-gray-600" />
       </div>
+
+      <FlowsSection flows={inFlows} onOpenFlow={onOpenFlow} />
 
       <ClickableServiceList
         title="Producers"
@@ -80,13 +131,18 @@ function TopicDetails({
 function ServiceDetails({
   data,
   topology,
+  flows,
   onNavigate,
+  onOpenFlow,
 }: {
   data: ServiceNodeData
   topology: TopologyData
+  flows: FlowDefinition[]
   onNavigate: (nodeId: string, type: 'topic' | 'service') => void
+  onOpenFlow: (flowId: string) => void
 }) {
   const blast = getBlastRadius(data.label, topology)
+  const inFlows = flowsContaining(data.label, flows)
 
   return (
     <div className="space-y-4">
@@ -110,6 +166,8 @@ function ServiceDetails({
           valueClass={data.runningInCluster ? 'text-green-600' : 'text-amber-600'}
         />
       </div>
+
+      <FlowsSection flows={inFlows} onOpenFlow={onOpenFlow} />
 
       {/* GitHub Links */}
       <div className="space-y-1">
