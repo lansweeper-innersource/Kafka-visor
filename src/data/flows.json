@@ -86,23 +86,28 @@
   {
     "id": "scanning-config-flow",
     "name": "Scanning Configuration",
-    "description": "ScanningConfig API manages scanning profiles → MongoDB → notifies consumers via Kafka topic public.event.scanning-config",
+    "description": "ScanningConfig API publishes config changes → Analytics Consumer. ScanningConfig Consumer listens to install-status, discovery, multitenant events.",
     "nodes": [
-      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 100] },
-      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [380, 100] },
-      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB (ScanningConfig)", "position": [380, 300] },
-      { "id": "public.event.scanning-config", "type": "topic", "position": [780, 100] },
-      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [1150, 0] },
-      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [1150, 150] },
-      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [1150, 300] }
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 150] },
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [380, 150] },
+      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB (ScanningConfig)", "position": [380, 350] },
+
+      { "id": "public.event.scanning-config", "type": "topic", "position": [780, 150] },
+      { "id": "lec-analytics-assets-consumer-v2-management-entities", "type": "service", "label": "Analytics Consumer (mgmt entities)", "position": [1200, 150] },
+
+      { "id": "public.edge.install-status.event", "type": "topic", "position": [0, 450] },
+      { "id": "public.event.discovery", "type": "topic", "position": [380, 450] },
+      { "id": "public.event.multitenant", "type": "topic", "position": [780, 450] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [1200, 450], "annotations": [{ "text": "Reacts to install-status, discovery, multitenant — then produces to scanning-config + webhooks.sources + edge.commands", "severity": "info" }] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "GraphQL mutation" },
       { "source": 1, "target": 2, "type": "db" },
-      { "source": 1, "target": 3, "type": "kafka" },
+      { "source": 1, "target": 3, "type": "kafka", "label": "config changed" },
       { "source": 3, "target": 4, "type": "kafka" },
-      { "source": 3, "target": 5, "type": "kafka" },
-      { "source": 3, "target": 6, "type": "kafka" }
+      { "source": 5, "target": 8, "type": "kafka" },
+      { "source": 6, "target": 8, "type": "kafka" },
+      { "source": 7, "target": 8, "type": "kafka" }
     ]
   },
   {
