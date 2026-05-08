@@ -14,7 +14,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
         id: `flow-${i}:${baseId}`,
         type: 'service',
         position,
-        draggable: false,
+        draggable: true,
         data: {
           label: nodeDef.label ?? baseId,
           team: svc?.team ?? '',
@@ -41,7 +41,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
         id: `flow-${i}:${baseId}`,
         type: 'topic',
         position,
-        draggable: false,
+        draggable: true,
         data: {
           label: nodeDef.label ?? baseId,
           consumerCount: topic?.consumerCount ?? 0,
@@ -57,7 +57,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
       id: `flow-${i}:${baseId}`,
       type: nodeDef.type,
       position,
-      draggable: false,
+      draggable: true,
       data: {
         label: nodeDef.label ?? baseId,
         annotations: nodeDef.annotations,
