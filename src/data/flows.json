@@ -86,19 +86,18 @@
   {
     "id": "scanning-config-flow",
     "name": "Scanning Configuration",
-    "description": "ScanningConfig API publishes config changes → Analytics Consumer. ScanningConfig Consumer listens to install-status, discovery, multitenant events.",
+    "description": "Two paths: API publishes config changes → Analytics. Consumer reacts to install/discovery/multitenant events.",
     "nodes": [
-      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 150] },
-      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [380, 150] },
-      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB (ScanningConfig)", "position": [380, 350] },
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 50] },
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [400, 50] },
+      { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB", "position": [400, 220] },
+      { "id": "public.event.scanning-config", "type": "topic", "position": [830, 50] },
+      { "id": "lec-analytics-assets-consumer-v2-management-entities", "type": "service", "label": "Analytics Consumer (mgmt)", "position": [1300, 50] },
 
-      { "id": "public.event.scanning-config", "type": "topic", "position": [780, 150] },
-      { "id": "lec-analytics-assets-consumer-v2-management-entities", "type": "service", "label": "Analytics Consumer (mgmt entities)", "position": [1200, 150] },
-
-      { "id": "public.edge.install-status.event", "type": "topic", "position": [0, 450] },
-      { "id": "public.event.discovery", "type": "topic", "position": [380, 450] },
-      { "id": "public.event.multitenant", "type": "topic", "position": [780, 450] },
-      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [1200, 450], "annotations": [{ "text": "Reacts to install-status, discovery, multitenant — then produces to scanning-config + webhooks.sources + edge.commands", "severity": "info" }] }
+      { "id": "public.edge.install-status.event", "type": "topic", "position": [400, 420] },
+      { "id": "public.event.discovery", "type": "topic", "position": [400, 550] },
+      { "id": "public.event.multitenant", "type": "topic", "position": [400, 680] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [900, 550], "annotations": [{ "text": "Reacts to 3 event sources → produces to scanning-config + webhooks.sources + edge.commands", "severity": "info" }] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "GraphQL mutation" },
