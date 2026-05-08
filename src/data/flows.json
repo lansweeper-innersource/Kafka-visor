@@ -2,51 +2,58 @@
   {
     "id": "asset-data-path-discovery",
     "name": "Asset Data Path — Discovery (vNext)",
-    "description": "IT Agent → HUB → discovery-syncer → DataCore (gRPC) → Kafka → Adapter → asset.event → consumers → MongoDB/ClickHouse → Gateway",
+    "description": "Two input paths to DataCore: gRPC direct + Kafka. Then DataCore → data-core topic → Adapter → asset.event → consumers",
     "nodes": [
-      { "id": "sensors", "type": "scanner", "label": "Sensors", "position": [0, 120] },
-      { "id": "vnext", "type": "scanner", "label": "vNext (IT Agent)", "position": [250, 120] },
-      { "id": "hub", "type": "scanner", "label": "HUB", "position": [250, 0] },
+      { "id": "sensors", "type": "scanner", "label": "Sensors", "position": [0, 200] },
+      { "id": "vnext", "type": "scanner", "label": "vNext (IT Agent)", "position": [280, 200] },
+      { "id": "hub", "type": "scanner", "label": "HUB", "position": [280, 50] },
 
-      { "id": "discovery-syncer-api", "type": "service", "position": [550, 60], "annotations": [{ "text": "Bridge to DataCore — transport via HTTPS/Protobuf", "severity": "info" }] },
+      { "id": "discovery-syncer-api", "type": "service", "position": [600, 130], "annotations": [{ "text": "Two outputs: gRPC to DataCore Inbound + Kafka to inbound.event", "severity": "info" }] },
 
-      { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [900, 0] },
-      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [900, 180], "annotations": [{ "text": "High throughput — processes all asset types", "severity": "info" }] },
+      { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [1000, 0], "annotations": [{ "text": "Receives gRPC from syncer, passes to ETL internally", "severity": "info" }] },
 
-      { "id": "public.event.data-core", "type": "topic", "position": [1300, 0] },
-      { "id": "public.edge.inbound.event", "type": "topic", "position": [1300, 180] },
+      { "id": "public.edge.inbound.event", "type": "topic", "position": [1000, 280] },
 
-      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [1700, 90], "annotations": [{ "text": "Consumes both data-core topics, adapts into edge model", "severity": "info" }] },
+      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [1450, 130], "annotations": [{ "text": "CONSUMES inbound.event, PRODUCES data-core. High throughput.", "severity": "info" }] },
 
-      { "id": "public.edge.asset.event", "type": "topic", "position": [2100, 90] },
+      { "id": "public.event.data-core", "type": "topic", "position": [1900, 130] },
 
-      { "id": "asset-operations-consumer", "type": "service", "label": "Asset Operations Consumer", "position": [2500, 0] },
-      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [2850, 0] },
-      { "id": "lec-asset-api", "type": "service", "label": "Assets API (GraphQL)", "position": [3200, 0] },
-      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [3550, 0] },
-      { "id": "portal", "type": "scanner", "label": "Portal", "position": [3900, 0] },
+      { "id": "lec-adapter-consumer-asset", "type": "service", "label": "LEC Adapter", "position": [2300, 130], "annotations": [{ "text": "Consumes data-core, produces asset.event", "severity": "info" }] },
 
-      { "id": "assets-enriching", "type": "service", "label": "Assets Enriching", "position": [2500, 250] },
-      { "id": "public.event.analytics.entity-changes", "type": "topic", "position": [2850, 250] },
-      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [3200, 250] },
-      { "id": "clickhouse", "type": "database", "label": "ClickHouse", "position": [3550, 250] }
+      { "id": "public.edge.asset.event", "type": "topic", "position": [2700, 130] },
+
+      { "id": "asset-operations-consumer", "type": "service", "label": "Asset Operations Consumer", "position": [3100, 0] },
+      { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [3450, 0] },
+      { "id": "lec-asset-api", "type": "service", "label": "Assets API (GraphQL)", "position": [3800, 0] },
+      { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [4150, 0] },
+      { "id": "portal", "type": "scanner", "label": "Portal", "position": [4500, 0] },
+
+      { "id": "assets-enriching", "type": "service", "label": "Assets Enriching", "position": [3100, 300] },
+      { "id": "public.event.analytics.entity-changes", "type": "topic", "position": [3450, 300] },
+      { "id": "lec-analytics-assets-consumer-v2", "type": "service", "label": "Analytics Consumer", "position": [3800, 300] },
+      { "id": "clickhouse", "type": "database", "label": "ClickHouse", "position": [4150, 300] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "sensor", "label": "scan data" },
       { "source": 1, "target": 2, "type": "https" },
       { "source": 2, "target": 3, "type": "protobuf", "label": "protobuf/HTTPS" },
-      { "source": 3, "target": 4, "type": "grpc", "label": "inbound.proto" },
-      { "source": 4, "target": 5, "type": "internal" },
-      { "source": 5, "target": 6, "type": "kafka" },
-      { "source": 5, "target": 7, "type": "kafka" },
-      { "source": 6, "target": 8, "type": "kafka" },
+
+      { "source": 3, "target": 4, "type": "grpc", "label": "inbound.proto (path 1)" },
+      { "source": 4, "target": 6, "type": "internal", "label": "internal" },
+
+      { "source": 3, "target": 5, "type": "kafka", "label": "Kafka publish (path 2)" },
+      { "source": 5, "target": 6, "type": "kafka", "label": "ETL consumes" },
+
+      { "source": 6, "target": 7, "type": "kafka", "label": "ETL produces" },
       { "source": 7, "target": 8, "type": "kafka" },
       { "source": 8, "target": 9, "type": "kafka", "label": "asset.proto" },
+
       { "source": 9, "target": 10, "type": "kafka" },
       { "source": 10, "target": 11, "type": "db" },
       { "source": 11, "target": 12, "type": "internal" },
       { "source": 12, "target": 13, "type": "https", "label": "GraphQL" },
       { "source": 13, "target": 14, "type": "https" },
+
       { "source": 9, "target": 15, "type": "kafka" },
       { "source": 15, "target": 16, "type": "kafka" },
       { "source": 16, "target": 17, "type": "kafka" },
