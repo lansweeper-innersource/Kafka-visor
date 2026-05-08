@@ -1,3 +1,13 @@
 node_modules/
 dist/
 *.local
+
+# Claude Code / wiz local artifacts (skills are intentionally tracked)
+.claude/*
+!.claude/skills/
+
+# Auto-memory written by Claude
+MEMORY.md
+
+# wiz file-stories (local task tracking, mirrors docs/stories/)
+stories/
