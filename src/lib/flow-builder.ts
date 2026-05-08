@@ -29,6 +29,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
           sourceRepos: svc?.sourceRepos,
           grpcCalls: svc?.grpcCalls,
           databases: svc?.databases,
+          annotations: nodeDef.annotations,
         },
       }
     }
@@ -45,6 +46,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
           consumerCount: topic?.consumerCount ?? 0,
           producerCount: topic?.producerCount ?? 0,
           teamCount: topic?.teamCount ?? 0,
+          annotations: nodeDef.annotations,
         },
       }
     }
@@ -57,6 +59,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
       draggable: false,
       data: {
         label: nodeDef.label ?? baseId,
+        annotations: nodeDef.annotations,
       },
     }
   })
@@ -78,6 +81,7 @@ export function buildFlowEdges(flow: FlowDefinition): Edge[] {
         stepNumber: i + 1,
         interactionType: edgeDef.type,
         label: edgeDef.label,
+        annotations: edgeDef.annotations,
       },
       style: { stroke: style.stroke, strokeWidth: 2.5 },
       markerEnd: {

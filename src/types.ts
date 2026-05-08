@@ -49,11 +49,19 @@ export interface TopologyData {
 export type InteractionType = 'kafka' | 'grpc' | 'https' | 'protobuf' | 'db' | 'internal' | 'sensor'
 export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database'
 
+export interface Annotation {
+  text: string
+  author?: string
+  date?: string
+  severity?: 'info' | 'warning' | 'critical'
+}
+
 export interface FlowNodeDef {
   id: string
   type: FlowNodeType
   label?: string
   position: [number, number]
+  annotations?: Annotation[]
 }
 
 export interface FlowEdgeDef {
@@ -61,6 +69,7 @@ export interface FlowEdgeDef {
   target: number
   type: InteractionType
   label?: string
+  annotations?: Annotation[]
 }
 
 export interface FlowDefinition {

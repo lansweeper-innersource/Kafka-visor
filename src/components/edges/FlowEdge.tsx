@@ -31,6 +31,7 @@ export function FlowEdge({
   const interactionType = (data?.interactionType as string) ?? ''
   const stepNumber = data?.stepNumber as number
   const edgeLabel = data?.label as string | undefined
+  const annotations = data?.annotations as { text: string; severity?: string }[] | undefined
   const colors = getInteractionStyle(interactionType)
 
   return (
@@ -62,6 +63,25 @@ export function FlowEdge({
         >
           {edgeLabel ?? interactionType}
         </div>
+
+        {/* Annotation indicator */}
+        {annotations && annotations.length > 0 && (
+          <div
+            className="nopan nodrag absolute text-[8px] px-1.5 py-0.5 rounded-sm max-w-[160px] truncate"
+            title={annotations.map(a => a.text).join('\n')}
+            style={{
+              transform: `translate(-50%, -50%) translate(${labelX}px, ${(labelY ?? 0) + 32}px)`,
+              pointerEvents: 'auto',
+              cursor: 'help',
+              backgroundColor: annotations.some(a => a.severity === 'critical') ? '#FEE2E2'
+                : annotations.some(a => a.severity === 'warning') ? '#FEF3C7' : '#EFF6FF',
+              color: annotations.some(a => a.severity === 'critical') ? '#991B1B'
+                : annotations.some(a => a.severity === 'warning') ? '#92400E' : '#1E40AF',
+            }}
+          >
+            {annotations[0].text}
+          </div>
+        )}
       </EdgeLabelRenderer>
     </>
   )

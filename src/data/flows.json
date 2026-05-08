@@ -8,7 +8,7 @@
       { "id": "hub", "type": "scanner", "label": "HUB", "position": [200, 50] },
       { "id": "discovery-syncer-api", "type": "service", "position": [420, 50] },
       { "id": "lec-data-core-inbound-api", "type": "service", "label": "DataCore Inbound API", "position": [680, 50] },
-      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [680, 170] },
+      { "id": "lec-data-core-processor-asset", "type": "service", "label": "DataCore ETL", "position": [680, 170], "annotations": [{ "text": "High throughput — processes all asset types", "severity": "info" }] },
       { "id": "public.event.data-core", "type": "topic", "position": [940, 90] },
       { "id": "public.edge.inbound.event", "type": "topic", "position": [940, 200] },
       { "id": "lec-adapter-consumer-asset", "type": "service", "label": "AdapterAPI", "position": [1180, 140] },
@@ -19,7 +19,7 @@
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "scan data" },
       { "source": 1, "target": 2, "type": "protobuf", "label": "protobuf/HTTPS" },
-      { "source": 2, "target": 3, "type": "grpc", "label": "inbound.proto" },
+      { "source": 2, "target": 3, "type": "grpc", "label": "inbound.proto", "annotations": [{ "text": "Bottleneck under high scan load", "severity": "warning" }] },
       { "source": 3, "target": 4, "type": "internal" },
       { "source": 4, "target": 5, "type": "kafka" },
       { "source": 4, "target": 6, "type": "kafka" },
