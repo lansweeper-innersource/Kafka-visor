@@ -96,6 +96,9 @@ function ServiceDetails({
           <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: data.teamColor }} />
           <span className="text-xs text-gray-600">{data.team}</span>
         </div>
+        {data.description && (
+          <div className="text-[11px] text-gray-500 mt-1.5 leading-snug">{data.description}</div>
+        )}
       </div>
 
       <div className="space-y-1 text-xs">

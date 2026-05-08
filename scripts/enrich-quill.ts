@@ -189,6 +189,87 @@ const DB_CONNECTIONS: Record<string, string[]> = {
   'discovery-syncer-api': ['s3-largescandata'],
 }
 
+// Service descriptions from Quill repos table
+const SERVICE_DESCRIPTIONS: Record<string, string> = {
+  'lec-asset-api': 'GraphQL API for Assets — CRUD, queries, reconciliation',
+  'lec-asset-be': 'Asset backend — processes asset data events',
+  'lec-asset-consumer-asset': 'Kafka consumer for asset context events',
+  'lec-asset-consumer-ad': 'Kafka consumer for Active Directory asset events',
+  'asset-operations-consumer': 'Kafka consumer for background asset operations',
+  'asset-sync-status-consumer': 'Tracks sync status of assets (GraphQL API + Kafka consumer)',
+  'asset-sync-status-tracking-consumer': 'Tracks asset sync status tracking events',
+  'lec-duplicated-assets-consumer': 'Detects possible asset duplication from assetscontext.event.assets',
+  'lec-multitenant-api': 'Core tenancy service — sites, installations, accounts',
+  'lec-multitenant-consumer': 'Kafka consumer for multitenant events',
+  'lec-multitenant-grpc-api': 'gRPC API for multitenant — used by most services',
+  'lec-multitenant-sales-api': 'Sales-facing API for multitenant operations',
+  'lec-tracking-api': 'Event tracking service — audit trail for user actions',
+  'lec-tracking-consumer': 'Kafka consumer for tracking commands',
+  'lec-notifications-api': 'Push notifications to users via Kafka commands',
+  'lec-notifications-consumer': 'Processes notification commands',
+  'lec-licensing-api': 'License management — validation, assignment, sync',
+  'lec-licensing-consumer': 'Kafka consumer for licensing events',
+  'lec-permissions-consumer': 'Authorization — RBAC permissions for LEC products',
+  'lec-backoffice-consumer': 'Kafka consumer for backoffice admin events',
+  'lec-gateway-api': 'Gateway API (Apollo Federation) — aggregates all GraphQL APIs',
+  'lec-gateway-subscriptions': 'WebSocket subscriptions for real-time updates',
+  'lec-reports-api': 'CRUD and preview reports, send to queue',
+  'lec-reports-api-consumer': 'Kafka consumer for report events',
+  'lec-reports-executor': 'Executes report generation jobs',
+  'lec-boards-api': 'Dashboard boards API',
+  'lec-boards-consumer': 'Kafka consumer for boards events',
+  'lec-event-logs-api': 'Event logs API — system audit events',
+  'lec-analytics-api': 'Analytics API — Luzmo plugin integration',
+  'lec-analytics-assets-consumer-v2': 'Consumes asset events → ClickHouse for analytics',
+  'lec-diagrams-api': 'GraphQL API for network topology diagrams',
+  'cloud-scanning-api': 'Cloud scanning management API',
+  'cloud-scanning-api-consumer': 'Kafka consumer for cloud scanning events',
+  'lec-scanning-api': 'Scanning packages — config, targets, scheduling',
+  'lec-scanning-consumer': 'Kafka consumer for scanning events',
+  'lec-scanningconfig-api': 'Scanning configuration management API',
+  'lec-scanningconfig-consumer': 'Kafka consumer for scanning config changes',
+  'lec-adapter-consumer-asset': 'Adapts external models into edge asset model',
+  'lec-adapter-consumer-ug': 'Adapts external models into edge user group model',
+  'lec-edge-command-api': 'Authenticated gRPC endpoint for On-Prem command polling (replaced SQS)',
+  'lec-edge-manager': 'Manages install lifecycle — link, unlink, license check, config',
+  'public-broker': 'Kafka command ingestion bridge for On-Premises (Go)',
+  'lec-syncer-api': 'Receives On-Prem scan data via gRPC protobuf stream',
+  'lec-syncer-api-v2': 'Go rewrite of SyncerAPI — improved performance',
+  'syncer-status-api': 'gRPC server for status and queue messages from On-Prem',
+  'install-status-api': 'Manages installation status and health',
+  'install-status-consumer': 'Kafka consumer for install status events',
+  'hard-soft-limits': 'Feature limits (hard/soft numeric limits, reveal quotas)',
+  'lec-integrations-assets-api': 'REST API for integration partner asset access',
+  'lec-integrations-exporter-api-v2': 'Data export API for integrations',
+  'lec-integrations-webhooks-api': 'GraphQL API for webhook configuration',
+  'lec-integrations-webhooks-checker-consumer': 'Checks if webhook events should trigger notifications',
+  'lec-integrations-webhooks-notifier-consumer-v2': 'Sends webhook payloads to clients (Go rewrite)',
+  'lec-integrations-reports-api': 'Reports API for integration partners',
+  'lec-prismatic-api': 'Authentication token provider for Prismatic integrations',
+  'lec-prismatic-consumer': 'Kafka consumer for Prismatic events',
+  'acme-data-exporter-consumer': 'Parquet exporter — S3 from MongoDB and PostgreSQL',
+  'lec-data-core-processor-asset': 'DataCore ETL — high throughput asset processing',
+  'lec-data-core-processor-multitenant': 'DataCore processor for multitenant events',
+  'lec-data-core-processor-deconcile': 'DataCore deconciliation processor',
+  'lec-data-core-processor-classic-asset': 'DataCore processor for classic On-Prem assets',
+  'lec-data-core-processor-cloud-asset': 'DataCore processor for cloud-scanned assets',
+  'lec-data-core-processor-traffic-asset': 'DataCore processor for network traffic assets',
+  'lec-data-core-processor-asset-context': 'DataCore processor for asset context events',
+  'lec-data-core-processor-api-scan-asset': 'DataCore processor for API-scanned assets',
+  'lec-data-core-admin': 'DataCore admin panel',
+  'lec-data-core-inbound-api': 'DataCore inbound — receives data from syncers via gRPC/protobuf',
+  'lec-data-core-integrity': 'DataCore data integrity checker',
+  'audit-trails-consumer-go': 'Audit trails consumer — writes to ClickHouse',
+  'assets-enriching': 'Enriches assets with IP location, vulnerabilities data',
+  'users-enriching': 'Enriches user data with external sources',
+  'vulnerabilities-engine-enriching-go': 'Vulnerability enrichment engine (Go)',
+  'vulnerabilities-engine-clickhouse-api': 'Vulnerabilities API backed by ClickHouse',
+  'discovery-config-api': 'Handles linking/unlinking and cloud configuration for IT project',
+  'discovery-syncer-api': 'Bridge to DataCore inbound API — transport via HTTPS/Protobuf',
+  'lec-msmp-api': 'Multi-Site Management Portal API',
+  'lec-software-api-v2': 'Software inventory API v2',
+}
+
 function enrichWithQuill(topology: TopologyData): TopologyData {
   for (const service of Object.values(topology.services)) {
     // GitHub URL for deployment repo
@@ -214,6 +295,12 @@ function enrichWithQuill(topology: TopologyData): TopologyData {
     if (dbs) {
       service.databases = dbs
     }
+
+    // Description
+    const desc = SERVICE_DESCRIPTIONS[service.id]
+    if (desc) {
+      service.description = desc
+    }
   }
 
   return topology
@@ -233,4 +320,5 @@ if (process.argv[1]?.includes('enrich-quill')) {
   console.log(`  Source repos: ${count(s => !!s.sourceRepos)}/142`)
   console.log(`  gRPC calls:   ${count(s => !!s.grpcCalls)}/142`)
   console.log(`  Databases:    ${count(s => !!s.databases)}/142`)
+  console.log(`  Descriptions: ${count(s => !!s.description)}/142`)
 }

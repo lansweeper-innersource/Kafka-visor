@@ -29,6 +29,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
           sourceRepos: svc?.sourceRepos,
           grpcCalls: svc?.grpcCalls,
           databases: svc?.databases,
+          description: svc?.description,
           annotations: nodeDef.annotations,
         },
       }

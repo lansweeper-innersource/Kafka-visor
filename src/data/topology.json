@@ -1077,7 +1077,8 @@
       "databases": [
         "mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Kafka consumer for backoffice admin events"
     },
     "acme-data-exporter-consumer": {
       "id": "acme-data-exporter-consumer",
@@ -1106,7 +1107,8 @@
       "databases": [
         "mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Parquet exporter — S3 from MongoDB and PostgreSQL"
     },
     "lec-asset-api": {
       "id": "lec-asset-api",
@@ -1146,7 +1148,8 @@
       "databases": [
         "inventory-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "GraphQL API for Assets — CRUD, queries, reconciliation"
     },
     "lec-asset-api-avro-register-workflow": {
       "id": "lec-asset-api-avro-register-workflow",
@@ -1331,7 +1334,8 @@
       ],
       "databases": [
         "inventory-mongodb"
-      ]
+      ],
+      "description": "Asset backend — processes asset data events"
     },
     "asset-operations-consumer": {
       "id": "asset-operations-consumer",
@@ -1365,7 +1369,8 @@
       "databases": [
         "inventory-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Kafka consumer for background asset operations"
     },
     "asset-sync-status-consumer": {
       "id": "asset-sync-status-consumer",
@@ -1394,7 +1399,8 @@
       "databases": [
         "inventory-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Tracks sync status of assets (GraphQL API + Kafka consumer)"
     },
     "asset-sync-status-tracking-consumer": {
       "id": "asset-sync-status-tracking-consumer",
@@ -1415,7 +1421,8 @@
           "name": "AssetSyncStatus",
           "url": "https://github.com/Lansweeper/AssetSyncStatus"
         }
-      ]
+      ],
+      "description": "Tracks asset sync status tracking events"
     },
     "lec-duplicated-assets-consumer": {
       "id": "lec-duplicated-assets-consumer",
@@ -1443,7 +1450,8 @@
       "databases": [
         "inventory-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Detects possible asset duplication from assetscontext.event.assets"
     },
     "lec-duplicated-assets-consumer-calculate-duplicates": {
       "id": "lec-duplicated-assets-consumer-calculate-duplicates",
@@ -1510,7 +1518,8 @@
       ],
       "databases": [
         "postgresql"
-      ]
+      ],
+      "description": "Feature limits (hard/soft numeric limits, reveal quotas)"
     },
     "lec-licensing-api": {
       "id": "lec-licensing-api",
@@ -1539,7 +1548,8 @@
       "databases": [
         "mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "License management — validation, assignment, sync"
     },
     "lec-licensing-consumer": {
       "id": "lec-licensing-consumer",
@@ -1562,7 +1572,8 @@
           "name": "LECLicensing",
           "url": "https://github.com/Lansweeper/LECLicensing"
         }
-      ]
+      ],
+      "description": "Kafka consumer for licensing events"
     },
     "lec-multitenant-api": {
       "id": "lec-multitenant-api",
@@ -1602,7 +1613,8 @@
       "databases": [
         "redis-shared",
         "permissions-redis"
-      ]
+      ],
+      "description": "Core tenancy service — sites, installations, accounts"
     },
     "lec-multitenant-close-notifications-for-deleted-installs": {
       "id": "lec-multitenant-close-notifications-for-deleted-installs",
@@ -1666,7 +1678,8 @@
           "name": "LECMultitenant",
           "url": "https://github.com/Lansweeper/LECMultitenant"
         }
-      ]
+      ],
+      "description": "Kafka consumer for multitenant events"
     },
     "lec-multitenant-delete-site-installs-temp": {
       "id": "lec-multitenant-delete-site-installs-temp",
@@ -1723,7 +1736,8 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "description": "gRPC API for multitenant — used by most services"
     },
     "lec-multitenant-invite-account-temp": {
       "id": "lec-multitenant-invite-account-temp",
@@ -1857,7 +1871,8 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "description": "Sales-facing API for multitenant operations"
     },
     "lec-multitenant-sync-installations-states": {
       "id": "lec-multitenant-sync-installations-states",
@@ -1919,7 +1934,8 @@
       ],
       "databases": [
         "permissions-redis"
-      ]
+      ],
+      "description": "Authorization — RBAC permissions for LEC products"
     },
     "lec-tracking-api": {
       "id": "lec-tracking-api",
@@ -1947,7 +1963,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Event tracking service — audit trail for user actions"
     },
     "lec-tracking-consumer": {
       "id": "lec-tracking-consumer",
@@ -1970,7 +1987,8 @@
           "name": "LECTracking",
           "url": "https://github.com/Lansweeper/LECTracking"
         }
-      ]
+      ],
+      "description": "Kafka consumer for tracking commands"
     },
     "lec-tracking-global-timeout-workflowtemplate": {
       "id": "lec-tracking-global-timeout-workflowtemplate",
@@ -2023,7 +2041,8 @@
       ],
       "grpcCalls": [
         "permissions-server"
-      ]
+      ],
+      "description": "Push notifications to users via Kafka commands"
     },
     "lec-notifications-consumer": {
       "id": "lec-notifications-consumer",
@@ -2045,7 +2064,8 @@
           "name": "LECNotifications",
           "url": "https://github.com/Lansweeper/LECNotifications"
         }
-      ]
+      ],
+      "description": "Processes notification commands"
     },
     "lec-analytics-api": {
       "id": "lec-analytics-api",
@@ -2068,7 +2088,8 @@
       "databases": [
         "clickhouse",
         "redis"
-      ]
+      ],
+      "description": "Analytics API — Luzmo plugin integration"
     },
     "lec-analytics-luzmo-api": {
       "id": "lec-analytics-luzmo-api",
@@ -2107,7 +2128,8 @@
         "clickhouse",
         "mongodb",
         "redis"
-      ]
+      ],
+      "description": "Consumes asset events → ClickHouse for analytics"
     },
     "lec-analytics-assets-consumer-v2-certificates": {
       "id": "lec-analytics-assets-consumer-v2-certificates",
@@ -2274,7 +2296,8 @@
       ],
       "databases": [
         "boards-mongodb"
-      ]
+      ],
+      "description": "Dashboard boards API"
     },
     "lec-boards-consumer": {
       "id": "lec-boards-consumer",
@@ -2296,7 +2319,8 @@
       ],
       "databases": [
         "boards-mongodb"
-      ]
+      ],
+      "description": "Kafka consumer for boards events"
     },
     "lec-reports-api": {
       "id": "lec-reports-api",
@@ -2324,7 +2348,8 @@
       "databases": [
         "multitenant-postgres",
         "reports-redis"
-      ]
+      ],
+      "description": "CRUD and preview reports, send to queue"
     },
     "lec-reports-api-consumer": {
       "id": "lec-reports-api-consumer",
@@ -2342,7 +2367,8 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "description": "Kafka consumer for report events"
     },
     "lec-reports-integrations-grpc": {
       "id": "lec-reports-integrations-grpc",
@@ -2378,7 +2404,8 @@
       "databases": [
         "mongodb",
         "reports-redis"
-      ]
+      ],
+      "description": "Executes report generation jobs"
     },
     "lec-event-logs-api": {
       "id": "lec-event-logs-api",
@@ -2396,7 +2423,8 @@
           "name": "LECBoardsAPI",
           "url": "https://github.com/Lansweeper/LECBoardsAPI"
         }
-      ]
+      ],
+      "description": "Event logs API — system audit events"
     },
     "lec-diagrams-api": {
       "id": "lec-diagrams-api",
@@ -2423,7 +2451,8 @@
       "databases": [
         "mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "GraphQL API for network topology diagrams"
     },
     "lec-diagrams-worker": {
       "id": "lec-diagrams-worker",
@@ -2492,7 +2521,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Cloud scanning management API"
     },
     "cloud-scanning-api-consumer": {
       "id": "cloud-scanning-api-consumer",
@@ -2511,7 +2541,8 @@
           "name": "LECCloudScanningAPI",
           "url": "https://github.com/Lansweeper/LECCloudScanningAPI"
         }
-      ]
+      ],
+      "description": "Kafka consumer for cloud scanning events"
     },
     "lec-msmp-api": {
       "id": "lec-msmp-api",
@@ -2540,7 +2571,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Multi-Site Management Portal API"
     },
     "lec-adapter-consumer-asset": {
       "id": "lec-adapter-consumer-asset",
@@ -2565,7 +2597,8 @@
       ],
       "grpcCalls": [
         "data-core-inbound-api"
-      ]
+      ],
+      "description": "Adapts external models into edge asset model"
     },
     "lec-adapter-consumer-ug": {
       "id": "lec-adapter-consumer-ug",
@@ -2590,7 +2623,8 @@
       ],
       "grpcCalls": [
         "data-core-inbound-api"
-      ]
+      ],
+      "description": "Adapts external models into edge user group model"
     },
     "lec-edge-command-api": {
       "id": "lec-edge-command-api",
@@ -2613,7 +2647,8 @@
       "databases": [
         "commands-queue-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Authenticated gRPC endpoint for On-Prem command polling (replaced SQS)"
     },
     "public-broker": {
       "id": "public-broker",
@@ -2641,7 +2676,8 @@
       "databases": [
         "commands-queue-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Kafka command ingestion bridge for On-Premises (Go)"
     },
     "lec-syncer-api": {
       "id": "lec-syncer-api",
@@ -2672,7 +2708,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Receives On-Prem scan data via gRPC protobuf stream"
     },
     "lec-syncer-api-v2": {
       "id": "lec-syncer-api-v2",
@@ -2701,7 +2738,8 @@
           "name": "LECSyncerAPIv2",
           "url": "https://github.com/Lansweeper/LECSyncerAPIv2"
         }
-      ]
+      ],
+      "description": "Go rewrite of SyncerAPI — improved performance"
     },
     "syncer-status-api": {
       "id": "syncer-status-api",
@@ -2723,7 +2761,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "gRPC server for status and queue messages from On-Prem"
     },
     "flex-save-duplicates": {
       "id": "flex-save-duplicates",
@@ -2792,7 +2831,8 @@
         "clickhouse",
         "postgresql",
         "redis-shared"
-      ]
+      ],
+      "description": "Manages installation status and health"
     },
     "install-status-consumer": {
       "id": "install-status-consumer",
@@ -2816,7 +2856,8 @@
           "name": "InstallStatus",
           "url": "https://github.com/Lansweeper/InstallStatus"
         }
-      ]
+      ],
+      "description": "Kafka consumer for install status events"
     },
     "install-status-consumer-notification": {
       "id": "install-status-consumer-notification",
@@ -2866,7 +2907,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Scanning packages — config, targets, scheduling"
     },
     "lec-scanning-check-installer-workflowtemplate": {
       "id": "lec-scanning-check-installer-workflowtemplate",
@@ -2925,7 +2967,8 @@
           "name": "LECScanningAPI",
           "url": "https://github.com/Lansweeper/LECScanningAPI"
         }
-      ]
+      ],
+      "description": "Kafka consumer for scanning events"
     },
     "lec-scanningconfig-api": {
       "id": "lec-scanningconfig-api",
@@ -2949,7 +2992,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Scanning configuration management API"
     },
     "lec-scanningconfig-consumer": {
       "id": "lec-scanningconfig-consumer",
@@ -2974,7 +3018,8 @@
           "name": "LECScanningConfig",
           "url": "https://github.com/Lansweeper/LECScanningConfig"
         }
-      ]
+      ],
+      "description": "Kafka consumer for scanning config changes"
     },
     "audit-trails-consumer-go": {
       "id": "audit-trails-consumer-go",
@@ -2996,7 +3041,8 @@
       ],
       "databases": [
         "clickhouse"
-      ]
+      ],
+      "description": "Audit trails consumer — writes to ClickHouse"
     },
     "vulnerabilities-engine-clickhouse-api": {
       "id": "vulnerabilities-engine-clickhouse-api",
@@ -3012,7 +3058,8 @@
       "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
       "databases": [
         "clickhouse"
-      ]
+      ],
+      "description": "Vulnerabilities API backed by ClickHouse"
     },
     "assets-enriching": {
       "id": "assets-enriching",
@@ -3036,7 +3083,8 @@
           "name": "enriching-deployments",
           "url": "https://github.com/Lansweeper/enriching-deployments"
         }
-      ]
+      ],
+      "description": "Enriches assets with IP location, vulnerabilities data"
     },
     "assets-enriching-api": {
       "id": "assets-enriching-api",
@@ -3143,7 +3191,8 @@
           "name": "enriching-deployments",
           "url": "https://github.com/Lansweeper/enriching-deployments"
         }
-      ]
+      ],
+      "description": "Enriches user data with external sources"
     },
     "users-enriching-retry": {
       "id": "users-enriching-retry",
@@ -3190,7 +3239,8 @@
       "databases": [
         "clickhouse",
         "inventory-mongodb"
-      ]
+      ],
+      "description": "Vulnerability enrichment engine (Go)"
     },
     "vulnerabilities-engine-enriching-go-retry": {
       "id": "vulnerabilities-engine-enriching-go-retry",
@@ -3243,7 +3293,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Gateway API (Apollo Federation) — aggregates all GraphQL APIs"
     },
     "lec-gateway-subscriptions": {
       "id": "lec-gateway-subscriptions",
@@ -3265,7 +3316,8 @@
           "name": "LECGatewayAPI",
           "url": "https://github.com/Lansweeper/LECGatewayAPI"
         }
-      ]
+      ],
+      "description": "WebSocket subscriptions for real-time updates"
     },
     "lec-integrations-assets-api": {
       "id": "lec-integrations-assets-api",
@@ -3296,7 +3348,8 @@
         "clickhouse",
         "inventory-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "REST API for integration partner asset access"
     },
     "lec-integrations-exporter-api-v2": {
       "id": "lec-integrations-exporter-api-v2",
@@ -3323,7 +3376,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Data export API for integrations"
     },
     "lec-integrations-exporter-consumer-v2": {
       "id": "lec-integrations-exporter-consumer-v2",
@@ -3376,7 +3430,8 @@
         "integrations-limit-checker",
         "permissions-server",
         "reports-integrations-grpc"
-      ]
+      ],
+      "description": "Reports API for integration partners"
     },
     "lec-integrations-webhooks-api": {
       "id": "lec-integrations-webhooks-api",
@@ -3404,7 +3459,8 @@
       ],
       "databases": [
         "integrations-webhooks-mongodb"
-      ]
+      ],
+      "description": "GraphQL API for webhook configuration"
     },
     "integrations-webhooks-asset-types": {
       "id": "integrations-webhooks-asset-types",
@@ -3477,7 +3533,8 @@
         "integrations-webhooks-mongodb",
         "inventory-mongodb",
         "redis-shared"
-      ]
+      ],
+      "description": "Checks if webhook events should trigger notifications"
     },
     "lec-integrations-webhooks-checker-consumer-testing": {
       "id": "lec-integrations-webhooks-checker-consumer-testing",
@@ -3591,7 +3648,8 @@
       ],
       "databases": [
         "redis-shared"
-      ]
+      ],
+      "description": "Sends webhook payloads to clients (Go rewrite)"
     },
     "lec-integrations-webhooks-retry-job": {
       "id": "lec-integrations-webhooks-retry-job",
@@ -3629,7 +3687,8 @@
       ],
       "databases": [
         "aurora"
-      ]
+      ],
+      "description": "Authentication token provider for Prismatic integrations"
     },
     "lec-prismatic-api-retrieve-prismatic-data": {
       "id": "lec-prismatic-api-retrieve-prismatic-data",
@@ -3661,7 +3720,8 @@
           "name": "LECPrismaticAPI",
           "url": "https://github.com/Lansweeper/LECPrismaticAPI"
         }
-      ]
+      ],
+      "description": "Kafka consumer for Prismatic events"
     },
     "lec-data-core-admin": {
       "id": "lec-data-core-admin",
@@ -3686,7 +3746,8 @@
       ],
       "databases": [
         "postgresql"
-      ]
+      ],
+      "description": "DataCore admin panel"
     },
     "lec-data-core-inbound-api": {
       "id": "lec-data-core-inbound-api",
@@ -3705,7 +3766,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore inbound — receives data from syncers via gRPC/protobuf"
     },
     "lec-data-core-integrity": {
       "id": "lec-data-core-integrity",
@@ -3726,7 +3788,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore data integrity checker"
     },
     "lec-data-core-processor-api-scan-asset": {
       "id": "lec-data-core-processor-api-scan-asset",
@@ -3751,7 +3814,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore processor for API-scanned assets"
     },
     "lec-data-core-processor-asset": {
       "id": "lec-data-core-processor-asset",
@@ -3783,7 +3847,8 @@
       ],
       "databases": [
         "postgresql"
-      ]
+      ],
+      "description": "DataCore ETL — high throughput asset processing"
     },
     "lec-data-core-processor-asset-context": {
       "id": "lec-data-core-processor-asset-context",
@@ -3808,7 +3873,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore processor for asset context events"
     },
     "lec-data-core-processor-classic-asset": {
       "id": "lec-data-core-processor-classic-asset",
@@ -3833,7 +3899,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore processor for classic On-Prem assets"
     },
     "lec-data-core-processor-cloud-asset": {
       "id": "lec-data-core-processor-cloud-asset",
@@ -3858,7 +3925,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore processor for cloud-scanned assets"
     },
     "lec-data-core-processor-deconcile": {
       "id": "lec-data-core-processor-deconcile",
@@ -3883,7 +3951,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore deconciliation processor"
     },
     "lec-data-core-processor-multitenant": {
       "id": "lec-data-core-processor-multitenant",
@@ -3908,7 +3977,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore processor for multitenant events"
     },
     "lec-data-core-processor-traffic-asset": {
       "id": "lec-data-core-processor-traffic-asset",
@@ -3933,7 +4003,8 @@
           "name": "LECDataCore",
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
-      ]
+      ],
+      "description": "DataCore processor for network traffic assets"
     },
     "discovery-config-api": {
       "id": "discovery-config-api",
@@ -3960,7 +4031,8 @@
       ],
       "databases": [
         "s3-phonehome"
-      ]
+      ],
+      "description": "Handles linking/unlinking and cloud configuration for IT project"
     },
     "discovery-syncer-api": {
       "id": "discovery-syncer-api",
@@ -3988,7 +4060,8 @@
       ],
       "databases": [
         "s3-largescandata"
-      ]
+      ],
+      "description": "Bridge to DataCore inbound API — transport via HTTPS/Protobuf"
     }
   },
   "metadata": {

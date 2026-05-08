@@ -31,6 +31,7 @@ export interface Service {
   sourceRepos?: SourceRepo[]
   grpcCalls?: string[]
   databases?: string[]
+  description?: string
 }
 
 export interface TopologyData {

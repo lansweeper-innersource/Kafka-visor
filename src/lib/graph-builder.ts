@@ -23,6 +23,7 @@ export interface ServiceNodeData {
   sourceRepos?: { name: string; url: string }[]
   grpcCalls?: string[]
   databases?: string[]
+  description?: string
   [key: string]: unknown
 }
 
@@ -74,6 +75,7 @@ export function buildGraph(topology: TopologyData): {
         sourceRepos: service.sourceRepos,
         grpcCalls: service.grpcCalls,
         databases: service.databases,
+        description: service.description,
       } satisfies ServiceNodeData,
     })
   }
