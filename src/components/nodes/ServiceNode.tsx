@@ -5,6 +5,7 @@ import { useZoomLevel } from '../../lib/use-zoom-level'
 
 const KIND_BADGE: Record<string, { label: string; class: string }> = {
   CronJob:          { label: 'cron',     class: 'bg-violet-100 text-violet-700' },
+  CronWorkflow:     { label: 'cron-wf',  class: 'bg-violet-100 text-violet-700' },
   ScaledJob:        { label: 'scaled',   class: 'bg-cyan-100 text-cyan-700' },
   WorkflowTemplate: { label: 'wf-tpl',   class: 'bg-rose-100 text-rose-700' },
   Rollout:          { label: 'rollout',  class: 'bg-sky-100 text-sky-700' },
@@ -85,7 +86,13 @@ function ServiceNodeComponent({ data, selected }: NodeProps) {
 
         {showDetail && (
           <div className="text-[10px] text-gray-500">
-            {d.team}
+            {d.serviceGroup ? (
+              <span className="text-orange-600" title={`Shared image: ${d.serviceGroup}`}>
+                via {d.sourceRepos?.[0]?.name ?? d.serviceGroup}
+              </span>
+            ) : (
+              d.team
+            )}
             {!d.runningInCluster && (
               <span className="ml-1 text-amber-600" title="Not found in cluster">
                 ⚠
