@@ -26,12 +26,13 @@ export interface Service {
   produces: string[]
   consumes: string[]
   runningInCluster: boolean
-  deploymentType: 'Deployment' | 'CronJob' | 'ScaledJob' | 'WorkflowTemplate' | 'Unknown'
+  deploymentType: 'Deployment' | 'CronJob' | 'CronWorkflow' | 'ScaledJob' | 'WorkflowTemplate' | 'Unknown'
   githubUrl?: string
   sourceRepos?: SourceRepo[]
   grpcCalls?: string[]
   databases?: string[]
   description?: string
+  serviceGroup?: string
 }
 
 export interface TopologyData {
@@ -48,7 +49,7 @@ export interface TopologyData {
 
 // Flow Mode types
 export type InteractionType = 'kafka' | 'grpc' | 'https' | 'protobuf' | 'db' | 'internal' | 'sensor'
-export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database'
+export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database' | 'flowRef'
 
 export interface Annotation {
   text: string
@@ -63,6 +64,8 @@ export interface FlowNodeDef {
   label?: string
   position: [number, number]
   annotations?: Annotation[]
+  /** For flowRef nodes: the id of the target flow */
+  flowId?: string
 }
 
 export interface FlowEdgeDef {

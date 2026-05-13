@@ -52,6 +52,20 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
       }
     }
 
+    if (nodeDef.type === 'flowRef') {
+      return {
+        id: `flow-${i}:${baseId}`,
+        type: 'flowRef',
+        position,
+        draggable: true,
+        data: {
+          label: nodeDef.label ?? nodeDef.flowId ?? baseId,
+          flowId: nodeDef.flowId ?? baseId,
+          annotations: nodeDef.annotations,
+        },
+      }
+    }
+
     // scanner or database
     return {
       id: `flow-${i}:${baseId}`,

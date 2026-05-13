@@ -19,6 +19,7 @@ import { TopicNode } from './nodes/TopicNode'
 import { ServiceNode } from './nodes/ServiceNode'
 import { ScannerNode } from './nodes/ScannerNode'
 import { DatabaseNode } from './nodes/DatabaseNode'
+import { FlowRefNode } from './nodes/FlowRefNode'
 import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
 import type { TopologyData, FlowDefinition } from '../types'
@@ -32,6 +33,7 @@ const nodeTypes = {
   service: ServiceNode,
   scanner: ScannerNode,
   database: DatabaseNode,
+  flowRef: FlowRefNode,
 }
 
 const edgeTypes = {
@@ -72,6 +74,7 @@ interface FlowCanvasProps {
   highlightNodeId: string | null
   onContextMenu: (menu: ContextMenuState | null) => void
   activeFlow: FlowDefinition | null
+  onFlowNavigate?: (flowId: string) => void
 }
 
 export function FlowCanvas({
@@ -82,6 +85,7 @@ export function FlowCanvas({
   highlightNodeId,
   onContextMenu,
   activeFlow,
+  onFlowNavigate,
 }: FlowCanvasProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
@@ -199,9 +203,13 @@ export function FlowCanvas({
   const handleNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
       onContextMenu(null)
+      if (node.type === 'flowRef' && onFlowNavigate) {
+        onFlowNavigate(node.data.flowId as string)
+        return
+      }
       onNodeClick(node)
     },
-    [onNodeClick, onContextMenu]
+    [onNodeClick, onContextMenu, onFlowNavigate]
   )
 
   const handlePaneClick = useCallback(() => {

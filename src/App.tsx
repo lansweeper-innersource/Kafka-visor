@@ -234,6 +234,7 @@ function AppInner() {
             highlightNodeId={highlightNodeId}
             onContextMenu={setContextMenu}
             activeFlow={activeFlow}
+            onFlowNavigate={handleOpenFlow}
           />
 
           {contextMenu && (
