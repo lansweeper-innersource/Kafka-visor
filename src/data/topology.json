@@ -200,10 +200,11 @@
         "lec-syncer-api-v2",
         "flex-save-duplicates",
         "gapac-remove-duplicates",
-        "lec-integrations-assets-api"
+        "lec-integrations-assets-api",
+        "asset-migrations"
       ],
       "consumerCount": 6,
-      "producerCount": 15,
+      "producerCount": 16,
       "teamCount": 4
     },
     "public.event.tracking": {
@@ -366,10 +367,11 @@
         "assets-enriching",
         "assets-enriching-api",
         "assets-enriching-retry",
-        "lec-integrations-assets-api"
+        "lec-integrations-assets-api",
+        "asset-migrations"
       ],
       "consumerCount": 2,
-      "producerCount": 40,
+      "producerCount": 41,
       "teamCount": 5
     },
     "public.event.analytics.entity-changes": {
@@ -1091,7 +1093,13 @@
         "mongodb",
         "redis-shared"
       ],
-      "description": "Kafka consumer for backoffice admin events"
+      "description": "Kafka consumer for backoffice admin events",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "acme-data-exporter-consumer": {
       "id": "acme-data-exporter-consumer",
@@ -1162,7 +1170,13 @@
         "inventory-mongodb",
         "redis-shared"
       ],
-      "description": "GraphQL API for Assets — CRUD, queries, reconciliation"
+      "description": "GraphQL API for Assets — CRUD, queries, reconciliation",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-avro-register-workflow": {
       "id": "lec-asset-api-avro-register-workflow",
@@ -1177,7 +1191,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-check-uninvited-onprem-users-temp": {
       "id": "lec-asset-api-check-uninvited-onprem-users-temp",
@@ -1191,7 +1211,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-delete-adusers-by-install": {
       "id": "lec-asset-api-delete-adusers-by-install",
@@ -1206,7 +1232,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-delete-asset-temp": {
       "id": "lec-asset-api-delete-asset-temp",
@@ -1229,7 +1261,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-policy4-template": {
       "id": "lec-asset-api-policy4-template",
@@ -1242,7 +1280,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-reconcile-classic-cleanup": {
       "id": "lec-asset-api-reconcile-classic-cleanup",
@@ -1255,7 +1299,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-reconciliation": {
       "id": "lec-asset-api-reconciliation",
@@ -1269,7 +1319,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-api-resync-assets-by-site": {
       "id": "lec-asset-api-resync-assets-by-site",
@@ -1282,7 +1338,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-consumer": {
       "id": "lec-asset-consumer",
@@ -1321,7 +1383,44 @@
         "redis-shared",
         "aurora"
       ],
-      "description": "Core asset pipeline consumer — consumes edge asset events, writes MongoDB, publishes assetscontext + analytics entity-changes + management-entities. Owned by Cloud Data Pipeline and Scanning per lansweeper-apps-catalog."
+      "description": "Core asset pipeline consumer — consumes edge asset events, writes MongoDB, publishes assetscontext + analytics entity-changes + management-entities. Owned by Cloud Data Pipeline and Scanning per lansweeper-apps-catalog.",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
+    },
+    "asset-migrations": {
+      "id": "asset-migrations",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "inventory-deployments",
+      "namespace": "asset-customer-deduplication",
+      "produces": [
+        "public.edge.commands",
+        "public.edge.asset.event"
+      ],
+      "consumes": [],
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "AssetMigrations",
+          "url": "https://github.com/Lansweeper/AssetMigrations"
+        }
+      ],
+      "serviceGroup": "asset-customer-deduplication",
+      "databases": [
+        "mongodb"
+      ],
+      "description": "Asset deduplication/migration consumer (no-op consumer, active as Docker image for batch workflows)",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-grpc-api": {
       "id": "lec-asset-grpc-api",
@@ -1344,7 +1443,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-assets-workflows": {
       "id": "lec-assets-workflows",
@@ -1364,7 +1469,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-asset-be": {
       "id": "lec-asset-be",
@@ -1387,7 +1498,13 @@
       "databases": [
         "inventory-mongodb"
       ],
-      "description": "Asset backend — processes asset data events"
+      "description": "Asset backend — processes asset data events",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "asset-operations-consumer": {
       "id": "asset-operations-consumer",
@@ -1422,7 +1539,13 @@
         "inventory-mongodb",
         "redis-shared"
       ],
-      "description": "Kafka consumer for background asset operations"
+      "description": "Kafka consumer for background asset operations",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "asset-sync-status-consumer": {
       "id": "asset-sync-status-consumer",
@@ -1452,7 +1575,13 @@
         "inventory-mongodb",
         "redis-shared"
       ],
-      "description": "Tracks sync status of assets (GraphQL API + Kafka consumer)"
+      "description": "Tracks sync status of assets (GraphQL API + Kafka consumer)",
+      "kafkaMigration": {
+        "wave": "7",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "asset-sync-status-tracking-consumer": {
       "id": "asset-sync-status-tracking-consumer",
@@ -1474,7 +1603,13 @@
           "url": "https://github.com/Lansweeper/AssetSyncStatus"
         }
       ],
-      "description": "Tracks asset sync status tracking events"
+      "description": "Tracks asset sync status tracking events",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-duplicated-assets-consumer": {
       "id": "lec-duplicated-assets-consumer",
@@ -1503,7 +1638,13 @@
         "inventory-mongodb",
         "redis-shared"
       ],
-      "description": "Detects possible asset duplication from assetscontext.event.assets"
+      "description": "Detects possible asset duplication from assetscontext.event.assets",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-duplicated-assets-consumer-calculate-duplicates": {
       "id": "lec-duplicated-assets-consumer-calculate-duplicates",
@@ -1516,7 +1657,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-duplicated-assets-consumer-notify-conflicts": {
       "id": "lec-duplicated-assets-consumer-notify-conflicts",
@@ -1530,7 +1677,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-duplicated-assets-consumer-tracking": {
       "id": "lec-duplicated-assets-consumer-tracking",
@@ -1545,7 +1698,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "hard-soft-limits": {
       "id": "hard-soft-limits",
@@ -1571,7 +1730,13 @@
       "databases": [
         "postgresql"
       ],
-      "description": "Feature limits (hard/soft numeric limits, reveal quotas)"
+      "description": "Feature limits (hard/soft numeric limits, reveal quotas)",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-licensing-api": {
       "id": "lec-licensing-api",
@@ -1625,7 +1790,13 @@
           "url": "https://github.com/Lansweeper/LECLicensing"
         }
       ],
-      "description": "Kafka consumer for licensing events"
+      "description": "Kafka consumer for licensing events",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-api": {
       "id": "lec-multitenant-api",
@@ -1666,7 +1837,13 @@
         "redis-shared",
         "permissions-redis"
       ],
-      "description": "Core tenancy service — sites, installations, accounts"
+      "description": "Core tenancy service — sites, installations, accounts",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-close-notifications-for-deleted-installs": {
       "id": "lec-multitenant-close-notifications-for-deleted-installs",
@@ -1684,7 +1861,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-close-notifications-for-unlinked": {
       "id": "lec-multitenant-close-notifications-for-unlinked",
@@ -1702,7 +1885,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-consumer": {
       "id": "lec-multitenant-consumer",
@@ -1731,7 +1920,13 @@
           "url": "https://github.com/Lansweeper/LECMultitenant"
         }
       ],
-      "description": "Kafka consumer for multitenant events"
+      "description": "Kafka consumer for multitenant events",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-delete-site-installs-temp": {
       "id": "lec-multitenant-delete-site-installs-temp",
@@ -1752,7 +1947,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-expired-subscriptions-temp": {
       "id": "lec-multitenant-expired-subscriptions-temp",
@@ -1766,7 +1967,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-grpc-api": {
       "id": "lec-multitenant-grpc-api",
@@ -1789,7 +1996,13 @@
       "runningInCluster": true,
       "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
-      "description": "gRPC API for multitenant — used by most services"
+      "description": "gRPC API for multitenant — used by most services",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-invite-account-temp": {
       "id": "lec-multitenant-invite-account-temp",
@@ -1805,7 +2018,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-modify-install-type": {
       "id": "lec-multitenant-modify-install-type",
@@ -1821,7 +2040,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-remove-account-temp": {
       "id": "lec-multitenant-remove-account-temp",
@@ -1837,7 +2062,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-remove-site-subscription-temp": {
       "id": "lec-multitenant-remove-site-subscription-temp",
@@ -1853,7 +2084,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-rename-deleted-site-temp": {
       "id": "lec-multitenant-rename-deleted-site-temp",
@@ -1869,7 +2106,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-rename-site-temp": {
       "id": "lec-multitenant-rename-site-temp",
@@ -1885,7 +2128,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-retry-delete-soft-deleted-sites": {
       "id": "lec-multitenant-retry-delete-soft-deleted-sites",
@@ -1906,7 +2155,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-sales-api": {
       "id": "lec-multitenant-sales-api",
@@ -1924,7 +2179,13 @@
       "runningInCluster": true,
       "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
-      "description": "Sales-facing API for multitenant operations"
+      "description": "Sales-facing API for multitenant operations",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-sync-installations-states": {
       "id": "lec-multitenant-sync-installations-states",
@@ -1940,7 +2201,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-multitenant-unlink-duplicated-installs-temp": {
       "id": "lec-multitenant-unlink-duplicated-installs-temp",
@@ -1961,7 +2228,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tenancy-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-permissions-consumer": {
       "id": "lec-permissions-consumer",
@@ -1987,7 +2260,13 @@
       "databases": [
         "permissions-redis"
       ],
-      "description": "Authorization — RBAC permissions for LEC products"
+      "description": "Authorization — RBAC permissions for LEC products",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-tracking-api": {
       "id": "lec-tracking-api",
@@ -2016,7 +2295,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Event tracking service — audit trail for user actions"
+      "description": "Event tracking service — audit trail for user actions",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-tracking-consumer": {
       "id": "lec-tracking-consumer",
@@ -2040,7 +2325,13 @@
           "url": "https://github.com/Lansweeper/LECTracking"
         }
       ],
-      "description": "Kafka consumer for tracking commands"
+      "description": "Kafka consumer for tracking commands",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-tracking-global-timeout-workflowtemplate": {
       "id": "lec-tracking-global-timeout-workflowtemplate",
@@ -2056,7 +2347,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tracking-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tracking-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-tracking-push-avro-schemas-workflow": {
       "id": "lec-tracking-push-avro-schemas-workflow",
@@ -2070,7 +2367,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/tracking-deployments"
+      "githubUrl": "https://github.com/Lansweeper/tracking-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-notifications-api": {
       "id": "lec-notifications-api",
@@ -2094,7 +2397,13 @@
       "grpcCalls": [
         "permissions-server"
       ],
-      "description": "Push notifications to users via Kafka commands"
+      "description": "Push notifications to users via Kafka commands",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-notifications-consumer": {
       "id": "lec-notifications-consumer",
@@ -2117,7 +2426,13 @@
           "url": "https://github.com/Lansweeper/LECNotifications"
         }
       ],
-      "description": "Processes notification commands"
+      "description": "Processes notification commands",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-api": {
       "id": "lec-analytics-api",
@@ -2141,7 +2456,13 @@
         "clickhouse",
         "redis"
       ],
-      "description": "Analytics API — Luzmo plugin integration"
+      "description": "Analytics API — Luzmo plugin integration",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-luzmo-api": {
       "id": "lec-analytics-luzmo-api",
@@ -2154,7 +2475,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2": {
       "id": "lec-analytics-assets-consumer-v2",
@@ -2181,7 +2508,13 @@
         "mongodb",
         "redis"
       ],
-      "description": "Consumes asset events → ClickHouse for analytics"
+      "description": "Consumes asset events → ClickHouse for analytics",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-certificates": {
       "id": "lec-analytics-assets-consumer-v2-certificates",
@@ -2196,7 +2529,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-management-entities": {
       "id": "lec-analytics-assets-consumer-v2-management-entities",
@@ -2211,7 +2550,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-reprocess": {
       "id": "lec-analytics-assets-consumer-v2-reprocess",
@@ -2226,7 +2571,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-softwares": {
       "id": "lec-analytics-assets-consumer-v2-softwares",
@@ -2241,7 +2592,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-sync-deleted-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-deleted-entities",
@@ -2254,7 +2611,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-sync-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-entities",
@@ -2267,7 +2630,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-sync-management-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-management-entities",
@@ -2282,7 +2651,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-users": {
       "id": "lec-analytics-assets-consumer-v2-users",
@@ -2297,7 +2672,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-vulnerabilities": {
       "id": "lec-analytics-assets-consumer-v2-vulnerabilities",
@@ -2311,7 +2692,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-analytics-assets-consumer-v2-windows-services": {
       "id": "lec-analytics-assets-consumer-v2-windows-services",
@@ -2326,7 +2713,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-boards-api": {
       "id": "lec-boards-api",
@@ -2349,7 +2742,13 @@
       "databases": [
         "boards-mongodb"
       ],
-      "description": "Dashboard boards API"
+      "description": "Dashboard boards API",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-boards-consumer": {
       "id": "lec-boards-consumer",
@@ -2372,7 +2771,13 @@
       "databases": [
         "boards-mongodb"
       ],
-      "description": "Kafka consumer for boards events"
+      "description": "Kafka consumer for boards events",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-reports-api": {
       "id": "lec-reports-api",
@@ -2401,7 +2806,13 @@
         "multitenant-postgres",
         "reports-redis"
       ],
-      "description": "CRUD and preview reports, send to queue"
+      "description": "CRUD and preview reports, send to queue",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-reports-api-consumer": {
       "id": "lec-reports-api-consumer",
@@ -2420,7 +2831,13 @@
       "runningInCluster": true,
       "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
-      "description": "Kafka consumer for report events"
+      "description": "Kafka consumer for report events",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-reports-integrations-grpc": {
       "id": "lec-reports-integrations-grpc",
@@ -2433,7 +2850,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/analytics-deployments"
+      "githubUrl": "https://github.com/Lansweeper/analytics-deployments",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-reports-executor": {
       "id": "lec-reports-executor",
@@ -2457,7 +2880,13 @@
         "mongodb",
         "reports-redis"
       ],
-      "description": "Executes report generation jobs"
+      "description": "Executes report generation jobs",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-event-logs-api": {
       "id": "lec-event-logs-api",
@@ -2476,7 +2905,13 @@
           "url": "https://github.com/Lansweeper/LECBoardsAPI"
         }
       ],
-      "description": "Event logs API — system audit events"
+      "description": "Event logs API — system audit events",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-diagrams-api": {
       "id": "lec-diagrams-api",
@@ -2504,7 +2939,13 @@
         "mongodb",
         "redis-shared"
       ],
-      "description": "GraphQL API for network topology diagrams"
+      "description": "GraphQL API for network topology diagrams",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-diagrams-worker": {
       "id": "lec-diagrams-worker",
@@ -2574,7 +3015,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Cloud scanning management API"
+      "description": "Cloud scanning management API",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "cloud-scanning-api-consumer": {
       "id": "cloud-scanning-api-consumer",
@@ -2594,7 +3041,13 @@
           "url": "https://github.com/Lansweeper/LECCloudScanningAPI"
         }
       ],
-      "description": "Kafka consumer for cloud scanning events"
+      "description": "Kafka consumer for cloud scanning events",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-msmp-api": {
       "id": "lec-msmp-api",
@@ -2624,7 +3077,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Multi-Site Management Portal API"
+      "description": "Multi-Site Management Portal API",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-adapter-consumer-asset": {
       "id": "lec-adapter-consumer-asset",
@@ -2650,7 +3109,13 @@
       "grpcCalls": [
         "data-core-inbound-api"
       ],
-      "description": "Adapts external models into edge asset model"
+      "description": "Adapts external models into edge asset model",
+      "kafkaMigration": {
+        "wave": "7",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-adapter-consumer-ug": {
       "id": "lec-adapter-consumer-ug",
@@ -2700,7 +3165,13 @@
         "commands-queue-mongodb",
         "redis-shared"
       ],
-      "description": "Authenticated gRPC endpoint for On-Prem command polling (replaced SQS)"
+      "description": "Authenticated gRPC endpoint for On-Prem command polling (replaced SQS)",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "public-broker": {
       "id": "public-broker",
@@ -2729,7 +3200,13 @@
         "commands-queue-mongodb",
         "redis-shared"
       ],
-      "description": "Kafka command ingestion bridge for On-Premises (Go)"
+      "description": "Kafka command ingestion bridge for On-Premises (Go)",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-syncer-api": {
       "id": "lec-syncer-api",
@@ -2761,7 +3238,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Receives On-Prem scan data via gRPC protobuf stream"
+      "description": "Receives On-Prem scan data via gRPC protobuf stream",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-syncer-api-v2": {
       "id": "lec-syncer-api-v2",
@@ -2791,7 +3274,13 @@
           "url": "https://github.com/Lansweeper/LECSyncerAPIv2"
         }
       ],
-      "description": "Go rewrite of SyncerAPI — improved performance"
+      "description": "Go rewrite of SyncerAPI — improved performance",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "syncer-status-api": {
       "id": "syncer-status-api",
@@ -2814,7 +3303,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "gRPC server for status and queue messages from On-Prem"
+      "description": "gRPC server for status and queue messages from On-Prem",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "flex-save-duplicates": {
       "id": "flex-save-duplicates",
@@ -2827,8 +3322,22 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "deploymentType": "CronWorkflow",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "AssetMigrations",
+          "url": "https://github.com/Lansweeper/AssetMigrations"
+        }
+      ],
+      "serviceGroup": "asset-customer-deduplication",
+      "description": "Batch CronWorkflow — saves duplicate assets to S3 and optionally deletes them (runs AssetMigrations image)",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "gapac-remove-duplicates": {
       "id": "gapac-remove-duplicates",
@@ -2841,8 +3350,22 @@
       ],
       "consumes": [],
       "runningInCluster": false,
-      "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/inventory-deployments"
+      "deploymentType": "CronWorkflow",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "AssetMigrations",
+          "url": "https://github.com/Lansweeper/AssetMigrations"
+        }
+      ],
+      "serviceGroup": "asset-customer-deduplication",
+      "description": "Batch CronWorkflow — removes cross-installation duplicate assets (runs AssetMigrations image)",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "install-api-downgrade-policy-workflow": {
       "id": "install-api-downgrade-policy-workflow",
@@ -2855,7 +3378,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "install-status-api": {
       "id": "install-status-api",
@@ -2884,7 +3413,13 @@
         "postgresql",
         "redis-shared"
       ],
-      "description": "Manages installation status and health"
+      "description": "Manages installation status and health",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "install-status-consumer": {
       "id": "install-status-consumer",
@@ -2909,7 +3444,13 @@
           "url": "https://github.com/Lansweeper/InstallStatus"
         }
       ],
-      "description": "Kafka consumer for install status events"
+      "description": "Kafka consumer for install status events",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "install-status-consumer-notification": {
       "id": "install-status-consumer-notification",
@@ -2923,7 +3464,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "install-status-subscriptions": {
       "id": "install-status-subscriptions",
@@ -2936,7 +3483,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-scanning-api": {
       "id": "lec-scanning-api",
@@ -2960,7 +3513,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Scanning packages — config, targets, scheduling"
+      "description": "Scanning packages — config, targets, scheduling",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-scanning-check-installer-workflowtemplate": {
       "id": "lec-scanning-check-installer-workflowtemplate",
@@ -2974,7 +3533,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-scanning-check-sync-server-version-workflowtemplate": {
       "id": "lec-scanning-check-sync-server-version-workflowtemplate",
@@ -2988,7 +3553,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/scanning-deployments"
+      "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-scanning-consumer": {
       "id": "lec-scanning-consumer",
@@ -3020,7 +3591,13 @@
           "url": "https://github.com/Lansweeper/LECScanningAPI"
         }
       ],
-      "description": "Kafka consumer for scanning events"
+      "description": "Kafka consumer for scanning events",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-scanningconfig-api": {
       "id": "lec-scanningconfig-api",
@@ -3045,7 +3622,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Scanning configuration management API"
+      "description": "Scanning configuration management API",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-scanningconfig-consumer": {
       "id": "lec-scanningconfig-consumer",
@@ -3071,7 +3654,13 @@
           "url": "https://github.com/Lansweeper/LECScanningConfig"
         }
       ],
-      "description": "Kafka consumer for scanning config changes"
+      "description": "Kafka consumer for scanning config changes",
+      "kafkaMigration": {
+        "wave": "2",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "audit-trails-consumer-go": {
       "id": "audit-trails-consumer-go",
@@ -3094,7 +3683,13 @@
       "databases": [
         "clickhouse"
       ],
-      "description": "Audit trails consumer — writes to ClickHouse"
+      "description": "Audit trails consumer — writes to ClickHouse",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "vulnerabilities-engine-clickhouse-api": {
       "id": "vulnerabilities-engine-clickhouse-api",
@@ -3111,7 +3706,13 @@
       "databases": [
         "clickhouse"
       ],
-      "description": "Vulnerabilities API backed by ClickHouse"
+      "description": "Vulnerabilities API backed by ClickHouse",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "assets-enriching": {
       "id": "assets-enriching",
@@ -3136,7 +3737,13 @@
           "url": "https://github.com/Lansweeper/enriching-deployments"
         }
       ],
-      "description": "Enriches assets with IP location, vulnerabilities data"
+      "description": "Enriches assets with IP location, vulnerabilities data",
+      "kafkaMigration": {
+        "wave": "5",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "assets-enriching-api": {
       "id": "assets-enriching-api",
@@ -3152,7 +3759,13 @@
       "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "assets-enriching-retry": {
       "id": "assets-enriching-retry",
@@ -3169,7 +3782,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "4",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "consolidate-unsynced-assets-workflow-template": {
       "id": "consolidate-unsynced-assets-workflow-template",
@@ -3182,7 +3801,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "iplocation-sync": {
       "id": "iplocation-sync",
@@ -3208,7 +3833,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "reprocess-unsynced-vulnerabilities-workflow-template": {
       "id": "reprocess-unsynced-vulnerabilities-workflow-template",
@@ -3221,7 +3852,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "users-enriching": {
       "id": "users-enriching",
@@ -3244,7 +3881,13 @@
           "url": "https://github.com/Lansweeper/enriching-deployments"
         }
       ],
-      "description": "Enriches user data with external sources"
+      "description": "Enriches user data with external sources",
+      "kafkaMigration": {
+        "wave": "4",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "users-enriching-retry": {
       "id": "users-enriching-retry",
@@ -3259,7 +3902,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "3",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "vulnerabilities-engine-enriching-go": {
       "id": "vulnerabilities-engine-enriching-go",
@@ -3292,7 +3941,13 @@
         "clickhouse",
         "inventory-mongodb"
       ],
-      "description": "Vulnerability enrichment engine (Go)"
+      "description": "Vulnerability enrichment engine (Go)",
+      "kafkaMigration": {
+        "wave": "3",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "vulnerabilities-engine-enriching-go-retry": {
       "id": "vulnerabilities-engine-enriching-go-retry",
@@ -3307,7 +3962,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-gateway-api": {
       "id": "lec-gateway-api",
@@ -3346,7 +4007,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Gateway API (Apollo Federation) — aggregates all GraphQL APIs"
+      "description": "Gateway API (Apollo Federation) — aggregates all GraphQL APIs",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-gateway-subscriptions": {
       "id": "lec-gateway-subscriptions",
@@ -3401,7 +4068,13 @@
         "inventory-mongodb",
         "redis-shared"
       ],
-      "description": "REST API for integration partner asset access"
+      "description": "REST API for integration partner asset access",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-exporter-api-v2": {
       "id": "lec-integrations-exporter-api-v2",
@@ -3429,7 +4102,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Data export API for integrations"
+      "description": "Data export API for integrations",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-exporter-consumer-v2": {
       "id": "lec-integrations-exporter-consumer-v2",
@@ -3442,7 +4121,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-gateway-api-v2": {
       "id": "lec-integrations-gateway-api-v2",
@@ -3455,7 +4140,13 @@
       "consumes": [],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-reports-api": {
       "id": "lec-integrations-reports-api",
@@ -3483,7 +4174,13 @@
         "permissions-server",
         "reports-integrations-grpc"
       ],
-      "description": "Reports API for integration partners"
+      "description": "Reports API for integration partners",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-api": {
       "id": "lec-integrations-webhooks-api",
@@ -3512,7 +4209,13 @@
       "databases": [
         "integrations-webhooks-mongodb"
       ],
-      "description": "GraphQL API for webhook configuration"
+      "description": "GraphQL API for webhook configuration",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "integrations-webhooks-asset-types": {
       "id": "integrations-webhooks-asset-types",
@@ -3531,7 +4234,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "integrations-webhooks-vulnerabilities": {
       "id": "integrations-webhooks-vulnerabilities",
@@ -3550,7 +4259,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-checker-consumer": {
       "id": "lec-integrations-webhooks-checker-consumer",
@@ -3586,7 +4301,13 @@
         "inventory-mongodb",
         "redis-shared"
       ],
-      "description": "Checks if webhook events should trigger notifications"
+      "description": "Checks if webhook events should trigger notifications",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-checker-consumer-testing": {
       "id": "lec-integrations-webhooks-checker-consumer-testing",
@@ -3605,7 +4326,13 @@
       ],
       "runningInCluster": false,
       "deploymentType": "Unknown",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-event-consumer-asseteventsanalytics": {
       "id": "lec-integrations-webhooks-event-consumer-asseteventsanalytics",
@@ -3623,7 +4350,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-event-consumer-sourcesevents": {
       "id": "lec-integrations-webhooks-event-consumer-sourcesevents",
@@ -3641,7 +4374,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-event-consumer-trackingcommands": {
       "id": "lec-integrations-webhooks-event-consumer-trackingcommands",
@@ -3659,7 +4398,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-event-consumer-webhookevents": {
       "id": "lec-integrations-webhooks-event-consumer-webhookevents",
@@ -3677,7 +4422,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "1",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-notifier-consumer-v2": {
       "id": "lec-integrations-webhooks-notifier-consumer-v2",
@@ -3701,7 +4452,13 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Sends webhook payloads to clients (Go rewrite)"
+      "description": "Sends webhook payloads to clients (Go rewrite)",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-integrations-webhooks-retry-job": {
       "id": "lec-integrations-webhooks-retry-job",
@@ -3714,7 +4471,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "CronJob",
-      "githubUrl": "https://github.com/Lansweeper/integrations-deployments"
+      "githubUrl": "https://github.com/Lansweeper/integrations-deployments",
+      "kafkaMigration": {
+        "wave": "10c",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-prismatic-api": {
       "id": "lec-prismatic-api",
@@ -3740,7 +4503,13 @@
       "databases": [
         "aurora"
       ],
-      "description": "Authentication token provider for Prismatic integrations"
+      "description": "Authentication token provider for Prismatic integrations",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-prismatic-api-retrieve-prismatic-data": {
       "id": "lec-prismatic-api-retrieve-prismatic-data",
@@ -3753,7 +4522,13 @@
       ],
       "runningInCluster": true,
       "deploymentType": "CronJob",
-      "githubUrl": "https://github.com/Lansweeper/webapp-deployments"
+      "githubUrl": "https://github.com/Lansweeper/webapp-deployments",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-prismatic-consumer": {
       "id": "lec-prismatic-consumer",
@@ -3773,7 +4548,13 @@
           "url": "https://github.com/Lansweeper/LECPrismaticAPI"
         }
       ],
-      "description": "Kafka consumer for Prismatic events"
+      "description": "Kafka consumer for Prismatic events",
+      "kafkaMigration": {
+        "wave": "0",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-admin": {
       "id": "lec-data-core-admin",
@@ -3799,7 +4580,13 @@
       "databases": [
         "postgresql"
       ],
-      "description": "DataCore admin panel"
+      "description": "DataCore admin panel",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-inbound-api": {
       "id": "lec-data-core-inbound-api",
@@ -3819,7 +4606,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore inbound — receives data from syncers via gRPC/protobuf"
+      "description": "DataCore inbound — receives data from syncers via gRPC/protobuf",
+      "kafkaMigration": {
+        "wave": "10a",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-integrity": {
       "id": "lec-data-core-integrity",
@@ -3841,7 +4634,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore data integrity checker"
+      "description": "DataCore data integrity checker",
+      "kafkaMigration": {
+        "wave": "8",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-processor-api-scan-asset": {
       "id": "lec-data-core-processor-api-scan-asset",
@@ -3867,7 +4666,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore processor for API-scanned assets"
+      "description": "DataCore processor for API-scanned assets",
+      "kafkaMigration": {
+        "wave": "9",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-processor-asset": {
       "id": "lec-data-core-processor-asset",
@@ -3900,7 +4705,13 @@
       "databases": [
         "postgresql"
       ],
-      "description": "DataCore ETL — high throughput asset processing"
+      "description": "DataCore ETL — high throughput asset processing",
+      "kafkaMigration": {
+        "wave": "9",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-processor-asset-context": {
       "id": "lec-data-core-processor-asset-context",
@@ -3952,7 +4763,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore processor for classic On-Prem assets"
+      "description": "DataCore processor for classic On-Prem assets",
+      "kafkaMigration": {
+        "wave": "9",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-processor-cloud-asset": {
       "id": "lec-data-core-processor-cloud-asset",
@@ -3978,7 +4795,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore processor for cloud-scanned assets"
+      "description": "DataCore processor for cloud-scanned assets",
+      "kafkaMigration": {
+        "wave": "9",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-processor-deconcile": {
       "id": "lec-data-core-processor-deconcile",
@@ -4004,7 +4827,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore deconciliation processor"
+      "description": "DataCore deconciliation processor",
+      "kafkaMigration": {
+        "wave": "8",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "lec-data-core-processor-multitenant": {
       "id": "lec-data-core-processor-multitenant",
@@ -4056,7 +4885,13 @@
           "url": "https://github.com/Lansweeper/LECDataCore"
         }
       ],
-      "description": "DataCore processor for network traffic assets"
+      "description": "DataCore processor for network traffic assets",
+      "kafkaMigration": {
+        "wave": "9",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "discovery-config-api": {
       "id": "discovery-config-api",
@@ -4084,7 +4919,13 @@
       "databases": [
         "s3-phonehome"
       ],
-      "description": "Handles linking/unlinking and cloud configuration for IT project"
+      "description": "Handles linking/unlinking and cloud configuration for IT project",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     },
     "discovery-syncer-api": {
       "id": "discovery-syncer-api",
@@ -4113,13 +4954,19 @@
       "databases": [
         "s3-largescandata"
       ],
-      "description": "Bridge to DataCore inbound API — transport via HTTPS/Protobuf"
+      "description": "Bridge to DataCore inbound API — transport via HTTPS/Protobuf",
+      "kafkaMigration": {
+        "wave": "10b",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
     }
   },
   "metadata": {
     "dataCollectionDate": "2026-04-19",
     "totalTopics": 54,
-    "totalServices": 142,
+    "totalServices": 143,
     "totalTeams": 9
   }
 }
