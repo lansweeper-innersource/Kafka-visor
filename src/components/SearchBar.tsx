@@ -41,14 +41,29 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
     return map
   }, [flows])
 
+  // All flows, always available for browsing
+  const allFlows = useMemo<SearchResult[]>(() =>
+    flows.map(flow => ({
+      id: flow.id,
+      type: 'flow' as const,
+      label: flow.name,
+      detail: `${flow.nodes.length} nodes — ${flow.description}`,
+    })),
+    [flows]
+  )
+
   const results = useMemo(() => {
     if (query.length < 2) return []
     const q = query.toLowerCase()
     const matches: SearchResult[] = []
 
-    // Flows first
+    // Flows first — search name, id, AND description
     for (const flow of flows) {
-      if (flow.name.toLowerCase().includes(q) || flow.id.toLowerCase().includes(q)) {
+      if (
+        flow.name.toLowerCase().includes(q) ||
+        flow.id.toLowerCase().includes(q) ||
+        flow.description.toLowerCase().includes(q)
+      ) {
         matches.push({
           id: flow.id,
           type: 'flow',
@@ -84,6 +99,9 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
 
     return matches.slice(0, 15)
   }, [query, topology, flows, flowsByNodeId])
+
+  // Show flow catalog when focused with no query
+  const showFlowCatalog = isOpen && query.length < 2 && allFlows.length > 0
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -128,7 +146,7 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
             setIsOpen(true)
           }}
           onFocus={() => setIsOpen(true)}
-          placeholder="Search topics or services... (Ctrl+K)"
+          placeholder="Search or browse flows... (Ctrl+K)"
           className="bg-transparent text-xs text-gray-700 placeholder-gray-400 outline-none w-64"
         />
         {query && (
@@ -193,6 +211,32 @@ export function SearchBar({ topology, flows, onSelect }: SearchBarProps) {
                 </div>
               )}
             </div>
+          ))}
+        </div>
+      )}
+
+      {showFlowCatalog && (
+        <div className="absolute top-full left-0 mt-1 w-[28rem] bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
+          <div className="px-3 py-1.5 border-b border-gray-100 flex items-center justify-between">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">Flows</span>
+            <span className="text-[10px] text-gray-300">{allFlows.length}</span>
+          </div>
+          {allFlows.map(r => (
+            <button
+              key={r.id}
+              onClick={() => {
+                onSelect(r)
+                setQuery('')
+                setIsOpen(false)
+              }}
+              className="w-full text-left px-3 py-2 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-50 last:border-0"
+            >
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-700 text-white">F</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-xs font-medium text-gray-800 truncate">{r.label}</div>
+                <div className="text-[10px] text-gray-400 truncate">{r.detail}</div>
+              </div>
+            </button>
           ))}
         </div>
       )}
