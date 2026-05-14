@@ -173,10 +173,18 @@ function AppInner() {
     setShowNewFlowModal(true)
   }, [])
 
-  const handleCreateFlow = useCallback((id: string, name: string) => {
+  const handleCreateFlow = useCallback(async (id: string, name: string) => {
+    const flow = { id, name, description: '', nodes: [], edges: [] }
+    // Create file on disk immediately
+    await fetch('/api/save-flow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(flow),
+    }).catch(() => { /* dev server not available, continue anyway */ })
+
     setShowNewFlowModal(false)
     setFlowMeta({ id, name, description: '' })
-    setActiveFlow({ id, name, description: '', nodes: [], edges: [] })
+    setActiveFlow(flow)
     setIsEditing(true)
     setSelectedNode(null)
   }, [])
@@ -195,24 +203,36 @@ function AppInner() {
     }
   }, [activeFlow])
 
-  const handleSaveFlow = useCallback(() => {
+  const [saveStatus, setSaveStatus] = useState<string | null>(null)
+
+  const handleSaveFlow = useCallback(async () => {
     const nodes = getNodes()
     const edges = getEdges()
     const flow = serializeFlow(nodes, edges, flowMeta)
-    const json = JSON.stringify(flow, null, 2) + '\n'
-    const filename = `${flowMeta.id || 'flow'}.json`
 
-    // Copy to clipboard
-    navigator.clipboard.writeText(json)
-
-    // Download as file — user drops it in src/data/flows/
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = filename
-    a.click()
-    URL.revokeObjectURL(url)
+    try {
+      const res = await fetch('/api/save-flow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(flow),
+      })
+      if (!res.ok) throw new Error(await res.text())
+      const { saved } = await res.json() as { saved: string }
+      setSaveStatus(`Saved: ${saved}`)
+      setTimeout(() => setSaveStatus(null), 3000)
+    } catch {
+      // Fallback: download file if dev server not available
+      const json = JSON.stringify(flow, null, 2) + '\n'
+      const blob = new Blob([json], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${flowMeta.id || 'flow'}.json`
+      a.click()
+      URL.revokeObjectURL(url)
+      setSaveStatus('Downloaded (dev server not available)')
+      setTimeout(() => setSaveStatus(null), 3000)
+    }
   }, [getNodes, getEdges, flowMeta])
 
   const handleLoadFlow = useCallback(() => {
@@ -348,10 +368,13 @@ function AppInner() {
                 <button
                   onClick={handleSaveFlow}
                   className="text-[11px] px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 font-semibold"
-                  title="Save to src/data/flows/ — also copies to clipboard"
+                  title="Save to src/data/flows/"
                 >
                   Save Flow
                 </button>
+                {saveStatus && (
+                  <span className="text-[10px] text-green-700 font-mono">{saveStatus}</span>
+                )}
                 <button
                   onClick={handleCancelEdit}
                   className="text-[11px] px-2 py-1 rounded text-gray-600 hover:bg-gray-200"
