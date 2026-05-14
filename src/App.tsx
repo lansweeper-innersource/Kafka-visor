@@ -454,16 +454,15 @@ function AppInner() {
           )}
         </div>
 
-        {!isEditing && (
-          <DetailPanel
-            node={selectedNode}
-            topology={topology}
-            flows={flows}
-            onClose={handleCloseDetail}
-            onNavigate={navigateToNode}
-            onOpenFlow={handleOpenFlow}
-          />
-        )}
+        <DetailPanel
+          node={selectedNode}
+          topology={topology}
+          flows={flows}
+          onClose={handleCloseDetail}
+          onNavigate={navigateToNode}
+          onOpenFlow={handleOpenFlow}
+          isFlowMode={!!activeFlow}
+        />
       </div>
 
       {/* New Flow modal */}

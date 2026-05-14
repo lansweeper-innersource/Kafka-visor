@@ -17,6 +17,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
         draggable: true,
         data: {
           label: nodeDef.label ?? baseId,
+          topologyId: baseId,
           team: svc?.team ?? '',
           teamColor: team?.color ?? '#6B7280',
           repository: svc?.repository ?? '',
@@ -44,6 +45,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
         draggable: true,
         data: {
           label: nodeDef.label ?? baseId,
+          topologyId: baseId,
           consumerCount: topic?.consumerCount ?? 0,
           producerCount: topic?.producerCount ?? 0,
           teamCount: topic?.teamCount ?? 0,

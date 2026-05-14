@@ -10,16 +10,27 @@ interface DetailPanelProps {
   onClose: () => void
   onNavigate: (nodeId: string, type: 'topic' | 'service') => void
   onOpenFlow: (flowId: string) => void
+  isFlowMode?: boolean
 }
 
-export function DetailPanel({ node, topology, flows, onClose, onNavigate, onOpenFlow }: DetailPanelProps) {
+
+export function DetailPanel({ node, topology, flows, onClose, onNavigate, onOpenFlow, isFlowMode }: DetailPanelProps) {
   if (!node) return null
+
+  const nodeType = node.type
+
+  const data = node.data
+
+  const typeLabel = nodeType === 'topic' ? 'Topic'
+    : nodeType === 'scanner' ? 'Scanner'
+    : nodeType === 'database' ? 'Database'
+    : 'Service'
 
   return (
     <div className="w-80 bg-white border-l border-gray-200 p-4 overflow-y-auto flex-shrink-0">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-sm font-bold text-gray-700">
-          {node.type === 'topic' ? 'Topic' : 'Service'} Details
+          {typeLabel} Details
         </h2>
         <button
           onClick={onClose}
@@ -29,23 +40,62 @@ export function DetailPanel({ node, topology, flows, onClose, onNavigate, onOpen
         </button>
       </div>
 
-      {node.type === 'topic' && (
+      {nodeType === 'topic' && (
         <TopicDetails
-          data={node.data as TopicNodeData}
+          data={data as TopicNodeData}
           topology={topology}
           flows={flows}
           onNavigate={onNavigate}
           onOpenFlow={onOpenFlow}
         />
       )}
-      {node.type === 'service' && (
+      {nodeType === 'service' && (
         <ServiceDetails
-          data={node.data as ServiceNodeData}
+          data={data as ServiceNodeData}
           topology={topology}
           flows={flows}
           onNavigate={onNavigate}
           onOpenFlow={onOpenFlow}
         />
+      )}
+      {nodeType === 'scanner' && (
+        <ScannerDetails label={data.label as string} variant={data.variant as string | undefined} />
+      )}
+      {nodeType === 'database' && (
+        <div className="text-xs font-mono font-bold text-gray-800">{String(data.label)}</div>
+      )}
+
+      {/* Annotations (flow mode) */}
+      {isFlowMode && Array.isArray(data.annotations) && (
+        <div className="mt-4 space-y-1">
+          <div className="text-xs font-semibold text-gray-600">Annotations</div>
+          {(data.annotations as { text: string; severity?: string }[]).map((a, i) => (
+            <div
+              key={i}
+              className={`text-[11px] px-2 py-1.5 rounded leading-snug ${
+                a.severity === 'critical' ? 'bg-red-50 text-red-800'
+                : a.severity === 'warning' ? 'bg-amber-50 text-amber-800'
+                : 'bg-blue-50 text-blue-800'
+              }`}
+            >
+              {a.text}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ScannerDetails({ label, variant }: { label: string; variant?: string }) {
+  return (
+    <div className="space-y-2">
+      <div className="text-xs font-mono font-bold text-gray-800">{label}</div>
+      {variant && (
+        <div className="flex items-center gap-1.5">
+          <span className={`w-2.5 h-2.5 rounded-full ${variant === 'vnext' ? 'bg-teal-400' : 'bg-orange-400'}`} />
+          <span className="text-xs text-gray-600">{variant === 'vnext' ? 'vNext' : 'On-Prem'}</span>
+        </div>
       )}
     </div>
   )
@@ -93,14 +143,18 @@ function TopicDetails({
   onNavigate: (nodeId: string, type: 'topic' | 'service') => void
   onOpenFlow: (flowId: string) => void
 }) {
-  const topic = topology.topics[data.label]
+  const topologyId = (data.topologyId as string) ?? data.label
+  const topic = topology.topics[topologyId]
   if (!topic) return null
 
-  const inFlows = flowsContaining(data.label, flows)
+  const inFlows = flowsContaining(topologyId, flows)
 
   return (
     <div className="space-y-4">
-      <div className="text-xs font-mono font-bold text-gray-800 break-all">{data.label}</div>
+      <div className="text-xs font-mono font-bold text-gray-800 break-all">{topologyId}</div>
+      {data.label !== topologyId && (
+        <div className="text-[11px] text-gray-500 mt-0.5">{data.label}</div>
+      )}
 
       <div className="grid grid-cols-3 gap-2 text-center">
         <Stat label="Producers" value={data.producerCount} color="text-green-600" />
@@ -141,16 +195,25 @@ function ServiceDetails({
   onNavigate: (nodeId: string, type: 'topic' | 'service') => void
   onOpenFlow: (flowId: string) => void
 }) {
-  const blast = getBlastRadius(data.label, topology)
-  const inFlows = flowsContaining(data.label, flows)
+  const topologyId = (data.topologyId as string) ?? data.label
+  const blast = getBlastRadius(topologyId, topology)
+  const inFlows = flowsContaining(topologyId, flows)
 
   return (
     <div className="space-y-4">
       <div>
-        <div className="text-xs font-mono font-bold text-gray-800">{data.label}</div>
+        <div className="text-xs font-mono font-bold text-gray-800">{topologyId}</div>
+        {data.label !== topologyId && (
+          <div className="text-[11px] text-gray-500 mt-0.5">{data.label}</div>
+        )}
         <div className="flex items-center gap-1.5 mt-1">
           <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: data.teamColor }} />
           <span className="text-xs text-gray-600">{data.team}</span>
+          {data.teamColor && (
+            <span className="text-[10px] text-gray-400">
+              {topology.teams[data.team as string]?.fullName ?? ''}
+            </span>
+          )}
         </div>
         {data.description && (
           <div className="text-[11px] text-gray-500 mt-1.5 leading-snug">{data.description}</div>
