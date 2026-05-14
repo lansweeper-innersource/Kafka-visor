@@ -13,11 +13,46 @@ import { serializeFlow } from './lib/flow-serializer'
 import { getInteractionStyle } from './lib/flow-colors'
 import type { TopologyData, FlowDefinition, InteractionType } from './types'
 import topologyData from './data/topology.json'
-import flowsData from './data/flows.json'
+import { flows } from './data/load-flows'
 import './index.css'
 
 const topology = topologyData as TopologyData
-const flows = flowsData as FlowDefinition[]
+
+function NewFlowModal({ onCreate, onCancel }: { onCreate: (id: string, name: string) => void; onCancel: () => void }) {
+  const [name, setName] = useState('')
+  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
+  return (
+    <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center" onClick={onCancel}>
+      <div className="bg-white rounded-lg shadow-xl p-5 w-96" onClick={e => e.stopPropagation()}>
+        <h2 className="text-sm font-bold text-gray-800 mb-3">New Flow</h2>
+        <label className="block text-xs text-gray-600 mb-1">Flow name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="e.g. Asset Data Path — Discovery"
+          className="w-full text-sm px-3 py-1.5 border border-gray-300 rounded mb-1 focus:outline-none focus:border-blue-400"
+          autoFocus
+          onKeyDown={e => { if (e.key === 'Enter' && name.trim()) onCreate(id, name.trim()) }}
+        />
+        <div className="text-[10px] text-gray-400 mb-4">
+          File: <span className="font-mono">{id || '...'}.json</span>
+        </div>
+        <div className="flex justify-end gap-2">
+          <button onClick={onCancel} className="text-xs px-3 py-1 rounded text-gray-500 hover:bg-gray-100">Cancel</button>
+          <button
+            onClick={() => name.trim() && onCreate(id, name.trim())}
+            disabled={!name.trim()}
+            className="text-xs px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-40"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function AppInner() {
   const [selectedTeams, setSelectedTeams] = useState<Set<string>>(new Set())
@@ -132,9 +167,16 @@ function AppInner() {
   }, [])
 
   // --- Flow editing ---
+  const [showNewFlowModal, setShowNewFlowModal] = useState(false)
+
   const handleNewFlow = useCallback(() => {
-    setActiveFlow({ id: '', name: '', description: '', nodes: [], edges: [] })
-    setFlowMeta({ id: '', name: '', description: '' })
+    setShowNewFlowModal(true)
+  }, [])
+
+  const handleCreateFlow = useCallback((id: string, name: string) => {
+    setShowNewFlowModal(false)
+    setFlowMeta({ id, name, description: '' })
+    setActiveFlow({ id, name, description: '', nodes: [], edges: [] })
     setIsEditing(true)
     setSelectedNode(null)
   }, [])
@@ -153,21 +195,45 @@ function AppInner() {
     }
   }, [activeFlow])
 
-  const handleExportFlow = useCallback(() => {
+  const handleSaveFlow = useCallback(() => {
     const nodes = getNodes()
     const edges = getEdges()
     const flow = serializeFlow(nodes, edges, flowMeta)
-    const json = JSON.stringify(flow, null, 2)
+    const json = JSON.stringify(flow, null, 2) + '\n'
+    const filename = `${flowMeta.id || 'flow'}.json`
+
+    // Copy to clipboard
     navigator.clipboard.writeText(json)
-    // Also trigger download
+
+    // Download as file — user drops it in src/data/flows/
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${flowMeta.id || 'flow'}.json`
+    a.download = filename
     a.click()
     URL.revokeObjectURL(url)
   }, [getNodes, getEdges, flowMeta])
+
+  const handleLoadFlow = useCallback(() => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.json'
+    input.onchange = () => {
+      const file = input.files?.[0]
+      if (!file) return
+      const reader = new FileReader()
+      reader.onload = () => {
+        const flow = JSON.parse(reader.result as string) as FlowDefinition
+        setActiveFlow(flow)
+        setFlowMeta({ id: flow.id, name: flow.name, description: flow.description })
+        setIsEditing(true)
+        setSelectedNode(null)
+      }
+      reader.readAsText(file)
+    }
+    input.click()
+  }, [])
 
   const handleEdgeSave = useCallback((edgeId: string, type: InteractionType, label: string) => {
     const style = getInteractionStyle(type)
@@ -211,12 +277,20 @@ function AppInner() {
             </>
           )}
           {!isEditing && (
-            <button
-              onClick={handleNewFlow}
-              className="px-2 py-1 rounded bg-green-100 hover:bg-green-200 text-green-700 font-semibold"
-            >
-              + New Flow
-            </button>
+            <>
+              <button
+                onClick={handleNewFlow}
+                className="px-2 py-1 rounded bg-green-100 hover:bg-green-200 text-green-700 font-semibold"
+              >
+                + New Flow
+              </button>
+              <button
+                onClick={handleLoadFlow}
+                className="px-2 py-1 rounded bg-blue-100 hover:bg-blue-200 text-blue-700"
+              >
+                Load Flow
+              </button>
+            </>
           )}
           <button
             onClick={downloadImage}
@@ -272,10 +346,11 @@ function AppInner() {
             {isEditing ? (
               <>
                 <button
-                  onClick={handleExportFlow}
+                  onClick={handleSaveFlow}
                   className="text-[11px] px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 font-semibold"
+                  title="Save to src/data/flows/ — also copies to clipboard"
                 >
-                  Export JSON
+                  Save Flow
                 </button>
                 <button
                   onClick={handleCancelEdit}
@@ -393,6 +468,9 @@ function AppInner() {
           />
         )}
       </div>
+
+      {/* New Flow modal */}
+      {showNewFlowModal && <NewFlowModal onCreate={handleCreateFlow} onCancel={() => setShowNewFlowModal(false)} />}
     </div>
   )
 }

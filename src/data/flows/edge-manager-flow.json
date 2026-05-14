@@ -1,0 +1,114 @@
+{
+  "id": "edge-manager-flow",
+  "name": "Edge Manager — Install Lifecycle",
+  "description": "On-Prem connects directly to Edge Manager (GraphQL) for linking, unlinking, license checks, config — calls 5 backend services via gRPC",
+  "nodes": [
+    {
+      "id": "onprem-scanner",
+      "type": "scanner",
+      "label": "On-Prem Scanner",
+      "position": [
+        0,
+        280
+      ]
+    },
+    {
+      "id": "lec-edge-manager",
+      "type": "service",
+      "label": "Edge Manager",
+      "position": [
+        450,
+        280
+      ],
+      "annotations": [
+        {
+          "text": "Not in Kafka topology — communicates via gRPC only",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-multitenant-api",
+      "type": "service",
+      "label": "Multitenant API",
+      "position": [
+        950,
+        0
+      ]
+    },
+    {
+      "id": "lec-licensing-api",
+      "type": "service",
+      "label": "Licensing API",
+      "position": [
+        950,
+        140
+      ]
+    },
+    {
+      "id": "lec-scanning-api",
+      "type": "service",
+      "label": "Scanning API (on-prem)",
+      "position": [
+        950,
+        280
+      ]
+    },
+    {
+      "id": "lec-asset-api",
+      "type": "service",
+      "label": "Asset API",
+      "position": [
+        950,
+        420
+      ]
+    },
+    {
+      "id": "install-status-api",
+      "type": "service",
+      "label": "Install Status API",
+      "position": [
+        950,
+        560
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "https",
+      "label": "GraphQL"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "sites / installs"
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "type": "grpc",
+      "label": "license check"
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "type": "grpc",
+      "label": "scanning config"
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "type": "grpc",
+      "label": "asset lookup"
+    },
+    {
+      "source": 1,
+      "target": 6,
+      "type": "grpc",
+      "label": "install status"
+    }
+  ]
+}
