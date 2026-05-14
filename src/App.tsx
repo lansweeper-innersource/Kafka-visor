@@ -13,7 +13,7 @@ import { serializeFlow } from './lib/flow-serializer'
 import { getInteractionStyle } from './lib/flow-colors'
 import type { TopologyData, FlowDefinition, InteractionType } from './types'
 import topologyData from './data/topology.json'
-import { flows } from './data/load-flows'
+import { flows as builtInFlows } from './data/load-flows'
 import './index.css'
 
 const topology = topologyData as TopologyData
@@ -63,6 +63,9 @@ function AppInner() {
   const [isEditing, setIsEditing] = useState(false)
   const [edgeEdit, setEdgeEdit] = useState<EdgeEditState | null>(null)
   const [flowMeta, setFlowMeta] = useState({ id: '', name: '', description: '' })
+  const [loadedFlows, setLoadedFlows] = useState<FlowDefinition[]>([])
+
+  const flows = [...builtInFlows, ...loadedFlows.filter(lf => !builtInFlows.some(bf => bf.id === lf.id))]
   const focusCounter = useRef(0)
   const downloadImage = useDownloadImage()
   const { getNodes, getEdges, setEdges } = useReactFlow()
@@ -173,18 +176,10 @@ function AppInner() {
     setShowNewFlowModal(true)
   }, [])
 
-  const handleCreateFlow = useCallback(async (id: string, name: string) => {
-    const flow = { id, name, description: '', nodes: [], edges: [] }
-    // Create file on disk immediately
-    await fetch('/api/save-flow', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(flow),
-    }).catch(() => { /* dev server not available, continue anyway */ })
-
+  const handleCreateFlow = useCallback((id: string, name: string) => {
     setShowNewFlowModal(false)
     setFlowMeta({ id, name, description: '' })
-    setActiveFlow(flow)
+    setActiveFlow({ id, name, description: '', nodes: [], edges: [] })
     setIsEditing(true)
     setSelectedNode(null)
   }, [])
@@ -203,36 +198,18 @@ function AppInner() {
     }
   }, [activeFlow])
 
-  const [saveStatus, setSaveStatus] = useState<string | null>(null)
-
-  const handleSaveFlow = useCallback(async () => {
+  const handleSaveFlow = useCallback(() => {
     const nodes = getNodes()
     const edges = getEdges()
     const flow = serializeFlow(nodes, edges, flowMeta)
-
-    try {
-      const res = await fetch('/api/save-flow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(flow),
-      })
-      if (!res.ok) throw new Error(await res.text())
-      const { saved } = await res.json() as { saved: string }
-      setSaveStatus(`Saved: ${saved}`)
-      setTimeout(() => setSaveStatus(null), 3000)
-    } catch {
-      // Fallback: download file if dev server not available
-      const json = JSON.stringify(flow, null, 2) + '\n'
-      const blob = new Blob([json], { type: 'application/json' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `${flowMeta.id || 'flow'}.json`
-      a.click()
-      URL.revokeObjectURL(url)
-      setSaveStatus('Downloaded (dev server not available)')
-      setTimeout(() => setSaveStatus(null), 3000)
-    }
+    const json = JSON.stringify(flow, null, 2) + '\n'
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${flowMeta.id || 'flow'}.json`
+    a.click()
+    URL.revokeObjectURL(url)
   }, [getNodes, getEdges, flowMeta])
 
   const handleLoadFlow = useCallback(() => {
@@ -245,9 +222,9 @@ function AppInner() {
       const reader = new FileReader()
       reader.onload = () => {
         const flow = JSON.parse(reader.result as string) as FlowDefinition
+        setLoadedFlows(prev => [...prev.filter(f => f.id !== flow.id), flow])
         setActiveFlow(flow)
         setFlowMeta({ id: flow.id, name: flow.name, description: flow.description })
-        setIsEditing(true)
         setSelectedNode(null)
       }
       reader.readAsText(file)
@@ -372,9 +349,6 @@ function AppInner() {
                 >
                   Save Flow
                 </button>
-                {saveStatus && (
-                  <span className="text-[10px] text-green-700 font-mono">{saveStatus}</span>
-                )}
                 <button
                   onClick={handleCancelEdit}
                   className="text-[11px] px-2 py-1 rounded text-gray-600 hover:bg-gray-200"
