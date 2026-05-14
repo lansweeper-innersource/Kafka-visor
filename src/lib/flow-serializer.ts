@@ -1,5 +1,5 @@
 import type { Node, Edge } from '@xyflow/react'
-import type { FlowDefinition, FlowNodeDef, FlowEdgeDef, FlowNodeType, InteractionType, Annotation } from '../types'
+import type { FlowDefinition, FlowNodeDef, FlowEdgeDef, FlowNodeType, InteractionType, Annotation, ScannerVariant } from '../types'
 
 interface FlowMetadata {
   id: string
@@ -17,6 +17,7 @@ export function serializeFlow(nodes: Node[], edges: Edge[], metadata: FlowMetada
     const label = n.data.label as string | undefined
     const annotations = n.data.annotations as Annotation[] | undefined
     const flowId = n.data.flowId as string | undefined
+    const variant = n.data.variant as ScannerVariant | undefined
 
     const nodeDef: FlowNodeDef = {
       id: bareId,
@@ -27,6 +28,7 @@ export function serializeFlow(nodes: Node[], edges: Edge[], metadata: FlowMetada
     if (label) nodeDef.label = label
     if (annotations?.length) nodeDef.annotations = annotations
     if (flowId) nodeDef.flowId = flowId
+    if (variant) nodeDef.variant = variant
 
     return nodeDef
   })

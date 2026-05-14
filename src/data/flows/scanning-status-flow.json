@@ -10,7 +10,8 @@
       "position": [
         0,
         100
-      ]
+      ],
+      "variant": "onprem"
     },
     {
       "id": "syncer-status-api",

@@ -10,7 +10,8 @@
       "position": [
         0,
         250
-      ]
+      ],
+      "variant": "onprem"
     },
     {
       "id": "lec-syncer-api",

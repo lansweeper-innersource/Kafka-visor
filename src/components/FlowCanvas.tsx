@@ -24,7 +24,7 @@ import { DatabaseNode } from './nodes/DatabaseNode'
 import { FlowRefNode } from './nodes/FlowRefNode'
 import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
-import type { TopologyData, FlowDefinition, FlowNodeType } from '../types'
+import type { TopologyData, FlowDefinition, FlowNodeType, ScannerVariant } from '../types'
 import { buildGraph, filterByTeams, getNeighborIds } from '../lib/graph-builder'
 import { buildFlowNodes, buildFlowEdges } from '../lib/flow-builder'
 import { getInteractionStyle } from '../lib/flow-colors'
@@ -282,12 +282,12 @@ export function FlowCanvas({
       const raw = event.dataTransfer.getData('application/kafka-visor-node')
       if (!raw) return
 
-      const { id, type, label } = JSON.parse(raw) as { id: string; type: FlowNodeType; label: string }
+      const { id, type, label, variant } = JSON.parse(raw) as { id: string; type: FlowNodeType; label: string; variant?: ScannerVariant }
       const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
       const idx = nodeCounterRef.current++
 
       const nodeId = `flow-${idx}:${id}`
-      let data: Record<string, unknown> = { label }
+      let data: Record<string, unknown> = { label, ...(variant ? { variant } : {}) }
 
       if (type === 'service') {
         const svc = topology.services[id]

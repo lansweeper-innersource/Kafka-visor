@@ -1,5 +1,5 @@
 import { useState, useCallback, type DragEvent } from 'react'
-import type { TopologyData, FlowNodeType } from '../types'
+import type { TopologyData, FlowNodeType, ScannerVariant } from '../types'
 
 interface NodePaletteProps {
   topology: TopologyData
@@ -12,8 +12,16 @@ interface PaletteItem {
   category: 'service' | 'topic' | 'other'
 }
 
-const AD_HOC_TYPES: { type: FlowNodeType; label: string }[] = [
-  { type: 'scanner', label: 'Scanner' },
+interface AdHocType {
+  type: FlowNodeType
+  label: string
+  variant?: ScannerVariant
+}
+
+const AD_HOC_TYPES: AdHocType[] = [
+  { type: 'scanner', label: 'Scanner (on-prem)', variant: 'onprem' },
+  { type: 'scanner', label: 'Scanner (vnext)', variant: 'vnext' },
+  { type: 'scanner', label: 'Scanner (generic)' },
   { type: 'database', label: 'Database' },
   { type: 'flowRef', label: 'Flow Reference' },
 ]
@@ -41,7 +49,7 @@ export function NodePalette({ topology }: NodePaletteProps) {
     ? items.filter(it => it.id.toLowerCase().includes(search.toLowerCase()) || it.label.toLowerCase().includes(search.toLowerCase()))
     : items
 
-  const onDragStart = useCallback((e: DragEvent, item: { id: string; type: FlowNodeType; label: string }) => {
+  const onDragStart = useCallback((e: DragEvent, item: { id: string; type: FlowNodeType; label: string; variant?: ScannerVariant }) => {
     e.dataTransfer.setData('application/kafka-visor-node', JSON.stringify(item))
     e.dataTransfer.effectAllowed = 'move'
   }, [])
@@ -73,11 +81,11 @@ export function NodePalette({ topology }: NodePaletteProps) {
       <div className="flex-1 overflow-y-auto">
         {tab === 'other' ? (
           <div className="p-2 space-y-1">
-            {AD_HOC_TYPES.map(({ type, label }) => (
+            {AD_HOC_TYPES.map(({ type, label, variant }) => (
               <div
-                key={type}
+                key={`${type}-${variant ?? 'default'}`}
                 draggable
-                onDragStart={e => onDragStart(e, { id: type, type, label })}
+                onDragStart={e => onDragStart(e, { id: type, type, label, variant })}
                 className="text-xs px-2 py-1.5 rounded border border-dashed border-gray-300 cursor-grab hover:bg-gray-50 text-gray-600"
               >
                 {label}

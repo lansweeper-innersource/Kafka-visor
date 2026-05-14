@@ -96,7 +96,8 @@
       "position": [
         2400,
         100
-      ]
+      ],
+      "variant": "onprem"
     }
   ],
   "edges": [

@@ -16,7 +16,8 @@
           "text": "On-prem agent — successor of On-Prem Classic. .NET / GrpcClientFactory configured via DiscoveryGateway:Url. Uses M2M token for authentication.",
           "severity": "info"
         }
-      ]
+      ],
+      "variant": "vnext"
     },
     {
       "id": "discovery-config-api",

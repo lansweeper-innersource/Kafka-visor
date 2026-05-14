@@ -103,6 +103,26 @@ describe('serializeFlow', () => {
     })
   })
 
+  it('handles scanner nodes with variant', () => {
+    const nodes: Node[] = [
+      {
+        id: 'flow-0:hub',
+        type: 'scanner',
+        position: { x: 0, y: 0 },
+        data: { label: 'HUB', variant: 'vnext' },
+      },
+    ]
+
+    const result = serializeFlow(nodes, [], { id: 'x', name: 'X', description: '' })
+    expect(result.nodes[0]).toEqual({
+      id: 'hub',
+      type: 'scanner',
+      label: 'HUB',
+      position: [0, 0],
+      variant: 'vnext',
+    })
+  })
+
   it('rounds positions to integers', () => {
     const nodes: Node[] = [
       { id: 'flow-0:a', type: 'service', position: { x: 100.7, y: 200.3 }, data: { label: 'A' } },

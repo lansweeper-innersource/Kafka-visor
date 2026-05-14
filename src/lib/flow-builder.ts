@@ -75,6 +75,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
       data: {
         label: nodeDef.label ?? baseId,
         annotations: nodeDef.annotations,
+        ...(nodeDef.variant ? { variant: nodeDef.variant } : {}),
       },
     }
   })

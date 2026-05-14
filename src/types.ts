@@ -58,6 +58,8 @@ export interface Annotation {
   severity?: 'info' | 'warning' | 'critical'
 }
 
+export type ScannerVariant = 'onprem' | 'vnext'
+
 export interface FlowNodeDef {
   id: string
   type: FlowNodeType
@@ -66,6 +68,8 @@ export interface FlowNodeDef {
   annotations?: Annotation[]
   /** For flowRef nodes: the id of the target flow */
   flowId?: string
+  /** For scanner nodes: on-prem vs vnext */
+  variant?: ScannerVariant
 }
 
 export interface FlowEdgeDef {

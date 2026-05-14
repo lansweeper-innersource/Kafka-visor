@@ -10,7 +10,8 @@
       "position": [
         0,
         120
-      ]
+      ],
+      "variant": "vnext"
     },
     {
       "id": "vnext",
@@ -19,7 +20,8 @@
       "position": [
         300,
         120
-      ]
+      ],
+      "variant": "vnext"
     },
     {
       "id": "discovery-syncer-api",

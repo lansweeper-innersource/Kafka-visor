@@ -10,7 +10,8 @@
       "position": [
         0,
         280
-      ]
+      ],
+      "variant": "onprem"
     },
     {
       "id": "lec-edge-manager",
