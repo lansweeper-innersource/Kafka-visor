@@ -1,0 +1,148 @@
+{
+  "id": "asset-data-path-classic",
+  "name": "Asset Data Path — Classic (On-Prem)",
+  "description": "On-Prem scanner → SyncerAPI v2 (gRPC protobuf, batches of 100) → publishes to multiple Kafka topics → various consumers",
+  "nodes": [
+    {
+      "id": "onprem-scanner",
+      "type": "scanner",
+      "label": "On-Prem Scanner",
+      "position": [
+        0,
+        250
+      ],
+      "variant": "onprem"
+    },
+    {
+      "id": "lec-syncer-api",
+      "type": "service",
+      "label": "SyncerAPI v2",
+      "position": [
+        400,
+        250
+      ],
+      "annotations": [
+        {
+          "text": "Go rewrite — receives gRPC protobuf stream, publishes to 10 Kafka topics",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "public.edge.asset.event",
+      "type": "topic",
+      "position": [
+        850,
+        0
+      ]
+    },
+    {
+      "id": "public.edge.assetcommon.event",
+      "type": "topic",
+      "position": [
+        850,
+        170
+      ]
+    },
+    {
+      "id": "public.edge.activedirectory.event",
+      "type": "topic",
+      "position": [
+        850,
+        340
+      ]
+    },
+    {
+      "id": "public.command.tracking",
+      "type": "topic",
+      "position": [
+        850,
+        510
+      ]
+    },
+    {
+      "id": "asset-operations-consumer",
+      "type": "service",
+      "label": "Asset Operations Consumer",
+      "position": [
+        1350,
+        0
+      ]
+    },
+    {
+      "id": "mongodb-assets",
+      "type": "database",
+      "label": "MongoDB (Assets)",
+      "position": [
+        1750,
+        0
+      ]
+    },
+    {
+      "id": "lec-scanning-consumer",
+      "type": "service",
+      "label": "Scanning Consumer (on-prem)",
+      "position": [
+        1350,
+        340
+      ]
+    },
+    {
+      "id": "lec-tracking-consumer",
+      "type": "service",
+      "label": "Tracking Consumer",
+      "position": [
+        1350,
+        510
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc",
+      "label": "protobuf stream (batches of 100)"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "type": "kafka"
+    },
+    {
+      "source": 2,
+      "target": 6,
+      "type": "kafka"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "type": "db"
+    },
+    {
+      "source": 3,
+      "target": 8,
+      "type": "kafka"
+    },
+    {
+      "source": 5,
+      "target": 9,
+      "type": "kafka"
+    }
+  ]
+}

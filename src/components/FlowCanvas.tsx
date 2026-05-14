@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, type DragEvent } from 'react'
 import {
   ReactFlow,
   MiniMap,
@@ -6,6 +6,7 @@ import {
   Background,
   BackgroundVariant,
   MarkerType,
+  ConnectionMode,
   useNodesState,
   useEdgesState,
   useReactFlow,
@@ -14,6 +15,7 @@ import {
   type OnNodesChange,
   type OnEdgesChange,
   type DefaultEdgeOptions,
+  type Connection,
 } from '@xyflow/react'
 import { TopicNode } from './nodes/TopicNode'
 import { ServiceNode } from './nodes/ServiceNode'
@@ -22,10 +24,12 @@ import { DatabaseNode } from './nodes/DatabaseNode'
 import { FlowRefNode } from './nodes/FlowRefNode'
 import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
-import type { TopologyData, FlowDefinition } from '../types'
+import type { TopologyData, FlowDefinition, FlowNodeType, ScannerVariant } from '../types'
 import { buildGraph, filterByTeams, getNeighborIds } from '../lib/graph-builder'
 import { buildFlowNodes, buildFlowEdges } from '../lib/flow-builder'
+import { getInteractionStyle } from '../lib/flow-colors'
 import type { ContextMenuState } from './ContextMenu'
+import { getValidEdgeTypes, type EdgeEditState } from './EdgeTypeModal'
 
 // CRITICAL: Define outside component to prevent remounts
 const nodeTypes = {
@@ -75,6 +79,8 @@ interface FlowCanvasProps {
   onContextMenu: (menu: ContextMenuState | null) => void
   activeFlow: FlowDefinition | null
   onFlowNavigate?: (flowId: string) => void
+  isEditing?: boolean
+  onEdgeEdit?: (state: EdgeEditState) => void
 }
 
 export function FlowCanvas({
@@ -86,11 +92,13 @@ export function FlowCanvas({
   onContextMenu,
   activeFlow,
   onFlowNavigate,
+  isEditing,
+  onEdgeEdit,
 }: FlowCanvasProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const layoutNodes = useElkLayout()
-  const { setCenter, getNodes, fitView } = useReactFlow()
+  const { setCenter, getNodes, fitView, screenToFlowPosition } = useReactFlow()
   const layoutDone = useRef(false)
   const prevTeamsRef = useRef<string>('')
   const prevFocusRef = useRef<string | null>(null)
@@ -225,6 +233,119 @@ export function FlowCanvas({
     [onContextMenu]
   )
 
+  // --- Editing handlers ---
+  const nodeCounterRef = useRef(0)
+
+  const handleConnect = useCallback(
+    (connection: Connection) => {
+      if (!isEditing) return
+
+      // Determine source/target node types for edge validation
+      const sourceNode = nodes.find(n => n.id === connection.source)
+      const targetNode = nodes.find(n => n.id === connection.target)
+      const sourceType = sourceNode?.type as FlowNodeType | undefined
+      const targetType = targetNode?.type as FlowNodeType | undefined
+      const validTypes = getValidEdgeTypes(sourceType, targetType)
+      const defaultType = validTypes[0]
+
+      const edgeId = `flow-edge-new-${Date.now()}`
+      const style = getInteractionStyle(defaultType)
+      const newEdge: Edge = {
+        id: edgeId,
+        source: connection.source,
+        target: connection.target,
+        type: 'flow',
+        animated: true,
+        data: { interactionType: defaultType, label: '', stepNumber: edges.length + 1 },
+        style: { stroke: style.stroke, strokeWidth: 2.5 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: style.stroke, width: 16, height: 16 },
+      }
+      setEdges(eds => [...eds, newEdge])
+
+      // If only one valid type, auto-apply without picker
+      if (validTypes.length === 1) {
+        return
+      }
+
+      // Open edge type picker with valid types
+      if (onEdgeEdit) {
+        onEdgeEdit({ edgeId, type: defaultType, label: '', x: 400, y: 300, sourceType, targetType })
+      }
+    },
+    [isEditing, nodes, edges.length, setEdges, onEdgeEdit]
+  )
+
+  const handleEdgeClick = useCallback(
+    (event: React.MouseEvent, edge: Edge) => {
+      if (!isEditing || !onEdgeEdit) return
+      const sourceNode = nodes.find(n => n.id === edge.source)
+      const targetNode = nodes.find(n => n.id === edge.target)
+      onEdgeEdit({
+        edgeId: edge.id,
+        type: (edge.data?.interactionType as EdgeEditState['type']) ?? 'kafka',
+        label: (edge.data?.label as string) ?? '',
+        x: event.clientX,
+        y: event.clientY,
+        sourceType: sourceNode?.type as FlowNodeType | undefined,
+        targetType: targetNode?.type as FlowNodeType | undefined,
+      })
+    },
+    [isEditing, nodes, onEdgeEdit]
+  )
+
+  const handleDrop = useCallback(
+    (event: DragEvent) => {
+      event.preventDefault()
+      const raw = event.dataTransfer.getData('application/kafka-visor-node')
+      if (!raw) return
+
+      const { id, type, label, variant } = JSON.parse(raw) as { id: string; type: FlowNodeType; label: string; variant?: ScannerVariant }
+      const position = screenToFlowPosition({ x: event.clientX, y: event.clientY })
+      const idx = nodeCounterRef.current++
+
+      const nodeId = `flow-${idx}:${id}`
+      let data: Record<string, unknown> = { label, ...(variant ? { variant } : {}) }
+
+      if (type === 'service') {
+        const svc = topology.services[id]
+        const team = svc ? topology.teams[svc.team] : null
+        data = {
+          label: label || id,
+          team: svc?.team ?? '',
+          teamColor: team?.color ?? '#6B7280',
+          repository: svc?.repository ?? '',
+          namespace: svc?.namespace ?? '',
+          runningInCluster: svc?.runningInCluster ?? false,
+          deploymentType: svc?.deploymentType ?? 'Unknown',
+          produces: svc?.produces ?? [],
+          consumes: svc?.consumes ?? [],
+          githubUrl: svc?.githubUrl,
+          sourceRepos: svc?.sourceRepos,
+          description: svc?.description,
+        }
+      } else if (type === 'topic') {
+        const topic = topology.topics[id]
+        data = {
+          label: label || id,
+          consumerCount: topic?.consumerCount ?? 0,
+          producerCount: topic?.producerCount ?? 0,
+          teamCount: topic?.teamCount ?? 0,
+        }
+      } else if (type === 'flowRef') {
+        data = { label: label || 'Flow Ref', flowId: '' }
+      }
+
+      const newNode: Node = { id: nodeId, type, position, draggable: true, data }
+      setNodes(nds => [...nds, newNode])
+    },
+    [topology, setNodes, screenToFlowPosition]
+  )
+
+  const handleDragOver = useCallback((event: DragEvent) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }, [])
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -234,6 +355,10 @@ export function FlowCanvas({
       onNodeClick={handleNodeClick}
       onPaneClick={handlePaneClick}
       onNodeContextMenu={handleContextMenu}
+      onConnect={isEditing ? handleConnect : undefined}
+      onEdgeClick={isEditing ? handleEdgeClick : undefined}
+      onDrop={isEditing ? handleDrop : undefined}
+      onDragOver={isEditing ? handleDragOver : undefined}
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
       defaultEdgeOptions={defaultEdgeOptions}
@@ -242,6 +367,9 @@ export function FlowCanvas({
       proOptions={{ hideAttribution: true }}
       minZoom={0.05}
       maxZoom={2}
+      connectionMode={isEditing ? ConnectionMode.Loose : undefined}
+      nodesConnectable={isEditing}
+      deleteKeyCode={isEditing ? 'Delete' : null}
     >
       <Controls position="bottom-right" />
       <MiniMap

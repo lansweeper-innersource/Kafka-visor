@@ -1,0 +1,168 @@
+{
+  "id": "install-backoffice-flow",
+  "name": "Install Status & BackOffice",
+  "description": "Install status + multitenant + licensing events flow to dedicated consumers with their own MongoDB, then to apps",
+  "nodes": [
+    {
+      "id": "public.edge.install-status.event",
+      "type": "topic",
+      "position": [
+        0,
+        0
+      ],
+      "annotations": [
+        {
+          "text": "No Kafka producers — populated by other mechanism",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "install-status-consumer",
+      "type": "service",
+      "label": "Install Consumer",
+      "position": [
+        500,
+        0
+      ]
+    },
+    {
+      "id": "mongodb-install",
+      "type": "database",
+      "label": "MongoDB (Install)",
+      "position": [
+        900,
+        0
+      ]
+    },
+    {
+      "id": "install-status-api",
+      "type": "service",
+      "label": "Install Status API",
+      "position": [
+        1300,
+        0
+      ]
+    },
+    {
+      "id": "lec-gateway-api",
+      "type": "service",
+      "label": "Gateway (Apollo)",
+      "position": [
+        1700,
+        0
+      ]
+    },
+    {
+      "id": "portal",
+      "type": "scanner",
+      "label": "Portal",
+      "position": [
+        2100,
+        0
+      ]
+    },
+    {
+      "id": "public.event.multitenant",
+      "type": "topic",
+      "position": [
+        0,
+        300
+      ]
+    },
+    {
+      "id": "public.event.licensing",
+      "type": "topic",
+      "position": [
+        0,
+        440
+      ]
+    },
+    {
+      "id": "lec-backoffice-consumer",
+      "type": "service",
+      "label": "BackOffice Consumer",
+      "position": [
+        500,
+        370
+      ],
+      "annotations": [
+        {
+          "text": "Consumes install-status + multitenant + licensing events",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "mongodb-backoffice",
+      "type": "database",
+      "label": "MongoDB (BackOffice)",
+      "position": [
+        900,
+        370
+      ]
+    },
+    {
+      "id": "backoffice-app",
+      "type": "scanner",
+      "label": "BackOffice (Lsec)",
+      "position": [
+        1300,
+        370
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "db"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "internal"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "type": "https",
+      "label": "GraphQL"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "type": "https"
+    },
+    {
+      "source": 0,
+      "target": 8,
+      "type": "kafka"
+    },
+    {
+      "source": 6,
+      "target": 8,
+      "type": "kafka"
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "type": "kafka"
+    },
+    {
+      "source": 8,
+      "target": 9,
+      "type": "db"
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "type": "https"
+    }
+  ]
+}

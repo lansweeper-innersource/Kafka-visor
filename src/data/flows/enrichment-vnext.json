@@ -1,0 +1,264 @@
+{
+  "id": "enrichment-vnext",
+  "name": "Enrichment — vNext (Assets / Users / Vulnerabilities)",
+  "description": "Three parallel enrichment contexts (assets, vulnerabilities, users). Each follows the same pattern: enricher consumes input → OK publishes to entity-changes, KO publishes to reprocess-* topic → retry consumer republishes. Lanes are visually independent; sink topics are duplicated per lane to keep each context readable left-to-right.",
+  "nodes": [
+    {
+      "id": "assetscontext.event.assets",
+      "type": "topic",
+      "label": "assetscontext.event.assets",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "assets-enriching",
+      "type": "service",
+      "label": "Assets Enriching",
+      "position": [
+        450,
+        0
+      ]
+    },
+    {
+      "id": "public.event.analytics.entity-changes",
+      "type": "topic",
+      "label": "entity-changes (assets OK)",
+      "position": [
+        950,
+        -150
+      ]
+    },
+    {
+      "id": "consolidationcontext.event.reprocess-assets-enriching",
+      "type": "topic",
+      "label": "reprocess-assets-enriching",
+      "position": [
+        950,
+        100
+      ]
+    },
+    {
+      "id": "assets-enriching-retry",
+      "type": "service",
+      "label": "Assets Enriching Retry",
+      "position": [
+        1400,
+        100
+      ]
+    },
+    {
+      "id": "public.event.analytics.entity-changes-reprocess",
+      "type": "topic",
+      "label": "entity-changes-reprocess (assets retry)",
+      "position": [
+        1900,
+        100
+      ]
+    },
+    {
+      "id": "assetscontext.event.assets",
+      "type": "topic",
+      "label": "assetscontext.event.assets",
+      "position": [
+        0,
+        450
+      ]
+    },
+    {
+      "id": "vulnerabilities-engine-enriching-go",
+      "type": "service",
+      "label": "Vulnerabilities Engine Enriching",
+      "position": [
+        450,
+        450
+      ]
+    },
+    {
+      "id": "public.event.analytics.entity-changes",
+      "type": "topic",
+      "label": "entity-changes (vulns OK)",
+      "position": [
+        950,
+        300
+      ]
+    },
+    {
+      "id": "securitycontext.event.reprocess-vulnerabilities",
+      "type": "topic",
+      "label": "reprocess-vulnerabilities",
+      "position": [
+        950,
+        550
+      ]
+    },
+    {
+      "id": "vulnerabilities-engine-enriching-go-retry",
+      "type": "service",
+      "label": "Vulnerabilities Engine Retry",
+      "position": [
+        1400,
+        550
+      ]
+    },
+    {
+      "id": "public.event.analytics.entity-changes-reprocess",
+      "type": "topic",
+      "label": "entity-changes-reprocess (vulns retry)",
+      "position": [
+        1900,
+        550
+      ]
+    },
+    {
+      "id": "assetscontext.event.ad",
+      "type": "topic",
+      "label": "assetscontext.event.ad",
+      "position": [
+        0,
+        900
+      ]
+    },
+    {
+      "id": "users-enriching",
+      "type": "service",
+      "label": "Users Enriching",
+      "position": [
+        450,
+        900
+      ]
+    },
+    {
+      "id": "public.event.analytics.entity-changes",
+      "type": "topic",
+      "label": "entity-changes (users OK)",
+      "position": [
+        950,
+        750
+      ]
+    },
+    {
+      "id": "usersenrichmentcontext.event.reprocess-users-enriching",
+      "type": "topic",
+      "label": "reprocess-users-enriching",
+      "position": [
+        950,
+        1000
+      ]
+    },
+    {
+      "id": "users-enriching-retry",
+      "type": "service",
+      "label": "Users Enriching Retry",
+      "position": [
+        1400,
+        1000
+      ]
+    },
+    {
+      "id": "public.event.analytics.entity-changes",
+      "type": "topic",
+      "label": "entity-changes (users retry)",
+      "position": [
+        1900,
+        1000
+      ],
+      "annotations": [
+        {
+          "text": "Note: users-enriching-retry writes back to entity-changes (NOT entity-changes-reprocess). Different from assets/vulnerabilities lanes.",
+          "severity": "warning"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "kafka",
+      "label": "consumes"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "kafka",
+      "label": "OK"
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "type": "kafka",
+      "label": "KO"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "type": "kafka"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "type": "kafka",
+      "label": "retry result"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "type": "kafka",
+      "label": "consumes"
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "type": "kafka",
+      "label": "OK"
+    },
+    {
+      "source": 7,
+      "target": 9,
+      "type": "kafka",
+      "label": "KO"
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "type": "kafka"
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "type": "kafka",
+      "label": "retry result"
+    },
+    {
+      "source": 12,
+      "target": 13,
+      "type": "kafka",
+      "label": "consumes"
+    },
+    {
+      "source": 13,
+      "target": 14,
+      "type": "kafka",
+      "label": "OK"
+    },
+    {
+      "source": 13,
+      "target": 15,
+      "type": "kafka",
+      "label": "KO"
+    },
+    {
+      "source": 15,
+      "target": 16,
+      "type": "kafka"
+    },
+    {
+      "source": 16,
+      "target": 17,
+      "type": "kafka",
+      "label": "retry result"
+    }
+  ]
+}

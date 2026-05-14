@@ -1,0 +1,105 @@
+{
+  "id": "scanning-status-flow",
+  "name": "Scanning Status — On-Prem → Cloud",
+  "description": "On-Prem reports scan progress via gRPC → SyncerStatus stores in Redis → ScanningStatus reads → Gateway serves to Portal",
+  "nodes": [
+    {
+      "id": "onprem-scanner",
+      "type": "scanner",
+      "label": "On-Prem Scanner",
+      "position": [
+        0,
+        100
+      ],
+      "variant": "onprem"
+    },
+    {
+      "id": "syncer-status-api",
+      "type": "service",
+      "label": "SyncerStatus API",
+      "position": [
+        400,
+        100
+      ],
+      "annotations": [
+        {
+          "text": "This IS the scanning queue — gRPC server for status from On-Prem",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "redis-scanning",
+      "type": "database",
+      "label": "Redis (Queue)",
+      "position": [
+        800,
+        100
+      ]
+    },
+    {
+      "id": "lec-scanningstatus-api",
+      "type": "service",
+      "label": "ScanningStatus API",
+      "position": [
+        1200,
+        100
+      ],
+      "annotations": [
+        {
+          "text": "Reads from Redis — not in Kafka topology",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-gateway-api",
+      "type": "service",
+      "label": "Gateway (Apollo)",
+      "position": [
+        1600,
+        100
+      ]
+    },
+    {
+      "id": "portal",
+      "type": "scanner",
+      "label": "Portal",
+      "position": [
+        2000,
+        100
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc",
+      "label": "status updates"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "db",
+      "label": "scanning queue"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "internal",
+      "label": "reads status"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "type": "https",
+      "label": "subscriptions"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "type": "https"
+    }
+  ]
+}

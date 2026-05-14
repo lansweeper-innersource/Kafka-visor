@@ -1,0 +1,82 @@
+{
+  "id": "scanner-config-fetch",
+  "name": "Scanner ← Cloud Config Fetch (gRPC)",
+  "description": "HUB (Lansweeper.IT) pulls scanning configuration from cloud via authenticated gRPC. All gRPC traffic is multiplexed through Discovery Gateway, dispatched server-side to discovery-config-api, which calls scanning-config internally to read the actual config.",
+  "nodes": [
+    {
+      "id": "hub-onprem",
+      "type": "scanner",
+      "label": "HUB (Lansweeper.IT)",
+      "position": [
+        0,
+        150
+      ],
+      "annotations": [
+        {
+          "text": "On-prem agent — successor of On-Prem Classic. .NET / GrpcClientFactory configured via DiscoveryGateway:Url. Uses M2M token for authentication.",
+          "severity": "info"
+        }
+      ],
+      "variant": "vnext"
+    },
+    {
+      "id": "discovery-config-api",
+      "type": "service",
+      "label": "Discovery Config API",
+      "position": [
+        550,
+        150
+      ],
+      "annotations": [
+        {
+          "text": "gRPC server — IGrpcConfigService.GetScanningConfig (also IGrpcLicenseService, IGrpcLinkingService, IGrpcConfigNoAuthService). Owned by Discovery Engineering.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-scanningconfig-api",
+      "type": "service",
+      "label": "ScanningConfig API (vnext)",
+      "position": [
+        1100,
+        150
+      ],
+      "annotations": [
+        {
+          "text": "Source of truth for scanning config. Called internally over gRPC by discovery-config-api.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "redis-shared",
+      "type": "database",
+      "label": "Redis (shared)",
+      "position": [
+        1100,
+        350
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc",
+      "label": "GetScanningConfig (Bearer M2M)"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "fetch config"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "db",
+      "label": "config cache"
+    }
+  ]
+}

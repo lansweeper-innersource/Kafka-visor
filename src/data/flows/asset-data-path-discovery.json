@@ -1,0 +1,353 @@
+{
+  "id": "asset-data-path-discovery",
+  "name": "Asset Data Path — Discovery (vNext)",
+  "description": "Syncer publishes to Kafka only (no gRPC to DataCore). DataCore ETL consumes → produces → Adapter fetches via outbound.proto → asset.event",
+  "nodes": [
+    {
+      "id": "sensors",
+      "type": "scanner",
+      "label": "Sensors",
+      "position": [
+        0,
+        120
+      ],
+      "variant": "vnext"
+    },
+    {
+      "id": "vnext",
+      "type": "scanner",
+      "label": "vNext (IT Agent)",
+      "position": [
+        300,
+        120
+      ],
+      "variant": "vnext"
+    },
+    {
+      "id": "discovery-syncer-api",
+      "type": "service",
+      "position": [
+        650,
+        120
+      ],
+      "annotations": [
+        {
+          "text": "Publishes to Kafka only — no gRPC to DataCore in current deployment (confirmed via kubectl)",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "public.edge.inbound.event",
+      "type": "topic",
+      "position": [
+        1050,
+        120
+      ]
+    },
+    {
+      "id": "lec-data-core-processor-asset",
+      "type": "service",
+      "label": "DataCore ETL (processor-asset)",
+      "position": [
+        1450,
+        120
+      ],
+      "annotations": [
+        {
+          "text": "Consumes inbound.event, produces data-core + assets events. 8 processor variants exist.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "public.event.data-core",
+      "type": "topic",
+      "position": [
+        1900,
+        120
+      ]
+    },
+    {
+      "id": "lec-data-core-inbound-api",
+      "type": "service",
+      "label": "DataCore API (inbound+outbound)",
+      "position": [
+        1900,
+        340
+      ],
+      "annotations": [
+        {
+          "text": "Hosts BOTH inbound gRPC (receive) and outbound gRPC (serve). OUTBOUND_API_URL points here.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-adapter-consumer-asset",
+      "type": "service",
+      "label": "LEC Adapter (Asset)",
+      "position": [
+        2350,
+        50
+      ],
+      "annotations": [
+        {
+          "text": "Asset path — Consumes public.event.data-core, calls outbound.proto on DataCore API, produces public.edge.asset.event. Twin deployment of -ug in same namespace adapter-api / repo LECAdapterAPI.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "public.edge.asset.event",
+      "type": "topic",
+      "position": [
+        2800,
+        50
+      ]
+    },
+    {
+      "id": "lec-asset-consumer",
+      "type": "service",
+      "label": "Asset Consumer",
+      "position": [
+        3250,
+        120
+      ],
+      "annotations": [
+        {
+          "text": "LECAssetConsumer (deployment: asset-consumer) — consumes edge asset events, writes MongoDB, produces assetscontext.event.assets + analytics entity-changes + management-entities. Calls multitenant + analytics-luzmo gRPC. Owned by Cloud Data Pipeline and Scanning.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "mongodb-assets",
+      "type": "database",
+      "label": "MongoDB (Assets)",
+      "position": [
+        3250,
+        340
+      ]
+    },
+    {
+      "id": "assetscontext.event.assets",
+      "type": "topic",
+      "position": [
+        3700,
+        120
+      ]
+    },
+    {
+      "id": "assets-enriching",
+      "type": "service",
+      "label": "Assets Enriching",
+      "position": [
+        4100,
+        0
+      ]
+    },
+    {
+      "id": "lec-duplicated-assets-consumer",
+      "type": "service",
+      "label": "Duplicated Assets Consumer",
+      "position": [
+        4100,
+        250
+      ]
+    },
+    {
+      "id": "lec-asset-api",
+      "type": "service",
+      "label": "Assets API (GraphQL)",
+      "position": [
+        4500,
+        0
+      ]
+    },
+    {
+      "id": "lec-gateway-api",
+      "type": "service",
+      "label": "Gateway (Apollo)",
+      "position": [
+        4850,
+        0
+      ]
+    },
+    {
+      "id": "portal",
+      "type": "scanner",
+      "label": "Portal",
+      "position": [
+        5200,
+        0
+      ]
+    },
+    {
+      "id": "lec-adapter-consumer-ug",
+      "type": "service",
+      "label": "LEC Adapter (UG)",
+      "position": [
+        2350,
+        200
+      ],
+      "annotations": [
+        {
+          "text": "User-group path — Twin of -asset deployment (same namespace adapter-api, same repo LECAdapterAPI). Consumes public.event.data-core, calls outbound.proto, produces public.edge.activedirectory.event. Confirmed via topology + LECAdapterAPI source.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "public.edge.activedirectory.event",
+      "type": "topic",
+      "position": [
+        2800,
+        200
+      ]
+    },
+    {
+      "id": "enrichment-vnext-ref",
+      "type": "flowRef",
+      "label": "Enrichment vNext",
+      "flowId": "enrichment-vnext",
+      "position": [
+        4500,
+        250
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "sensor",
+      "label": "scan data"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "gRPC to cloud"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "kafka",
+      "label": "publishes"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "type": "kafka",
+      "label": "consumes"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "type": "kafka",
+      "label": "produces"
+    },
+    {
+      "source": 5,
+      "target": 7,
+      "type": "kafka",
+      "label": "event notification"
+    },
+    {
+      "source": 7,
+      "target": 6,
+      "type": "grpc",
+      "label": "outbound.proto (request)"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "type": "grpc",
+      "label": "full asset data (response)"
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "type": "kafka",
+      "label": "produces asset.event"
+    },
+    {
+      "source": 8,
+      "target": 9,
+      "type": "kafka"
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "type": "db"
+    },
+    {
+      "source": 9,
+      "target": 11,
+      "type": "kafka",
+      "label": "produces assetscontext"
+    },
+    {
+      "source": 11,
+      "target": 12,
+      "type": "kafka"
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "type": "kafka"
+    },
+    {
+      "source": 10,
+      "target": 14,
+      "type": "internal"
+    },
+    {
+      "source": 14,
+      "target": 15,
+      "type": "https",
+      "label": "GraphQL"
+    },
+    {
+      "source": 15,
+      "target": 16,
+      "type": "https"
+    },
+    {
+      "source": 5,
+      "target": 17,
+      "type": "kafka",
+      "label": "event notification"
+    },
+    {
+      "source": 17,
+      "target": 6,
+      "type": "grpc",
+      "label": "outbound.proto (UG)"
+    },
+    {
+      "source": 6,
+      "target": 17,
+      "type": "grpc",
+      "label": "full UG data"
+    },
+    {
+      "source": 17,
+      "target": 18,
+      "type": "kafka",
+      "label": "produces activedirectory.event"
+    },
+    {
+      "source": 18,
+      "target": 9,
+      "type": "kafka"
+    },
+    {
+      "source": 12,
+      "target": 19,
+      "type": "kafka",
+      "label": "OK / KO branches"
+    }
+  ]
+}

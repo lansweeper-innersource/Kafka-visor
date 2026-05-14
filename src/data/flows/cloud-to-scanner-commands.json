@@ -1,0 +1,151 @@
+{
+  "id": "cloud-to-scanner-commands",
+  "name": "Cloud → Scanner Commands",
+  "description": "Cloud sends commands to On-Prem: services publish to public.edge.commands → public-broker reads → MongoDB → EdgeCommand API polls → gRPC to scanner",
+  "nodes": [
+    {
+      "id": "portal",
+      "type": "scanner",
+      "label": "Portal",
+      "position": [
+        0,
+        100
+      ]
+    },
+    {
+      "id": "lec-gateway-api",
+      "type": "service",
+      "label": "Gateway",
+      "position": [
+        380,
+        100
+      ]
+    },
+    {
+      "id": "lec-scanning-api",
+      "type": "service",
+      "label": "Scanning API (on-prem)",
+      "position": [
+        760,
+        100
+      ],
+      "annotations": [
+        {
+          "text": "One of 40 producers of public.edge.commands",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "public.edge.commands",
+      "type": "topic",
+      "position": [
+        1150,
+        100
+      ],
+      "annotations": [
+        {
+          "text": "40 producers, 2 consumers — busiest command topic",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "public-broker",
+      "type": "service",
+      "label": "Public Broker",
+      "position": [
+        1550,
+        100
+      ],
+      "annotations": [
+        {
+          "text": "Go app — Kafka command ingestion bridge for On-Prem",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "mongodb-commands",
+      "type": "database",
+      "label": "MongoDB (Commands)",
+      "position": [
+        1550,
+        320
+      ]
+    },
+    {
+      "id": "lec-edge-command-api",
+      "type": "service",
+      "label": "Edge Command API",
+      "position": [
+        1970,
+        100
+      ],
+      "annotations": [
+        {
+          "text": "Replaced SQS — authenticated gRPC polling, processes queue 1-by-1",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "onprem-scanner",
+      "type": "scanner",
+      "label": "On-Prem Scanner",
+      "position": [
+        2400,
+        100
+      ],
+      "variant": "onprem"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "https"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "https",
+      "label": "trigger scan"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "kafka",
+      "label": "command event"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "type": "kafka"
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "type": "db",
+      "label": "store command"
+    },
+    {
+      "source": 6,
+      "target": 5,
+      "type": "db",
+      "label": "poll + delete on ack"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "type": "grpc",
+      "label": "send command"
+    },
+    {
+      "source": 7,
+      "target": 6,
+      "type": "grpc",
+      "label": "ReceiptHandle ack"
+    }
+  ]
+}
