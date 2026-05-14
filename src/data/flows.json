@@ -34,7 +34,9 @@
       { "id": "portal", "type": "scanner", "label": "Portal", "position": [5200, 0] },
 
       { "id": "lec-adapter-consumer-ug", "type": "service", "label": "LEC Adapter (UG)", "position": [2350, 200], "annotations": [{ "text": "User-group path — Twin of -asset deployment (same namespace adapter-api, same repo LECAdapterAPI). Consumes public.event.data-core, calls outbound.proto, produces public.edge.activedirectory.event. Confirmed via topology + LECAdapterAPI source.", "severity": "info" }] },
-      { "id": "public.edge.activedirectory.event", "type": "topic", "position": [2800, 200] }
+      { "id": "public.edge.activedirectory.event", "type": "topic", "position": [2800, 200] },
+
+      { "id": "enrichment-vnext-ref", "type": "flowRef", "label": "Enrichment vNext", "flowId": "enrichment-vnext", "position": [4500, 250] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "sensor", "label": "scan data" },
@@ -65,7 +67,9 @@
       { "source": 17, "target": 6, "type": "grpc", "label": "outbound.proto (UG)" },
       { "source": 6, "target": 17, "type": "grpc", "label": "full UG data" },
       { "source": 17, "target": 18, "type": "kafka", "label": "produces activedirectory.event" },
-      { "source": 18, "target": 9, "type": "kafka" }
+      { "source": 18, "target": 9, "type": "kafka" },
+
+      { "source": 12, "target": 19, "type": "kafka", "label": "OK / KO branches" }
     ]
   },
   {
@@ -84,7 +88,7 @@
       { "id": "asset-operations-consumer", "type": "service", "label": "Asset Operations Consumer", "position": [1350, 0] },
       { "id": "mongodb-assets", "type": "database", "label": "MongoDB (Assets)", "position": [1750, 0] },
 
-      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer", "position": [1350, 340] },
+      { "id": "lec-scanning-consumer", "type": "service", "label": "Scanning Consumer (on-prem)", "position": [1350, 340] },
 
       { "id": "lec-tracking-consumer", "type": "service", "label": "Tracking Consumer", "position": [1350, 510] }
     ],
@@ -106,7 +110,7 @@
     "description": "Config changes in cloud reach the on-prem scanner: API + Consumer both publish to edge.commands → public-broker → EdgeCommand → scanner",
     "nodes": [
       { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [0, 50] },
-      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [400, 50] },
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API (vnext)", "position": [400, 50] },
       { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB", "position": [400, 230] },
 
       { "id": "public.event.scanning-config", "type": "topic", "position": [850, 50] },
@@ -115,7 +119,7 @@
       { "id": "public.edge.install-status.event", "type": "topic", "position": [400, 450] },
       { "id": "public.event.discovery", "type": "topic", "position": [400, 590] },
       { "id": "public.event.multitenant", "type": "topic", "position": [400, 730] },
-      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [900, 590], "annotations": [{ "text": "Reacts to 3 event sources → produces to edge.commands + scanning-config + webhooks.sources", "severity": "info" }] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer (vnext)", "position": [900, 590], "annotations": [{ "text": "Reacts to 3 event sources → produces to edge.commands + scanning-config + webhooks.sources", "severity": "info" }] },
 
       { "id": "public.edge.commands", "type": "topic", "position": [1400, 400], "annotations": [{ "text": "Both API and Consumer publish here — this is how config reaches on-prem", "severity": "warning" }] },
       { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [1850, 400] },
@@ -170,7 +174,7 @@
     "nodes": [
       { "id": "portal", "type": "scanner", "label": "Portal", "position": [0, 100] },
       { "id": "lec-gateway-api", "type": "service", "label": "Gateway", "position": [380, 100] },
-      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [760, 100], "annotations": [{ "text": "One of 40 producers of public.edge.commands", "severity": "info" }] },
+      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API (on-prem)", "position": [760, 100], "annotations": [{ "text": "One of 40 producers of public.edge.commands", "severity": "info" }] },
       { "id": "public.edge.commands", "type": "topic", "position": [1150, 100], "annotations": [{ "text": "40 producers, 2 consumers — busiest command topic", "severity": "warning" }] },
       { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [1550, 100], "annotations": [{ "text": "Go app — Kafka command ingestion bridge for On-Prem", "severity": "info" }] },
       { "id": "mongodb-commands", "type": "database", "label": "MongoDB (Commands)", "position": [1550, 320] },
@@ -198,7 +202,7 @@
 
       { "id": "lec-multitenant-api", "type": "service", "label": "Multitenant API", "position": [950, 0] },
       { "id": "lec-licensing-api", "type": "service", "label": "Licensing API", "position": [950, 140] },
-      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API", "position": [950, 280] },
+      { "id": "lec-scanning-api", "type": "service", "label": "Scanning API (on-prem)", "position": [950, 280] },
       { "id": "lec-asset-api", "type": "service", "label": "Asset API", "position": [950, 420] },
       { "id": "install-status-api", "type": "service", "label": "Install Status API", "position": [950, 560] }
     ],
@@ -252,7 +256,7 @@
     "nodes": [
       { "id": "hub-onprem", "type": "scanner", "label": "HUB (Lansweeper.IT)", "position": [0, 150], "annotations": [{ "text": "On-prem agent — successor of On-Prem Classic. .NET / GrpcClientFactory configured via DiscoveryGateway:Url. Uses M2M token for authentication.", "severity": "info" }] },
       { "id": "discovery-config-api", "type": "service", "label": "Discovery Config API", "position": [550, 150], "annotations": [{ "text": "gRPC server — IGrpcConfigService.GetScanningConfig (also IGrpcLicenseService, IGrpcLinkingService, IGrpcConfigNoAuthService). Owned by Discovery Engineering.", "severity": "info" }] },
-      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [1100, 150], "annotations": [{ "text": "Source of truth for scanning config. Called internally over gRPC by discovery-config-api.", "severity": "info" }] },
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API (vnext)", "position": [1100, 150], "annotations": [{ "text": "Source of truth for scanning config. Called internally over gRPC by discovery-config-api.", "severity": "info" }] },
       { "id": "redis-shared", "type": "database", "label": "Redis (shared)", "position": [1100, 350] }
     ],
     "edges": [
@@ -268,7 +272,7 @@
     "nodes": [
       { "id": "portal", "type": "scanner", "label": "Portal (User)", "position": [0, 80] },
       { "id": "lec-gateway-api", "type": "service", "label": "Gateway (Apollo)", "position": [400, 80], "annotations": [{ "text": "Apollo Federation. Stitches GraphQL Subscriptions to lec-scanningconfig-subscriptions:4040.", "severity": "info" }] },
-      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API", "position": [800, 80], "annotations": [{ "text": "Go GraphQL/gRPC API. Triggers NotifyCredentialsChangeEvent on credential CRUD.", "severity": "info" }] },
+      { "id": "lec-scanningconfig-api", "type": "service", "label": "ScanningConfig API (vnext)", "position": [800, 80], "annotations": [{ "text": "Go GraphQL/gRPC API. Triggers NotifyCredentialsChangeEvent on credential CRUD.", "severity": "info" }] },
       { "id": "mongodb-scanningconfig", "type": "database", "label": "MongoDB (ScanningConfig)", "position": [800, 260] },
       { "id": "public.edge.commands", "type": "topic", "position": [1200, 80], "annotations": [{ "text": "Carries Avro CreateOrUpdateCredential, ShareCredential, DeleteCredential schemas (alongside scan commands).", "severity": "warning" }] },
       { "id": "public-broker", "type": "service", "label": "Public Broker", "position": [1600, 80] },
@@ -279,9 +283,9 @@
 
       { "id": "discovery-config-api", "type": "service", "label": "Discovery Config API", "position": [2000, 500], "annotations": [{ "text": "gRPC server for HUB. Receives CredentialVaultReferenceService.SendUpsertCredentialVaultReference (streaming) and produces to public.event.discovery.", "severity": "info" }] },
       { "id": "public.event.discovery", "type": "topic", "position": [1600, 500], "annotations": [{ "text": "Carries proto lansweeper.discovery.credential.v2.DiscoveryCredentialVaultReference (UPSERT/DELETE operations + vault metadata).", "severity": "warning" }] },
-      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer", "position": [1200, 500], "annotations": [{ "text": "Updates Mongo with vault reference. NOTIFY_UPDATED_CREDENTIAL_ACK=true → publishes to Redis pub/sub channel.", "severity": "info" }] },
+      { "id": "lec-scanningconfig-consumer", "type": "service", "label": "ScanningConfig Consumer (vnext)", "position": [1200, 500], "annotations": [{ "text": "Updates Mongo with vault reference. NOTIFY_UPDATED_CREDENTIAL_ACK=true → publishes to Redis pub/sub channel.", "severity": "info" }] },
       { "id": "redis-scanningconfig", "type": "database", "label": "Redis pub/sub\n(discovery-updated-credential)", "position": [800, 500], "annotations": [{ "text": "Channel: discovery-updated-credential. Also discovery-deleted-source for source removals.", "severity": "info" }] },
-      { "id": "lec-scanningconfig-subscriptions", "type": "service", "label": "ScanningConfig Subscriptions", "position": [400, 500], "annotations": [{ "text": "Go GraphQL Subscriptions on :4040. Subscribes to Redis channel and emits UpdatedCredentialAck via WebSocket. Stitched by Gateway as subscriptionStitchingServices.scanningConfigSubscriptionUrl.", "severity": "info" }] }
+      { "id": "lec-scanningconfig-subscriptions", "type": "service", "label": "ScanningConfig Subscriptions (vnext)", "position": [400, 500], "annotations": [{ "text": "Go GraphQL Subscriptions on :4040. Subscribes to Redis channel and emits UpdatedCredentialAck via WebSocket. Stitched by Gateway as subscriptionStitchingServices.scanningConfigSubscriptionUrl.", "severity": "info" }] }
     ],
     "edges": [
       { "source": 0, "target": 1, "type": "https", "label": "GraphQL mutation" },
@@ -303,6 +307,52 @@
       { "source": 13, "target": 14, "type": "db", "label": "SUBSCRIBE" },
       { "source": 14, "target": 1, "type": "https", "label": "WebSocket subscription" },
       { "source": 1, "target": 0, "type": "https", "label": "UpdatedCredentialAck" }
+    ]
+  },
+  {
+    "id": "enrichment-vnext",
+    "name": "Enrichment — vNext (Assets / Users / Vulnerabilities)",
+    "description": "Three parallel enrichment contexts (assets, vulnerabilities, users). Each follows the same pattern: enricher consumes input → OK publishes to entity-changes, KO publishes to reprocess-* topic → retry consumer republishes. Lanes are visually independent; sink topics are duplicated per lane to keep each context readable left-to-right.",
+    "nodes": [
+      { "id": "assetscontext.event.assets", "type": "topic", "label": "assetscontext.event.assets", "position": [0, 0] },
+      { "id": "assets-enriching", "type": "service", "label": "Assets Enriching", "position": [450, 0] },
+      { "id": "public.event.analytics.entity-changes", "type": "topic", "label": "entity-changes (assets OK)", "position": [950, -150] },
+      { "id": "consolidationcontext.event.reprocess-assets-enriching", "type": "topic", "label": "reprocess-assets-enriching", "position": [950, 100] },
+      { "id": "assets-enriching-retry", "type": "service", "label": "Assets Enriching Retry", "position": [1400, 100] },
+      { "id": "public.event.analytics.entity-changes-reprocess", "type": "topic", "label": "entity-changes-reprocess (assets retry)", "position": [1900, 100] },
+
+      { "id": "assetscontext.event.assets", "type": "topic", "label": "assetscontext.event.assets", "position": [0, 450] },
+      { "id": "vulnerabilities-engine-enriching-go", "type": "service", "label": "Vulnerabilities Engine Enriching", "position": [450, 450] },
+      { "id": "public.event.analytics.entity-changes", "type": "topic", "label": "entity-changes (vulns OK)", "position": [950, 300] },
+      { "id": "securitycontext.event.reprocess-vulnerabilities", "type": "topic", "label": "reprocess-vulnerabilities", "position": [950, 550] },
+      { "id": "vulnerabilities-engine-enriching-go-retry", "type": "service", "label": "Vulnerabilities Engine Retry", "position": [1400, 550] },
+      { "id": "public.event.analytics.entity-changes-reprocess", "type": "topic", "label": "entity-changes-reprocess (vulns retry)", "position": [1900, 550] },
+
+      { "id": "assetscontext.event.ad", "type": "topic", "label": "assetscontext.event.ad", "position": [0, 900] },
+      { "id": "users-enriching", "type": "service", "label": "Users Enriching", "position": [450, 900] },
+      { "id": "public.event.analytics.entity-changes", "type": "topic", "label": "entity-changes (users OK)", "position": [950, 750] },
+      { "id": "usersenrichmentcontext.event.reprocess-users-enriching", "type": "topic", "label": "reprocess-users-enriching", "position": [950, 1000] },
+      { "id": "users-enriching-retry", "type": "service", "label": "Users Enriching Retry", "position": [1400, 1000] },
+      { "id": "public.event.analytics.entity-changes", "type": "topic", "label": "entity-changes (users retry)", "position": [1900, 1000], "annotations": [{ "text": "Note: users-enriching-retry writes back to entity-changes (NOT entity-changes-reprocess). Different from assets/vulnerabilities lanes.", "severity": "warning" }] }
+    ],
+    "edges": [
+      { "source": 0, "target": 1, "type": "kafka", "label": "consumes" },
+      { "source": 1, "target": 2, "type": "kafka", "label": "OK" },
+      { "source": 1, "target": 3, "type": "kafka", "label": "KO" },
+      { "source": 3, "target": 4, "type": "kafka" },
+      { "source": 4, "target": 5, "type": "kafka", "label": "retry result" },
+
+      { "source": 6, "target": 7, "type": "kafka", "label": "consumes" },
+      { "source": 7, "target": 8, "type": "kafka", "label": "OK" },
+      { "source": 7, "target": 9, "type": "kafka", "label": "KO" },
+      { "source": 9, "target": 10, "type": "kafka" },
+      { "source": 10, "target": 11, "type": "kafka", "label": "retry result" },
+
+      { "source": 12, "target": 13, "type": "kafka", "label": "consumes" },
+      { "source": 13, "target": 14, "type": "kafka", "label": "OK" },
+      { "source": 13, "target": 15, "type": "kafka", "label": "KO" },
+      { "source": 15, "target": 16, "type": "kafka" },
+      { "source": 16, "target": 17, "type": "kafka", "label": "retry result" }
     ]
   }
 ]

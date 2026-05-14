@@ -3513,7 +3513,7 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Scanning packages — config, targets, scheduling",
+      "description": "On-prem scanning management — config, targets, scheduling",
       "kafkaMigration": {
         "wave": "10b",
         "stgEuw1": "migrated",
@@ -3591,7 +3591,7 @@
           "url": "https://github.com/Lansweeper/LECScanningAPI"
         }
       ],
-      "description": "Kafka consumer for scanning events",
+      "description": "Kafka consumer for on-prem scanning events",
       "kafkaMigration": {
         "wave": "6",
         "stgEuw1": "migrated",
@@ -3622,7 +3622,7 @@
       "databases": [
         "redis-shared"
       ],
-      "description": "Scanning configuration management API",
+      "description": "Scanning configuration management for vnext agents",
       "kafkaMigration": {
         "wave": "10b",
         "stgEuw1": "migrated",
@@ -3654,7 +3654,7 @@
           "url": "https://github.com/Lansweeper/LECScanningConfig"
         }
       ],
-      "description": "Kafka consumer for scanning config changes",
+      "description": "Kafka consumer for vnext scanning config changes",
       "kafkaMigration": {
         "wave": "2",
         "stgEuw1": "migrated",
