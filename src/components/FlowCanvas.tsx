@@ -29,7 +29,7 @@ import { buildGraph, filterByTeams, getNeighborIds } from '../lib/graph-builder'
 import { buildFlowNodes, buildFlowEdges } from '../lib/flow-builder'
 import { getInteractionStyle } from '../lib/flow-colors'
 import type { ContextMenuState } from './ContextMenu'
-import type { EdgeEditState } from './EdgeTypeModal'
+import { getValidEdgeTypes, type EdgeEditState } from './EdgeTypeModal'
 
 // CRITICAL: Define outside component to prevent remounts
 const nodeTypes = {
@@ -239,8 +239,16 @@ export function FlowCanvas({
   const handleConnect = useCallback(
     (connection: Connection) => {
       if (!isEditing) return
+
+      // Determine source/target node types for edge validation
+      const sourceNode = nodes.find(n => n.id === connection.source)
+      const targetNode = nodes.find(n => n.id === connection.target)
+      const sourceType = sourceNode?.type as FlowNodeType | undefined
+      const targetType = targetNode?.type as FlowNodeType | undefined
+      const validTypes = getValidEdgeTypes(sourceType, targetType)
+      const defaultType = validTypes[0]
+
       const edgeId = `flow-edge-new-${Date.now()}`
-      const defaultType = 'kafka'
       const style = getInteractionStyle(defaultType)
       const newEdge: Edge = {
         id: edgeId,
@@ -254,26 +262,35 @@ export function FlowCanvas({
       }
       setEdges(eds => [...eds, newEdge])
 
-      // Open edge type picker
+      // If only one valid type, auto-apply without picker
+      if (validTypes.length === 1) {
+        return
+      }
+
+      // Open edge type picker with valid types
       if (onEdgeEdit) {
-        onEdgeEdit({ edgeId, type: defaultType, label: '', x: 400, y: 300 })
+        onEdgeEdit({ edgeId, type: defaultType, label: '', x: 400, y: 300, sourceType, targetType })
       }
     },
-    [isEditing, edges.length, setEdges, onEdgeEdit]
+    [isEditing, nodes, edges.length, setEdges, onEdgeEdit]
   )
 
   const handleEdgeClick = useCallback(
     (event: React.MouseEvent, edge: Edge) => {
       if (!isEditing || !onEdgeEdit) return
+      const sourceNode = nodes.find(n => n.id === edge.source)
+      const targetNode = nodes.find(n => n.id === edge.target)
       onEdgeEdit({
         edgeId: edge.id,
         type: (edge.data?.interactionType as EdgeEditState['type']) ?? 'kafka',
         label: (edge.data?.label as string) ?? '',
         x: event.clientX,
         y: event.clientY,
+        sourceType: sourceNode?.type as FlowNodeType | undefined,
+        targetType: targetNode?.type as FlowNodeType | undefined,
       })
     },
-    [isEditing, onEdgeEdit]
+    [isEditing, nodes, onEdgeEdit]
   )
 
   const handleDrop = useCallback(

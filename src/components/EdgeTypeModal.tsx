@@ -1,8 +1,31 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import type { InteractionType } from '../types'
+import type { InteractionType, FlowNodeType } from '../types'
 import { getInteractionStyle } from '../lib/flow-colors'
 
-const EDGE_TYPES: InteractionType[] = ['kafka', 'grpc', 'https', 'protobuf', 'db', 'internal', 'sensor']
+const ALL_EDGE_TYPES: InteractionType[] = ['kafka', 'grpc', 'https', 'protobuf', 'db', 'internal', 'sensor']
+
+type NodeKind = 'service' | 'topic' | 'scanner' | 'database' | 'flowRef'
+
+/** Returns valid edge types for a given source→target node type pair */
+export function getValidEdgeTypes(sourceType?: FlowNodeType, targetType?: FlowNodeType): InteractionType[] {
+  if (!sourceType || !targetType) return ALL_EDGE_TYPES
+
+  const s = sourceType as NodeKind
+  const t = targetType as NodeKind
+
+  // service ↔ topic = kafka only
+  if ((s === 'service' && t === 'topic') || (s === 'topic' && t === 'service')) return ['kafka']
+  // service → service = direct communication
+  if (s === 'service' && t === 'service') return ['grpc', 'https', 'protobuf', 'internal']
+  // service → database
+  if (s === 'service' && t === 'database') return ['db']
+  // scanner → service or service → scanner
+  if ((s === 'scanner' && t === 'service') || (s === 'service' && t === 'scanner')) return ['grpc', 'https', 'sensor']
+  // scanner → topic (possible via proxy but unusual)
+  if (s === 'scanner' && t === 'topic') return ['kafka', 'sensor']
+
+  return ALL_EDGE_TYPES
+}
 
 export interface EdgeEditState {
   edgeId: string
@@ -10,6 +33,8 @@ export interface EdgeEditState {
   label: string
   x: number
   y: number
+  sourceType?: FlowNodeType
+  targetType?: FlowNodeType
 }
 
 interface EdgeTypeModalProps {
@@ -19,7 +44,8 @@ interface EdgeTypeModalProps {
 }
 
 export function EdgeTypeModal({ state, onSave, onCancel }: EdgeTypeModalProps) {
-  const [type, setType] = useState<InteractionType>(state.type)
+  const validTypes = getValidEdgeTypes(state.sourceType, state.targetType)
+  const [type, setType] = useState<InteractionType>(validTypes.includes(state.type) ? state.type : validTypes[0])
   const [label, setLabel] = useState(state.label)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -52,7 +78,7 @@ export function EdgeTypeModal({ state, onSave, onCancel }: EdgeTypeModalProps) {
     >
       <div className="text-xs font-semibold text-gray-600 mb-2">Edge Type</div>
       <div className="flex flex-wrap gap-1 mb-2">
-        {EDGE_TYPES.map(t => {
+        {validTypes.map(t => {
           const style = getInteractionStyle(t)
           return (
             <button
