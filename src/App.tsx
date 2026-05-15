@@ -198,18 +198,40 @@ function AppInner() {
     }
   }, [activeFlow])
 
-  const handleSaveFlow = useCallback(() => {
+  const [saveStatus, setSaveStatus] = useState<string | null>(null)
+
+  const handleSaveFlow = useCallback(async () => {
     const nodes = getNodes()
     const edges = getEdges()
     const flow = serializeFlow(nodes, edges, flowMeta)
-    const json = JSON.stringify(flow, null, 2) + '\n'
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${flowMeta.id || 'flow'}.json`
-    a.click()
-    URL.revokeObjectURL(url)
+
+    try {
+      const res = await fetch('/api/save-flow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(flow, null, 2),
+      })
+      if (!res.ok) throw new Error('save failed')
+      setSaveStatus(`Saved to src/data/flows/${flow.id}.json`)
+    } catch {
+      // Fallback: browser download
+      const json = JSON.stringify(flow, null, 2) + '\n'
+      const blob = new Blob([json], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${flowMeta.id || 'flow'}.json`
+      a.click()
+      URL.revokeObjectURL(url)
+      setSaveStatus('Downloaded (dev server not available)')
+    }
+
+    // Update in-memory state so the flow reflects changes without reload
+    setActiveFlow(flow)
+    setLoadedFlows(prev => [...prev.filter(f => f.id !== flow.id), flow])
+    setIsEditing(false)
+
+    setTimeout(() => setSaveStatus(null), 3000)
   }, [getNodes, getEdges, flowMeta])
 
   const handleLoadFlow = useCallback(() => {
@@ -467,6 +489,13 @@ function AppInner() {
 
       {/* New Flow modal */}
       {showNewFlowModal && <NewFlowModal onCreate={handleCreateFlow} onCancel={() => setShowNewFlowModal(false)} />}
+
+      {/* Save status toast */}
+      {saveStatus && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-4 py-2 rounded-lg shadow-lg z-50">
+          {saveStatus}
+        </div>
+      )}
     </div>
   )
 }

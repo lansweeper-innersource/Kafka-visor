@@ -68,7 +68,20 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
       }
     }
 
-    // scanner or database
+    if (nodeDef.type === 'stickyNote') {
+      return {
+        id: `flow-${i}:${baseId}`,
+        type: 'stickyNote',
+        position,
+        draggable: true,
+        data: {
+          label: '',
+          text: nodeDef.text ?? '',
+        },
+      }
+    }
+
+    // scanner, database, or workflow
     return {
       id: `flow-${i}:${baseId}`,
       type: nodeDef.type,
@@ -78,6 +91,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
         label: nodeDef.label ?? baseId,
         annotations: nodeDef.annotations,
         ...(nodeDef.variant ? { variant: nodeDef.variant } : {}),
+        ...(nodeDef.detail ? { detail: nodeDef.detail } : {}),
       },
     }
   })

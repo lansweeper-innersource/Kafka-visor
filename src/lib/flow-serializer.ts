@@ -18,6 +18,7 @@ export function serializeFlow(nodes: Node[], edges: Edge[], metadata: FlowMetada
     const annotations = n.data.annotations as Annotation[] | undefined
     const flowId = n.data.flowId as string | undefined
     const variant = n.data.variant as ScannerVariant | undefined
+    const text = n.data.text as string | undefined
 
     const nodeDef: FlowNodeDef = {
       id: bareId,
@@ -29,6 +30,9 @@ export function serializeFlow(nodes: Node[], edges: Edge[], metadata: FlowMetada
     if (annotations?.length) nodeDef.annotations = annotations
     if (flowId) nodeDef.flowId = flowId
     if (variant) nodeDef.variant = variant
+    if (text) nodeDef.text = text
+    const detail = n.data.detail as string | undefined
+    if (detail) nodeDef.detail = detail
 
     return nodeDef
   })

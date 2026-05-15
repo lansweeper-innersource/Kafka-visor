@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import type { InteractionType, FlowNodeType } from '../types'
 import { getInteractionStyle } from '../lib/flow-colors'
 
-const ALL_EDGE_TYPES: InteractionType[] = ['kafka', 'grpc', 'https', 'protobuf', 'db', 'internal', 'sensor']
+const ALL_EDGE_TYPES: InteractionType[] = ['kafka', 'grpc', 'https', 'protobuf', 'db', 'internal', 'sensor', 'sqs', 'unknown']
 
 type NodeKind = 'service' | 'topic' | 'scanner' | 'database' | 'flowRef'
 

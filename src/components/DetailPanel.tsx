@@ -203,7 +203,7 @@ function ServiceDetails({
     <div className="space-y-4">
       <div>
         <div className="text-xs font-mono font-bold text-gray-800">{topologyId}</div>
-        {data.label !== topologyId && (
+        {data.label !== topologyId && data.label !== data.description && (
           <div className="text-[11px] text-gray-500 mt-0.5">{data.label}</div>
         )}
         <div className="flex items-center gap-1.5 mt-1">
@@ -256,6 +256,33 @@ function ServiceDetails({
           </div>
         )}
       </div>
+
+      {/* Same source repo */}
+      {data.sourceSiblings && (data.sourceSiblings as string[]).length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-gray-600 mb-1">
+            Same source <span className="font-mono text-gray-400">({data.sourceRepoName as string})</span>
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {(data.sourceSiblings as string[]).map(svcId => {
+              const svc = topology.services[svcId]
+              return (
+                <button
+                  key={svcId}
+                  onClick={() => onNavigate(svcId, 'service')}
+                  className="text-[11px] font-mono text-gray-700 hover:text-blue-600 hover:underline flex items-center gap-1.5 py-0.5 w-full text-left"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: svc ? topology.teams[svc.team]?.color : '#6B7280' }}
+                  />
+                  {svcId}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Blast Radius */}
       <div className="bg-red-50 border border-red-100 rounded-lg p-3">

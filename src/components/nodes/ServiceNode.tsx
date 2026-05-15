@@ -11,10 +11,19 @@ const KIND_BADGE: Record<string, { label: string; class: string }> = {
   Rollout:          { label: 'rollout',  class: 'bg-sky-100 text-sky-700' },
 }
 
+const WORKFLOW_DEPLOYMENT_TYPES = new Set(['WorkflowTemplate', 'CronWorkflow'])
+
+function isWorkflowService(d: ServiceNodeData): boolean {
+  return WORKFLOW_DEPLOYMENT_TYPES.has(d.deploymentType) || /workflow/i.test(d.label)
+}
+
 function ServiceNodeComponent({ data, selected }: NodeProps) {
   const d = data as ServiceNodeData
   const { showDetail } = useZoomLevel()
-  const badge = KIND_BADGE[d.deploymentType]
+  const workflow = isWorkflowService(d)
+  const badge = workflow && !KIND_BADGE[d.deploymentType]
+    ? { label: 'workflow', class: 'bg-rose-100 text-rose-700' }
+    : KIND_BADGE[d.deploymentType]
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(d.label)
@@ -64,10 +73,10 @@ function ServiceNodeComponent({ data, selected }: NodeProps) {
       </NodeToolbar>
 
       <div
-        className={`bg-white rounded-lg px-3 py-1.5 shadow-md min-w-[120px] text-center transition-all ${
-          selected ? 'ring-2 ring-blue-400' : ''
-        } ${badge ? 'border-dashed' : ''}`}
-        style={{ borderLeft: `4px solid ${d.teamColor}` }}
+        className={`rounded-lg px-3 py-1.5 shadow-md min-w-[120px] text-center transition-all ${
+          workflow ? 'bg-rose-50 border-2 border-dashed border-rose-300' : 'bg-white'
+        } ${selected ? 'ring-2 ring-blue-400' : ''} ${!workflow && badge ? 'border-dashed' : ''}`}
+        style={workflow ? undefined : { borderLeft: `4px solid ${d.teamColor}` }}
       >
         <Handle type="target" position={Position.Left} className="!bg-blue-500 !w-2 !h-2" />
 
@@ -85,20 +94,27 @@ function ServiceNodeComponent({ data, selected }: NodeProps) {
         </div>
 
         {showDetail && (
-          <div className="text-[10px] text-gray-500">
-            {d.serviceGroup ? (
-              <span className="text-orange-600" title={`Shared image: ${d.serviceGroup}`}>
-                via {d.sourceRepos?.[0]?.name ?? d.serviceGroup}
-              </span>
-            ) : (
-              d.team
+          <>
+            <div className="text-[10px] text-gray-500">
+              {d.serviceGroup ? (
+                <span className="text-orange-600" title={`Shared image: ${d.serviceGroup}`}>
+                  via {d.sourceRepos?.[0]?.name ?? d.serviceGroup}
+                </span>
+              ) : (
+                d.team
+              )}
+              {!d.runningInCluster && (
+                <span className="ml-1 text-amber-600" title="Not found in cluster">
+                  ⚠
+                </span>
+              )}
+            </div>
+            {d.sourceSiblings && d.sourceSiblings.length > 0 && (
+              <div className="text-[9px] text-gray-400 mt-0.5" title={`${d.sourceSiblings.length} other service${d.sourceSiblings.length > 1 ? 's' : ''} from ${d.sourceRepoName}`}>
+                {d.sourceRepoName} <span className="text-gray-300">+{d.sourceSiblings.length}</span>
+              </div>
             )}
-            {!d.runningInCluster && (
-              <span className="ml-1 text-amber-600" title="Not found in cluster">
-                ⚠
-              </span>
-            )}
-          </div>
+          </>
         )}
 
         <Handle type="source" position={Position.Right} className="!bg-green-500 !w-2 !h-2" />

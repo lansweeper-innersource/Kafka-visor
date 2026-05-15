@@ -25,6 +25,8 @@ export interface ServiceNodeData {
   databases?: string[]
   description?: string
   serviceGroup?: string
+  sourceSiblings?: string[]
+  sourceRepoName?: string
   [key: string]: unknown
 }
 
@@ -55,9 +57,23 @@ export function buildGraph(topology: TopologyData): {
     })
   }
 
+  // Build source repo → sibling map (services sharing the same source code)
+  const sourceToServices = new Map<string, string[]>()
+  for (const service of Object.values(topology.services)) {
+    for (const sr of service.sourceRepos ?? []) {
+      const list = sourceToServices.get(sr.name) ?? []
+      list.push(service.id)
+      sourceToServices.set(sr.name, list)
+    }
+  }
+
   // Create service nodes
   for (const service of Object.values(topology.services)) {
     const team = topology.teams[service.team]
+    const primarySource = service.sourceRepos?.[0]?.name
+    const siblings = primarySource
+      ? (sourceToServices.get(primarySource) ?? []).filter(id => id !== service.id)
+      : []
     nodes.push({
       id: `service:${service.id}`,
       type: 'service',
@@ -78,6 +94,8 @@ export function buildGraph(topology: TopologyData): {
         databases: service.databases,
         description: service.description,
         serviceGroup: service.serviceGroup,
+        sourceSiblings: siblings,
+        sourceRepoName: primarySource,
       } satisfies ServiceNodeData,
     })
   }

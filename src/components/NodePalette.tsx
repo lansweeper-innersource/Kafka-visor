@@ -23,12 +23,14 @@ const AD_HOC_TYPES: AdHocType[] = [
   { type: 'scanner', label: 'Scanner (vnext)', variant: 'vnext' },
   { type: 'scanner', label: 'Scanner (generic)' },
   { type: 'database', label: 'Database' },
+  { type: 'workflow', label: 'Workflow' },
+  { type: 'stickyNote', label: 'Sticky Note' },
   { type: 'flowRef', label: 'Flow Reference' },
 ]
 
 export function NodePalette({ topology }: NodePaletteProps) {
   const [search, setSearch] = useState('')
-  const [tab, setTab] = useState<'service' | 'topic' | 'other'>('service')
+  const [tab, setTab] = useState<'service' | 'topic' | 'database' | 'other'>('service')
 
   const items: PaletteItem[] = (() => {
     const result: PaletteItem[] = []
@@ -39,6 +41,14 @@ export function NodePalette({ topology }: NodePaletteProps) {
     } else if (tab === 'topic') {
       for (const id of Object.keys(topology.topics)) {
         result.push({ id, type: 'topic', label: id, category: 'topic' })
+      }
+    } else if (tab === 'database') {
+      const dbSet = new Set<string>()
+      for (const svc of Object.values(topology.services)) {
+        for (const db of svc.databases ?? []) dbSet.add(db)
+      }
+      for (const db of [...dbSet].sort()) {
+        result.push({ id: db, type: 'database', label: db, category: 'other' })
       }
     }
     result.sort((a, b) => a.id.localeCompare(b.id))
@@ -65,14 +75,14 @@ export function NodePalette({ topology }: NodePaletteProps) {
           placeholder="Search..."
           className="w-full text-xs px-2 py-1 border border-gray-200 rounded focus:outline-none focus:border-blue-400"
         />
-        <div className="flex gap-1 mt-1.5">
-          {(['service', 'topic', 'other'] as const).map(t => (
+        <div className="flex gap-1 mt-1.5 flex-wrap">
+          {(['service', 'topic', 'database', 'other'] as const).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`text-[10px] px-2 py-0.5 rounded ${tab === t ? 'bg-blue-100 text-blue-700 font-semibold' : 'text-gray-500 hover:bg-gray-100'}`}
             >
-              {t === 'other' ? 'Other' : t === 'service' ? 'Services' : 'Topics'}
+              {t === 'other' ? 'Other' : t === 'service' ? 'Services' : t === 'database' ? 'DBs' : 'Topics'}
             </button>
           ))}
         </div>

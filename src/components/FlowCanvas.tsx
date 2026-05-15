@@ -22,6 +22,8 @@ import { ServiceNode } from './nodes/ServiceNode'
 import { ScannerNode } from './nodes/ScannerNode'
 import { DatabaseNode } from './nodes/DatabaseNode'
 import { FlowRefNode } from './nodes/FlowRefNode'
+import { WorkflowNode } from './nodes/WorkflowNode'
+import { StickyNoteNode } from './nodes/StickyNoteNode'
 import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
 import type { TopologyData, FlowDefinition, FlowNodeType, ScannerVariant } from '../types'
@@ -37,7 +39,9 @@ const nodeTypes = {
   service: ServiceNode,
   scanner: ScannerNode,
   database: DatabaseNode,
+  workflow: WorkflowNode,
   flowRef: FlowRefNode,
+  stickyNote: StickyNoteNode,
 }
 
 const edgeTypes = {
@@ -142,7 +146,19 @@ export function FlowCanvas({
     prevFlowRef.current = flowId
 
     if (activeFlow) {
-      const flowNodes = buildFlowNodes(activeFlow, topology)
+      const flowNodes = buildFlowNodes(activeFlow, topology).map(n => {
+        if (n.type === 'stickyNote') {
+          return { ...n, data: { ...n.data, onUpdate: (text: string) => {
+            setNodes(nds => nds.map(nd => nd.id === n.id ? { ...nd, data: { ...nd.data, text } } : nd))
+          }}}
+        }
+        if (n.type === 'database') {
+          return { ...n, data: { ...n.data, onUpdateDetail: (detail: string) => {
+            setNodes(nds => nds.map(nd => nd.id === n.id ? { ...nd, data: { ...nd.data, detail } } : nd))
+          }}}
+        }
+        return n
+      })
       const flowEdges = buildFlowEdges(activeFlow)
       setNodes(flowNodes)
       setEdges(flowEdges)
@@ -310,7 +326,7 @@ export function FlowCanvas({
         const svc = topology.services[id]
         const team = svc ? topology.teams[svc.team] : null
         data = {
-          label: label || id,
+          label: id,
           team: svc?.team ?? '',
           teamColor: team?.color ?? '#6B7280',
           repository: svc?.repository ?? '',
@@ -331,6 +347,14 @@ export function FlowCanvas({
           producerCount: topic?.producerCount ?? 0,
           teamCount: topic?.teamCount ?? 0,
         }
+      } else if (type === 'database') {
+        data = { label: label || id, detail: '', onUpdateDetail: (detail: string) => {
+          setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, detail } } : n))
+        }}
+      } else if (type === 'stickyNote') {
+        data = { label: '', text: '', onUpdate: (text: string) => {
+          setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, text } } : n))
+        }}
       } else if (type === 'flowRef') {
         data = { label: label || 'Flow Ref', flowId: '' }
       }
@@ -378,6 +402,8 @@ export function FlowCanvas({
           if (node.type === 'topic') return '#1F2937'
           if (node.type === 'scanner') return '#9CA3AF'
           if (node.type === 'database') return '#F59E0B'
+          if (node.type === 'workflow') return '#F43F5E'
+          if (node.type === 'stickyNote') return '#FDE047'
           return (node.data as { teamColor?: string }).teamColor ?? '#6B7280'
         }}
         maskColor="rgba(0,0,0,0.1)"

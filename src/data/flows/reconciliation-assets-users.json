@@ -1,0 +1,145 @@
+{
+  "id": "reconciliation-assets-users",
+  "name": "Reconciliation assets/users",
+  "description": "",
+  "nodes": [
+    {
+      "id": "lec-data-core-processor-asset",
+      "type": "service",
+      "position": [
+        211,
+        241
+      ],
+      "label": "DataCore ETL — high throughput asset processing"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        225,
+        302
+      ],
+      "text": "checkea si dos asserts pueden ser el mismo. Si son el mismo mezcla   "
+    },
+    {
+      "id": "public.event.data-core",
+      "type": "topic",
+      "position": [
+        593,
+        256
+      ],
+      "label": "public.event.data-core"
+    },
+    {
+      "id": "lec-adapter-consumer-asset",
+      "type": "service",
+      "position": [
+        903,
+        215
+      ],
+      "label": "Adapts external models into edge asset model"
+    },
+    {
+      "id": "lec-adapter-consumer-ug",
+      "type": "service",
+      "position": [
+        905,
+        356
+      ],
+      "label": "Adapts external models into edge user group model"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        1322,
+        276
+      ],
+      "text": "Es el encargado de manejar toda la informacion que el usuario puede modificar. Campos custom . Junta la informacion y lo guarda en el asset-golden"
+    },
+    {
+      "id": "database",
+      "type": "database",
+      "position": [
+        1530,
+        110
+      ],
+      "label": "Database"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        921,
+        140
+      ],
+      "text": "Solo lanzamos la llamada sqs cuando es un asset reconciliado"
+    },
+    {
+      "id": "lec-asset-api-reconciliation",
+      "type": "service",
+      "position": [
+        1265,
+        216
+      ],
+      "label": "lec-asset-api-reconciliation"
+    },
+    {
+      "id": "scanner",
+      "type": "scanner",
+      "position": [
+        -4,
+        311
+      ],
+      "label": "Scanner (generic)"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        1585,
+        182
+      ],
+      "text": "en la coleccion de mongo de assets"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 2,
+      "type": "kafka"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "kafka"
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "type": "kafka"
+    },
+    {
+      "source": 3,
+      "target": 8,
+      "type": "grpc",
+      "label": "sqs"
+    },
+    {
+      "source": 4,
+      "target": 8,
+      "type": "grpc",
+      "label": "sqs"
+    },
+    {
+      "source": 8,
+      "target": 6,
+      "type": "db"
+    },
+    {
+      "source": 9,
+      "target": 0,
+      "type": "grpc"
+    }
+  ]
+}
