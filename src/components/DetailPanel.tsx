@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import type { Node } from '@xyflow/react'
 import type { TopicNodeData, ServiceNodeData } from '../lib/graph-builder'
 import { getBlastRadius } from '../lib/graph-builder'
-import type { TopologyData, FlowDefinition } from '../types'
+import { getArgoAppSet, getArgoDomain } from '../lib/argo'
+import type { TopologyData, FlowDefinition, TopicMessage } from '../types'
 
 interface DetailPanelProps {
   node: Node | null
@@ -130,6 +132,63 @@ function FlowsSection({ flows, onOpenFlow }: { flows: FlowDefinition[]; onOpenFl
   )
 }
 
+const FORMAT_STYLES: Record<TopicMessage['format'], { bg: string; text: string; label: string }> = {
+  avro: { bg: 'bg-orange-100', text: 'text-orange-800', label: 'AVRO' },
+  proto: { bg: 'bg-indigo-100', text: 'text-indigo-800', label: 'PROTO' },
+  json: { bg: 'bg-emerald-100', text: 'text-emerald-800', label: 'JSON' },
+}
+
+function MessagesSection({ messages }: { messages?: TopicMessage[] }) {
+  if (!messages || messages.length === 0) return null
+  return (
+    <div>
+      <div className="text-xs font-semibold text-gray-700 mb-1">
+        Messages ({messages.length})
+      </div>
+      <div className="space-y-1.5">
+        {messages.map((m, i) => {
+          const fmt = FORMAT_STYLES[m.format]
+          return (
+            <div key={`${m.name}-${i}`} className="border border-gray-200 rounded p-2 bg-gray-50">
+              <div className="flex items-start gap-1.5">
+                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${fmt.bg} ${fmt.text} flex-shrink-0 mt-0.5`}>
+                  {fmt.label}
+                </span>
+                <div className="font-mono text-[11px] text-gray-800 break-all leading-snug">
+                  {m.name}
+                </div>
+              </div>
+              {m.description && (
+                <div className="text-[11px] text-gray-600 mt-1 leading-snug">{m.description}</div>
+              )}
+              {m.producers && m.producers.length > 0 && (
+                <div className="text-[10px] text-green-700 mt-1 font-mono">
+                  emits: {m.producers.join(', ')}
+                </div>
+              )}
+              {m.consumers && m.consumers.length > 0 && (
+                <div className="text-[10px] text-blue-700 mt-0.5 font-mono">
+                  reads: {m.consumers.join(', ')}
+                </div>
+              )}
+              {m.schemaUrl && (
+                <a
+                  href={m.schemaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] text-blue-600 hover:underline mt-1 inline-block"
+                >
+                  schema →
+                </a>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function TopicDetails({
   data,
   topology,
@@ -163,6 +222,8 @@ function TopicDetails({
       </div>
 
       <FlowsSection flows={inFlows} onOpenFlow={onOpenFlow} />
+
+      <MessagesSection messages={topic.messages} />
 
       <ClickableServiceList
         title="Producers"
@@ -229,6 +290,11 @@ function ServiceDetails({
           valueClass={data.runningInCluster ? 'text-green-600' : 'text-amber-600'}
         />
       </div>
+
+      <ArgoSection
+        appSet={getArgoAppSet(data)}
+        domain={getArgoDomain(data)}
+      />
 
       <FlowsSection flows={inFlows} onOpenFlow={onOpenFlow} />
 
@@ -361,6 +427,45 @@ function ServiceDetails({
               </div>
             ))}
           </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ArgoSection({ appSet, domain }: { appSet: string | null; domain: string | null }) {
+  const [copied, setCopied] = useState(false)
+  if (!appSet && !domain) return null
+
+  const handleCopy = async () => {
+    if (!appSet) return
+    await navigator.clipboard.writeText(appSet)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1200)
+  }
+
+  return (
+    <div className="bg-sky-50 border border-sky-100 rounded-lg p-3 space-y-1.5">
+      <div className="text-xs font-semibold text-sky-700">Argo CD</div>
+      {appSet && (
+        <div className="flex items-center justify-between gap-2">
+          <div className="text-[11px] text-sky-900 min-w-0">
+            <span className="text-sky-600">ApplicationSet: </span>
+            <span className="font-mono font-bold break-all">{appSet}</span>
+          </div>
+          <button
+            onClick={handleCopy}
+            className="text-[10px] px-2 py-0.5 rounded bg-sky-100 hover:bg-sky-200 text-sky-700 font-medium flex-shrink-0"
+            title="Copy ApplicationSet name"
+          >
+            {copied ? 'copied' : 'copy'}
+          </button>
+        </div>
+      )}
+      {domain && (
+        <div className="text-[11px] text-sky-900">
+          <span className="text-sky-600">Domain: </span>
+          <span className="font-mono">{domain}</span>
         </div>
       )}
     </div>

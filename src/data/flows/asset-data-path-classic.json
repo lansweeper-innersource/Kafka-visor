@@ -6,21 +6,21 @@
     {
       "id": "onprem-scanner",
       "type": "scanner",
-      "label": "On-Prem Scanner",
       "position": [
-        0,
+        -2,
         250
       ],
+      "label": "On-Prem Scanner",
       "variant": "onprem"
     },
     {
       "id": "lec-syncer-api",
       "type": "service",
-      "label": "SyncerAPI v2",
       "position": [
-        400,
-        250
+        406,
+        263
       ],
+      "label": "SyncerAPI v2",
       "annotations": [
         {
           "text": "Go rewrite — receives gRPC protobuf stream, publishes to 10 Kafka topics",
@@ -32,25 +32,28 @@
       "id": "public.edge.asset.event",
       "type": "topic",
       "position": [
-        850,
-        0
-      ]
+        853,
+        -83
+      ],
+      "label": "public.edge.asset.event"
     },
     {
       "id": "public.edge.assetcommon.event",
       "type": "topic",
       "position": [
-        850,
-        170
-      ]
+        851,
+        360
+      ],
+      "label": "public.edge.assetcommon.event"
     },
     {
       "id": "public.edge.activedirectory.event",
       "type": "topic",
       "position": [
-        850,
-        340
-      ]
+        856,
+        100
+      ],
+      "label": "public.edge.activedirectory.event"
     },
     {
       "id": "public.command.tracking",
@@ -58,43 +61,62 @@
       "position": [
         850,
         510
-      ]
-    },
-    {
-      "id": "asset-operations-consumer",
-      "type": "service",
-      "label": "Asset Operations Consumer",
-      "position": [
-        1350,
-        0
-      ]
-    },
-    {
-      "id": "mongodb-assets",
-      "type": "database",
-      "label": "MongoDB (Assets)",
-      "position": [
-        1750,
-        0
-      ]
+      ],
+      "label": "public.command.tracking"
     },
     {
       "id": "lec-scanning-consumer",
       "type": "service",
-      "label": "Scanning Consumer (on-prem)",
       "position": [
-        1350,
-        340
-      ]
+        1385,
+        361
+      ],
+      "label": "Scanning Consumer (on-prem)"
     },
     {
       "id": "lec-tracking-consumer",
       "type": "service",
-      "label": "Tracking Consumer",
       "position": [
         1350,
         510
-      ]
+      ],
+      "label": "Tracking Consumer"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        1054,
+        -114
+      ],
+      "text": "topico espefic"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        1019,
+        315
+      ],
+      "text": "Continuar con Helios"
+    },
+    {
+      "id": "lec-asset-consumer-ad",
+      "type": "service",
+      "position": [
+        1261,
+        104
+      ],
+      "label": "lec-asset-consumer-ad"
+    },
+    {
+      "id": "lec-asset-consumer-asset",
+      "type": "service",
+      "position": [
+        1256,
+        -82
+      ],
+      "label": "lec-asset-consumer-asset"
     }
   ],
   "edges": [
@@ -125,23 +147,23 @@
       "type": "kafka"
     },
     {
-      "source": 2,
+      "source": 3,
       "target": 6,
       "type": "kafka"
     },
     {
-      "source": 6,
+      "source": 5,
       "target": 7,
-      "type": "db"
-    },
-    {
-      "source": 3,
-      "target": 8,
       "type": "kafka"
     },
     {
-      "source": 5,
-      "target": 9,
+      "source": 4,
+      "target": 10,
+      "type": "kafka"
+    },
+    {
+      "source": 2,
+      "target": 11,
       "type": "kafka"
     }
   ]

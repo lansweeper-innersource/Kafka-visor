@@ -1,34 +1,34 @@
 {
   "id": "scanning-config-flow",
-  "name": "Scanning Configuration → On-Prem",
-  "description": "Config changes in cloud reach the on-prem scanner: API + Consumer both publish to edge.commands → public-broker → EdgeCommand → scanner",
+  "name": "Scanning Configuration → Vnext",
+  "description": "Config changes in cloud reach the Vnext scanner: API + Consumer both publish to edge.commands → public-broker → EdgeCommand → scanner",
   "nodes": [
     {
       "id": "lec-gateway-api",
       "type": "service",
-      "label": "Gateway (Apollo)",
       "position": [
         0,
         50
-      ]
+      ],
+      "label": "Gateway (Apollo)"
     },
     {
       "id": "lec-scanningconfig-api",
       "type": "service",
-      "label": "ScanningConfig API (vnext)",
       "position": [
         400,
         50
-      ]
+      ],
+      "label": "ScanningConfig API (vnext)"
     },
     {
       "id": "mongodb-scanningconfig",
       "type": "database",
-      "label": "MongoDB",
       "position": [
         400,
         230
-      ]
+      ],
+      "label": "MongoDB"
     },
     {
       "id": "public.event.scanning-config",
@@ -36,16 +36,17 @@
       "position": [
         850,
         50
-      ]
+      ],
+      "label": "public.event.scanning-config"
     },
     {
       "id": "lec-analytics-assets-consumer-v2-management-entities",
       "type": "service",
-      "label": "Analytics Consumer (mgmt)",
       "position": [
         1300,
         50
-      ]
+      ],
+      "label": "Analytics Consumer (mgmt)"
     },
     {
       "id": "public.edge.install-status.event",
@@ -53,7 +54,8 @@
       "position": [
         400,
         450
-      ]
+      ],
+      "label": "public.edge.install-status.event"
     },
     {
       "id": "public.event.discovery",
@@ -61,7 +63,8 @@
       "position": [
         400,
         590
-      ]
+      ],
+      "label": "public.event.discovery"
     },
     {
       "id": "public.event.multitenant",
@@ -69,16 +72,17 @@
       "position": [
         400,
         730
-      ]
+      ],
+      "label": "public.event.multitenant"
     },
     {
       "id": "lec-scanningconfig-consumer",
       "type": "service",
-      "label": "ScanningConfig Consumer (vnext)",
       "position": [
         900,
         590
       ],
+      "label": "ScanningConfig Consumer (vnext)",
       "annotations": [
         {
           "text": "Reacts to 3 event sources → produces to edge.commands + scanning-config + webhooks.sources",
@@ -93,6 +97,7 @@
         1400,
         400
       ],
+      "label": "public.edge.commands",
       "annotations": [
         {
           "text": "Both API and Consumer publish here — this is how config reaches on-prem",
@@ -103,39 +108,39 @@
     {
       "id": "public-broker",
       "type": "service",
-      "label": "Public Broker",
       "position": [
         1850,
         400
-      ]
+      ],
+      "label": "Public Broker"
     },
     {
       "id": "mongodb-commands",
       "type": "database",
-      "label": "MongoDB (Commands)",
       "position": [
         1850,
         600
-      ]
+      ],
+      "label": "MongoDB (Commands)"
     },
     {
       "id": "lec-edge-command-api",
       "type": "service",
-      "label": "Edge Command API",
       "position": [
-        2300,
-        400
-      ]
+        2715,
+        325
+      ],
+      "label": "Edge Command API"
     },
     {
-      "id": "onprem-scanner",
+      "id": "scanner",
       "type": "scanner",
-      "label": "On-Prem Scanner",
       "position": [
-        2750,
-        400
+        2313,
+        220
       ],
-      "variant": "onprem"
+      "label": "Scanner (vnext)",
+      "variant": "vnext"
     }
   ],
   "edges": [
@@ -206,16 +211,19 @@
       "label": "poll + delete on ack"
     },
     {
-      "source": 12,
-      "target": 13,
-      "type": "grpc",
-      "label": "send command"
+      "source": 13,
+      "target": 12,
+      "type": "grpc"
     },
     {
       "source": 13,
       "target": 12,
-      "type": "grpc",
-      "label": "ReceiptHandle ack"
+      "type": "grpc"
+    },
+    {
+      "source": 13,
+      "target": 12,
+      "type": "grpc"
     }
   ]
 }

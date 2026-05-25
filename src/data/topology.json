@@ -52,6 +52,7 @@
       "consumers": [
         "lec-backoffice-consumer",
         "lec-edge-command-api",
+        "lec-edge-manager",
         "lec-syncer-api-v2",
         "syncer-status-api",
         "install-status-consumer",
@@ -60,7 +61,7 @@
         "discovery-config-api"
       ],
       "producers": [],
-      "consumerCount": 8,
+      "consumerCount": 9,
       "producerCount": 0,
       "teamCount": 3
     },
@@ -160,7 +161,7 @@
       ],
       "producers": [
         "lec-asset-api-reconciliation",
-        "lec-asset-consumer",
+        "lec-asset-consumer-asset",
         "lec-data-core-admin",
         "lec-data-core-processor-api-scan-asset",
         "lec-data-core-processor-asset",
@@ -181,7 +182,7 @@
         "asset-operations-consumer",
         "integrations-webhooks-asset-types",
         "integrations-webhooks-vulnerabilities",
-        "lec-asset-consumer",
+        "lec-asset-consumer-asset",
         "lec-integrations-webhooks-checker-consumer",
         "lec-integrations-webhooks-checker-consumer-testing"
       ],
@@ -230,7 +231,8 @@
       "producers": [
         "lec-asset-api",
         "lec-asset-api-delete-asset-temp",
-        "lec-asset-consumer",
+        "lec-asset-consumer-ad",
+        "lec-asset-consumer-asset",
         "lec-asset-grpc-api",
         "asset-operations-consumer",
         "asset-sync-status-tracking-consumer",
@@ -243,7 +245,7 @@
         "lec-gateway-subscriptions"
       ],
       "consumerCount": 16,
-      "producerCount": 13,
+      "producerCount": 14,
       "teamCount": 5
     },
     "private.event.assetoperations": {
@@ -269,7 +271,8 @@
       "producers": [
         "lec-asset-api",
         "lec-asset-api-delete-asset-temp",
-        "lec-asset-consumer",
+        "lec-asset-consumer-ad",
+        "lec-asset-consumer-asset",
         "lec-asset-grpc-api",
         "lec-assets-workflows",
         "asset-operations-consumer",
@@ -296,7 +299,7 @@
         "lec-integrations-webhooks-event-consumer-webhookevents"
       ],
       "consumerCount": 2,
-      "producerCount": 27,
+      "producerCount": 28,
       "teamCount": 5
     },
     "public.edge.assetcommon.event": {
@@ -304,7 +307,7 @@
       "consumers": [
         "integrations-webhooks-asset-types",
         "integrations-webhooks-vulnerabilities",
-        "lec-asset-consumer",
+        "lec-asset-consumer-asset",
         "lec-integrations-webhooks-checker-consumer",
         "lec-integrations-webhooks-checker-consumer-testing"
       ],
@@ -372,7 +375,27 @@
       ],
       "consumerCount": 2,
       "producerCount": 41,
-      "teamCount": 5
+      "teamCount": 5,
+      "messages": [
+        {
+          "name": "CreateOrUpdateCredential",
+          "format": "avro",
+          "description": "Push credential create/update from cloud to HUB vault.",
+          "producers": ["lec-scanningconfig-api"]
+        },
+        {
+          "name": "ShareCredential",
+          "format": "avro",
+          "description": "Share an existing credential with another scope.",
+          "producers": ["lec-scanningconfig-api"]
+        },
+        {
+          "name": "DeleteCredential",
+          "format": "avro",
+          "description": "Remove a credential from the HUB vault.",
+          "producers": ["lec-scanningconfig-api"]
+        }
+      ]
     },
     "public.event.analytics.entity-changes": {
       "id": "public.event.analytics.entity-changes",
@@ -388,7 +411,8 @@
         "lec-asset-api-delete-adusers-by-install",
         "lec-asset-api-delete-asset-temp",
         "lec-asset-api-reconciliation",
-        "lec-asset-consumer",
+        "lec-asset-consumer-ad",
+        "lec-asset-consumer-asset",
         "lec-asset-grpc-api",
         "lec-assets-workflows",
         "asset-operations-consumer",
@@ -402,7 +426,7 @@
         "vulnerabilities-engine-enriching-go"
       ],
       "consumerCount": 5,
-      "producerCount": 16,
+      "producerCount": 17,
       "teamCount": 4
     },
     "public.event.assets": {
@@ -475,12 +499,13 @@
         "lec-asset-api",
         "lec-asset-api-avro-register-workflow",
         "lec-asset-api-delete-asset-temp",
-        "lec-asset-consumer",
+        "lec-asset-consumer-ad",
+        "lec-asset-consumer-asset",
         "lec-asset-grpc-api",
         "lec-analytics-assets-consumer-v2-sync-management-entities"
       ],
       "consumerCount": 2,
-      "producerCount": 6,
+      "producerCount": 7,
       "teamCount": 4
     },
     "public.command.notifications": {
@@ -693,7 +718,7 @@
     "public.edge.activedirectory.event": {
       "id": "public.edge.activedirectory.event",
       "consumers": [
-        "lec-asset-consumer"
+        "lec-asset-consumer-ad"
       ],
       "producers": [
         "lec-reports-api-consumer",
@@ -797,7 +822,7 @@
     "public.edge.asserver.event": {
       "id": "public.edge.asserver.event",
       "consumers": [
-        "lec-asset-consumer"
+        "lec-asset-consumer-asset"
       ],
       "producers": [
         "lec-syncer-api",
@@ -852,7 +877,14 @@
       ],
       "consumerCount": 1,
       "producerCount": 1,
-      "teamCount": 2
+      "teamCount": 2,
+      "messages": [
+        {
+          "name": "lansweeper.discovery.credential.v2.DiscoveryCredentialVaultReference",
+          "format": "proto",
+          "description": "Credential vault ack from HUB (UPSERT/DELETE ops + vault metadata)."
+        }
+      ]
     },
     "public.event.webhooks.sources": {
       "id": "public.event.webhooks.sources",
@@ -931,7 +963,7 @@
         "users-enriching"
       ],
       "producers": [
-        "lec-asset-consumer"
+        "lec-asset-consumer-ad"
       ],
       "consumerCount": 1,
       "producerCount": 1,
@@ -1346,13 +1378,53 @@
         "prdEuw1": "pending"
       }
     },
-    "lec-asset-consumer": {
-      "id": "lec-asset-consumer",
+    "lec-asset-consumer-ad": {
+      "id": "lec-asset-consumer-ad",
       "team": "cloud-data-pipeline-and-scanning",
       "repository": "inventory-deployments",
       "namespace": "asset-consumer",
       "produces": [
         "assetscontext.event.ad",
+        "public.command.tracking",
+        "public.event.analytics.entity-changes",
+        "public.event.inventory.management-entities",
+        "public.event.tracking"
+      ],
+      "consumes": [
+        "public.edge.activedirectory.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/inventory-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECAssetConsumer",
+          "url": "https://github.com/Lansweeper/LECAssetConsumer"
+        }
+      ],
+      "grpcCalls": [
+        "lec-multitenant-grpc-api",
+        "lec-analytics-luzmo-api"
+      ],
+      "databases": [
+        "inventory-mongodb",
+        "redis-shared",
+        "aurora"
+      ],
+      "description": "Active Directory asset pipeline consumer (consumer group ad_consumer_v2). Consumes public.edge.activedirectory.event and publishes assetscontext.event.ad + analytics + management-entities.",
+      "kafkaMigration": {
+        "wave": "6",
+        "stgEuw1": "migrated",
+        "prdUse1": "pending",
+        "prdEuw1": "pending"
+      }
+    },
+    "lec-asset-consumer-asset": {
+      "id": "lec-asset-consumer-asset",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "inventory-deployments",
+      "namespace": "asset-consumer",
+      "produces": [
         "assetscontext.event.assets",
         "public.command.tracking",
         "public.event.analytics.entity-changes",
@@ -1360,7 +1432,6 @@
         "public.event.tracking"
       ],
       "consumes": [
-        "public.edge.activedirectory.event",
         "public.edge.asserver.event",
         "public.edge.asset.event",
         "public.edge.assetcommon.event"
@@ -1383,7 +1454,7 @@
         "redis-shared",
         "aurora"
       ],
-      "description": "Core asset pipeline consumer — consumes edge asset events, writes MongoDB, publishes assetscontext + analytics entity-changes + management-entities. Owned by Cloud Data Pipeline and Scanning per lansweeper-apps-catalog.",
+      "description": "Asset pipeline consumer (consumer group assets_consumer_v2). Consumes public.edge.asset/assetcommon/asserver events and publishes assetscontext.event.assets + analytics + management-entities.",
       "kafkaMigration": {
         "wave": "6",
         "stgEuw1": "migrated",
@@ -3173,6 +3244,33 @@
         "prdEuw1": "pending"
       }
     },
+    "lec-edge-manager": {
+      "id": "lec-edge-manager",
+      "team": "cloud-data-pipeline-and-scanning",
+      "repository": "edge-deployments",
+      "namespace": "edge-manager",
+      "produces": [],
+      "consumes": [
+        "public.edge.install-status.event"
+      ],
+      "runningInCluster": true,
+      "deploymentType": "Deployment",
+      "githubUrl": "https://github.com/Lansweeper/edge-deployments",
+      "sourceRepos": [
+        {
+          "name": "LECEdgeManager",
+          "url": "https://github.com/Lansweeper/LECEdgeManager"
+        }
+      ],
+      "grpcCalls": [
+        "multitenant-grpc-api",
+        "licensing-grpc-api",
+        "scanning-api",
+        "asset-grpc-api",
+        "install-status-api"
+      ],
+      "description": "GraphQL API for install lifecycle — link, unlink, license checks, scanner management operations"
+    },
     "public-broker": {
       "id": "public-broker",
       "team": "cloud-data-pipeline-and-scanning",
@@ -3462,9 +3560,19 @@
         "public.event.notifications"
       ],
       "consumes": [],
-      "runningInCluster": false,
-      "deploymentType": "Unknown",
+      "runningInCluster": true,
+      "deploymentType": "CronWorkflow",
       "githubUrl": "https://github.com/Lansweeper/scanning-deployments",
+      "sourceRepos": [
+        {
+          "name": "InstallStatus",
+          "url": "https://github.com/Lansweeper/InstallStatus"
+        }
+      ],
+      "databases": [
+        "mongodb"
+      ],
+      "description": "Argo CronWorkflow that reads MongoDB and publishes install-status notifications to Kafka (notificationCronjob.js)",
       "kafkaMigration": {
         "wave": "10c",
         "stgEuw1": "migrated",
@@ -4966,7 +5074,7 @@
   "metadata": {
     "dataCollectionDate": "2026-04-19",
     "totalTopics": 54,
-    "totalServices": 143,
+    "totalServices": 146,
     "totalTeams": 9
   }
 }

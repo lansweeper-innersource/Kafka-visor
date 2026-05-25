@@ -4,6 +4,19 @@ export interface Team {
   fullName: string
 }
 
+export type MessageFormat = 'avro' | 'proto' | 'json'
+
+export interface TopicMessage {
+  name: string
+  format: MessageFormat
+  description?: string
+  /** Subset of the topic's producers that emit this specific message. Omit if all do. */
+  producers?: string[]
+  /** Subset of the topic's consumers that read this specific message. Omit if all do. */
+  consumers?: string[]
+  schemaUrl?: string
+}
+
 export interface Topic {
   id: string
   consumers: string[]
@@ -11,6 +24,7 @@ export interface Topic {
   consumerCount: number
   producerCount: number
   teamCount: number
+  messages?: TopicMessage[]
 }
 
 export interface SourceRepo {
@@ -49,7 +63,7 @@ export interface TopologyData {
 
 // Flow Mode types
 export type InteractionType = 'kafka' | 'grpc' | 'https' | 'protobuf' | 'db' | 'internal' | 'sensor' | 'sqs' | 'unknown'
-export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database' | 'workflow' | 'flowRef' | 'stickyNote'
+export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database' | 'workflow' | 'flowRef' | 'stickyNote' | 'asset'
 
 export interface Annotation {
   text: string

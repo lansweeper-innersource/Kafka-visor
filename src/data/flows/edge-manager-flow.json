@@ -6,21 +6,21 @@
     {
       "id": "onprem-scanner",
       "type": "scanner",
-      "label": "On-Prem Scanner",
       "position": [
-        0,
-        280
+        -5,
+        271
       ],
+      "label": "On-Prem Scanner",
       "variant": "onprem"
     },
     {
       "id": "lec-edge-manager",
       "type": "service",
-      "label": "Edge Manager",
       "position": [
         450,
         280
       ],
+      "label": "Edge Manager",
       "annotations": [
         {
           "text": "Not in Kafka topology — communicates via gRPC only",
@@ -31,47 +31,65 @@
     {
       "id": "lec-multitenant-api",
       "type": "service",
-      "label": "Multitenant API",
       "position": [
         950,
         0
-      ]
+      ],
+      "label": "Multitenant API"
     },
     {
       "id": "lec-licensing-api",
       "type": "service",
-      "label": "Licensing API",
       "position": [
-        950,
-        140
-      ]
+        1058,
+        134
+      ],
+      "label": "Licensing API"
     },
     {
       "id": "lec-scanning-api",
       "type": "service",
-      "label": "Scanning API (on-prem)",
       "position": [
-        950,
-        280
-      ]
+        1039,
+        330
+      ],
+      "label": "Scanning API (on-prem)"
     },
     {
       "id": "lec-asset-api",
       "type": "service",
-      "label": "Asset API",
       "position": [
-        950,
-        420
-      ]
+        954,
+        422
+      ],
+      "label": "Asset API"
     },
     {
       "id": "install-status-api",
       "type": "service",
-      "label": "Install Status API",
       "position": [
-        950,
-        560
-      ]
+        887,
+        565
+      ],
+      "label": "Install Status API"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        722,
+        626
+      ],
+      "text": "Operaciones que hace sobre install-status:SetPublicKey, getPolicy"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        323,
+        224
+      ],
+      "text": "El edge-manager pasa de graph-ql a grp con autentificacion"
     }
   ],
   "edges": [

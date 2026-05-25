@@ -6,11 +6,11 @@
     {
       "id": "hub-onprem",
       "type": "scanner",
-      "label": "HUB (Lansweeper.IT)",
       "position": [
-        0,
-        150
+        -9,
+        140
       ],
+      "label": "HUB (Lansweeper.IT)",
       "annotations": [
         {
           "text": "On-prem agent — successor of On-Prem Classic. .NET / GrpcClientFactory configured via DiscoveryGateway:Url. Uses M2M token for authentication.",
@@ -22,11 +22,11 @@
     {
       "id": "discovery-config-api",
       "type": "service",
-      "label": "Discovery Config API",
       "position": [
         550,
         150
       ],
+      "label": "Discovery Config API",
       "annotations": [
         {
           "text": "gRPC server — IGrpcConfigService.GetScanningConfig (also IGrpcLicenseService, IGrpcLinkingService, IGrpcConfigNoAuthService). Owned by Discovery Engineering.",
@@ -37,11 +37,11 @@
     {
       "id": "lec-scanningconfig-api",
       "type": "service",
-      "label": "ScanningConfig API (vnext)",
       "position": [
         1100,
         150
       ],
+      "label": "ScanningConfig API (vnext)",
       "annotations": [
         {
           "text": "Source of truth for scanning config. Called internally over gRPC by discovery-config-api.",
@@ -52,11 +52,30 @@
     {
       "id": "redis-shared",
       "type": "database",
-      "label": "Redis (shared)",
       "position": [
-        1100,
-        350
-      ]
+        1400,
+        142
+      ],
+      "label": "Redis (shared)"
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [
+        1388,
+        291
+      ],
+      "label": "mongodb",
+      "detail": "scanning"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        1432,
+        89
+      ],
+      "text": "Mira si existe en multitenant y si el site es correcto. "
     }
   ],
   "edges": [
@@ -76,7 +95,13 @@
       "source": 2,
       "target": 3,
       "type": "db",
-      "label": "config cache"
+      "label": "Checks"
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "type": "db",
+      "label": "get config"
     }
   ]
 }

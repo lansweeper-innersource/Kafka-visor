@@ -4,7 +4,7 @@ import { getInteractionStyle } from '../lib/flow-colors'
 
 const ALL_EDGE_TYPES: InteractionType[] = ['kafka', 'grpc', 'https', 'protobuf', 'db', 'internal', 'sensor', 'sqs', 'unknown']
 
-type NodeKind = 'service' | 'topic' | 'scanner' | 'database' | 'flowRef'
+type NodeKind = 'service' | 'topic' | 'scanner' | 'database' | 'flowRef' | 'asset'
 
 /** Returns valid edge types for a given source→target node type pair */
 export function getValidEdgeTypes(sourceType?: FlowNodeType, targetType?: FlowNodeType): InteractionType[] {
@@ -23,6 +23,11 @@ export function getValidEdgeTypes(sourceType?: FlowNodeType, targetType?: FlowNo
   if ((s === 'scanner' && t === 'service') || (s === 'service' && t === 'scanner')) return ['grpc', 'https', 'sensor']
   // scanner → topic (possible via proxy but unusual)
   if (s === 'scanner' && t === 'topic') return ['kafka', 'sensor']
+  // asset as data entity: produced/consumed by services, carried by topics
+  if ((s === 'service' && t === 'asset') || (s === 'asset' && t === 'service')) return ['internal', 'protobuf', 'grpc']
+  if ((s === 'topic' && t === 'asset') || (s === 'asset' && t === 'topic')) return ['kafka']
+  if (s === 'asset' && t === 'database') return ['db']
+  if (s === 'asset' && t === 'asset') return ['internal', 'protobuf']
 
   return ALL_EDGE_TYPES
 }

@@ -24,6 +24,7 @@ import { DatabaseNode } from './nodes/DatabaseNode'
 import { FlowRefNode } from './nodes/FlowRefNode'
 import { WorkflowNode } from './nodes/WorkflowNode'
 import { StickyNoteNode } from './nodes/StickyNoteNode'
+import { AssetNode } from './nodes/AssetNode'
 import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
 import type { TopologyData, FlowDefinition, FlowNodeType, ScannerVariant } from '../types'
@@ -42,6 +43,7 @@ const nodeTypes = {
   workflow: WorkflowNode,
   flowRef: FlowRefNode,
   stickyNote: StickyNoteNode,
+  asset: AssetNode,
 }
 
 const edgeTypes = {
@@ -152,7 +154,7 @@ export function FlowCanvas({
             setNodes(nds => nds.map(nd => nd.id === n.id ? { ...nd, data: { ...nd.data, text } } : nd))
           }}}
         }
-        if (n.type === 'database') {
+        if (n.type === 'database' || n.type === 'asset') {
           return { ...n, data: { ...n.data, onUpdateDetail: (detail: string) => {
             setNodes(nds => nds.map(nd => nd.id === n.id ? { ...nd, data: { ...nd.data, detail } } : nd))
           }}}
@@ -164,9 +166,10 @@ export function FlowCanvas({
       setEdges(flowEdges)
       setTimeout(() => fitView({ duration: 400, padding: 0.15 }), 100)
     } else {
-      // Restore topology
-      prevTeamsRef.current = '' // force rebuild
-      layoutDone.current = false
+      // Restore topology from cached state (avoids stale flow nodes on screen)
+      setNodes(topologyNodesRef.current)
+      setEdges(topologyEdgesRef.current)
+      setTimeout(() => fitView({ duration: 400, padding: 0.15 }), 100)
     }
   }, [activeFlow, topology, setNodes, setEdges, fitView])
 
@@ -347,7 +350,7 @@ export function FlowCanvas({
           producerCount: topic?.producerCount ?? 0,
           teamCount: topic?.teamCount ?? 0,
         }
-      } else if (type === 'database') {
+      } else if (type === 'database' || type === 'asset') {
         data = { label: label || id, detail: '', onUpdateDetail: (detail: string) => {
           setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, detail } } : n))
         }}
@@ -402,6 +405,7 @@ export function FlowCanvas({
           if (node.type === 'topic') return '#1F2937'
           if (node.type === 'scanner') return '#9CA3AF'
           if (node.type === 'database') return '#F59E0B'
+          if (node.type === 'asset') return '#06B6D4'
           if (node.type === 'workflow') return '#F43F5E'
           if (node.type === 'stickyNote') return '#FDE047'
           return (node.data as { teamColor?: string }).teamColor ?? '#6B7280'

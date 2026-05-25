@@ -1,0 +1,72 @@
+{
+  "id": "instalation-status-legacy-ui-notification-onprem",
+  "name": "Instalation status  ui notification (ONPREM/Next))",
+  "description": "",
+  "nodes": [
+    {
+      "id": "install-status-consumer-notification",
+      "type": "service",
+      "position": [
+        397,
+        -20
+      ],
+      "label": "install-status-consumer-notification"
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [
+        481,
+        192
+      ],
+      "label": "mongodb",
+      "detail": "install-status / installations"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        446,
+        -157
+      ],
+      "text": "Se lanza cada 15 minutos, mira todas las instalaciones y checkea el campo  lastConnection. \n\nlastConnection > 3 horas de diferencia (down)\n\nSi estaba up -> down --> notifica \nSi estaba down -> up --> notifica "
+    },
+    {
+      "id": "public.command.notifications",
+      "type": "topic",
+      "position": [
+        1006,
+        -52
+      ],
+      "label": "public.command.notifications"
+    },
+    {
+      "id": "public.event.notifications",
+      "type": "topic",
+      "position": [
+        1009,
+        91
+      ],
+      "label": "public.event.notifications"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "db"
+    },
+    {
+      "source": 0,
+      "target": 3,
+      "type": "kafka",
+      "label": "notify"
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "type": "kafka",
+      "label": "notify"
+    }
+  ]
+}
