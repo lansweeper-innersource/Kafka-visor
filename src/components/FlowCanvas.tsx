@@ -25,6 +25,7 @@ import { FlowRefNode } from './nodes/FlowRefNode'
 import { WorkflowNode } from './nodes/WorkflowNode'
 import { StickyNoteNode } from './nodes/StickyNoteNode'
 import { AssetNode } from './nodes/AssetNode'
+import { ComponentNode } from './nodes/ComponentNode'
 import { FlowEdge } from './edges/FlowEdge'
 import { useElkLayout } from '../lib/use-elk-layout'
 import type { TopologyData, FlowDefinition, FlowNodeType, ScannerVariant } from '../types'
@@ -44,6 +45,7 @@ const nodeTypes = {
   flowRef: FlowRefNode,
   stickyNote: StickyNoteNode,
   asset: AssetNode,
+  component: ComponentNode,
 }
 
 const edgeTypes = {
@@ -111,7 +113,7 @@ export function FlowCanvas({
   const baseEdgesRef = useRef<Edge[]>([])
   const topologyNodesRef = useRef<Node[]>([])
   const topologyEdgesRef = useRef<Edge[]>([])
-  const prevFlowRef = useRef<string | null>(null)
+  const prevFlowRef = useRef<FlowDefinition | null>(null)
 
   // TOPOLOGY MODE: Build and filter graph when teams change
   useEffect(() => {
@@ -142,10 +144,11 @@ export function FlowCanvas({
   }, [topology, selectedTeams, setNodes, setEdges, layoutNodes, activeFlow])
 
   // FLOW MODE: Swap in flow nodes/edges
+  // Compare by reference so HMR replacement of a JSON flow definition rebuilds
+  // the canvas even when the flow id is unchanged.
   useEffect(() => {
-    const flowId = activeFlow?.id ?? null
-    if (flowId === prevFlowRef.current) return
-    prevFlowRef.current = flowId
+    if (activeFlow === prevFlowRef.current) return
+    prevFlowRef.current = activeFlow
 
     if (activeFlow) {
       const flowNodes = buildFlowNodes(activeFlow, topology).map(n => {
@@ -303,6 +306,7 @@ export function FlowCanvas({
         edgeId: edge.id,
         type: (edge.data?.interactionType as EdgeEditState['type']) ?? 'kafka',
         label: (edge.data?.label as string) ?? '',
+        stepNumber: (edge.data?.stepNumber as number) ?? 1,
         x: event.clientX,
         y: event.clientY,
         sourceType: sourceNode?.type as FlowNodeType | undefined,
@@ -360,6 +364,8 @@ export function FlowCanvas({
         }}
       } else if (type === 'flowRef') {
         data = { label: label || 'Flow Ref', flowId: '' }
+      } else if (type === 'component') {
+        data = { label: label || 'Component', parentService: '' }
       }
 
       const newNode: Node = { id: nodeId, type, position, draggable: true, data }
@@ -406,6 +412,7 @@ export function FlowCanvas({
           if (node.type === 'scanner') return '#9CA3AF'
           if (node.type === 'database') return '#F59E0B'
           if (node.type === 'asset') return '#06B6D4'
+          if (node.type === 'component') return '#9CA3AF'
           if (node.type === 'workflow') return '#F43F5E'
           if (node.type === 'stickyNote') return '#FDE047'
           return (node.data as { teamColor?: string }).teamColor ?? '#6B7280'

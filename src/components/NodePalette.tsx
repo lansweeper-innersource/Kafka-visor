@@ -24,6 +24,7 @@ const AD_HOC_TYPES: AdHocType[] = [
   { type: 'scanner', label: 'Scanner (generic)' },
   { type: 'database', label: 'Database' },
   { type: 'asset', label: 'Asset' },
+  { type: 'component', label: 'Component (in-service)' },
   { type: 'workflow', label: 'Workflow' },
   { type: 'stickyNote', label: 'Sticky Note' },
   { type: 'flowRef', label: 'Flow Reference' },

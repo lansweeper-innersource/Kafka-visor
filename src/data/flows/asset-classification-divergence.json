@@ -1,0 +1,244 @@
+{
+  "id": "asset-classification-divergence",
+  "name": "Asset classification — Hub vs DataCore divergence",
+  "description": "Explains why the same asset can show as one type in the Hub (e.g. COMPUTER) and a different type in DataCore (e.g. MOBILE). Both call the SAME discovery-recognition-api (Fing wrapper) — but the Hub only hits the basic devrecog endpoint, while DataCore additionally calls the catalog endpoint (richer brand/model/os/sw data). The richer data lets DataCore reassign the LegacyAssetType, and DataCore applies a second exclusion check after reconciliation.",
+  "nodes": [
+    {
+      "id": "scanner-onprem",
+      "type": "scanner",
+      "position": [80, 140],
+      "label": "Scanner (CDR / Deep)",
+      "variant": "onprem"
+    },
+    {
+      "id": "hub",
+      "type": "scanner",
+      "position": [460, 140],
+      "label": "HUB (Lansweeper.IT)",
+      "variant": "onprem"
+    },
+    {
+      "id": "discovery-recognition-api",
+      "type": "service",
+      "position": [840, 140],
+      "label": "discovery-recognition-api",
+      "annotations": [
+        {
+          "text": "gRPC wrapper over Fing. Returns type, model, brand, os-name, recogtype. See recognition-flow for detail.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "fing",
+      "type": "service",
+      "position": [1220, 140],
+      "label": "Fing (external)"
+    },
+    {
+      "id": "hub-exclusion",
+      "type": "component",
+      "position": [460, 340],
+      "label": "ExclusionHelper",
+      "parentService": "Lansweeper.IT (HUB)",
+      "annotations": [
+        {
+          "text": "C# class. Lansweeper.IT/src/Lansweeper.Discovery.Hub.Application/GlobalExclusions/ExclusionHelper.cs — MarkDeviceWithExcludedAssetTypeAsExcludedToAvoidSync()",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "lec-syncer-api-v2",
+      "type": "service",
+      "position": [1600, 140],
+      "label": "lec-syncer-api-v2"
+    },
+    {
+      "id": "public.edge.classic.event",
+      "type": "topic",
+      "position": [1600, 540],
+      "label": "public.edge.classic.event"
+    },
+    {
+      "id": "lec-data-core-processor-classic-asset",
+      "type": "service",
+      "position": [2000, 540],
+      "label": "lec-data-core-processor-classic-asset"
+    },
+    {
+      "id": "dc-recognition",
+      "type": "component",
+      "position": [2420, 380],
+      "label": "ReactiveGrpcDeviceRecognitionService",
+      "parentService": "lec-data-core-processor-classic-asset",
+      "annotations": [
+        {
+          "text": "Spring bean inside the processor (libs/recognition). Makes an outbound gRPC call to discovery-recognition-api (Fing) using the devrecog endpoint. LECDataCore/libs/recognition/.../ReactiveGrpcDeviceRecognitionService.java",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "dc-catalog",
+      "type": "component",
+      "position": [2420, 680],
+      "label": "ReactiveCatalogLookupService",
+      "parentService": "lec-data-core-processor-classic-asset",
+      "annotations": [
+        {
+          "text": "Spring bean inside the processor (libs/recognition). Outbound gRPC call to discovery-recognition-api (Fing) catalog endpoint — richer payload (brand/model/os/sw/monitor). Cached in-memory via DefaultCachedReactiveBulkCatalogLookupService. LECDataCore/libs/recognition/.../ReactiveCatalogLookupService.java",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "dc-reconciliation",
+      "type": "component",
+      "position": [2840, 540],
+      "label": "Reconciliation Engine",
+      "parentService": "lec-data-core-processor-classic-asset"
+    },
+    {
+      "id": "dc-exclusion-postproc",
+      "type": "component",
+      "position": [3240, 540],
+      "label": "ExcludedAssetTypeReconciliationPostProcessor",
+      "parentService": "lec-data-core-processor-classic-asset",
+      "annotations": [
+        {
+          "text": "Java class. Runs AFTER reconciliation. Reads the FINAL LegacyAssetType from asset.proto.core.type.lsId and emits ExcludedAssetTypeException if excluded. LECDataCore/libs/reconciliation/.../ExcludedAssetTypeReconciliationPostProcessor.java",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "lec-scanningconfig-api",
+      "type": "service",
+      "position": [3680, 540],
+      "label": "lec-scanningconfig-api"
+    },
+    {
+      "id": "sticky-hub-mapping-limited",
+      "type": "stickyNote",
+      "position": [80, 560],
+      "text": "HUB EXCLUSION CHECK = doble match contra cada GlobalExclusion de tipo AssetType:\n  1) enum:   device.AssetType == MapExclusionStringToAssetType(excl.Exclusion)\n             (switch limitado: windows | linux | apple mac | monitor | unknown → null si no)\n  2) string: device.LsTypeName.CaseInsensitiveEquals(excl.Exclusion)   ← fallback\n\nBasta con que UNO de los dos haga match (y que el sensor esté en el alcance).\n\nEntonces para excluir 'Mobile' funcionaría — SI Fing hubiera devuelto LsTypeName='Mobile'. En el caso real Fing devolvió 'Computer', así que ningún match dispara.\n\nLansweeper.IT/.../GlobalExclusions/ExclusionHelper.cs\n  MarkDeviceWithExcludedAssetTypeAsExcludedToAvoidSync()"
+    },
+    {
+      "id": "sticky-catalog-reassigns",
+      "type": "stickyNote",
+      "position": [2160, 860],
+      "text": "MISMO SERVICIO, ENDPOINT DISTINTO\nTanto Hub como DataCore llaman a la MISMA discovery-recognition-api (wrapper de Fing).\nLa diferencia:\n  • Hub usa endpoint 'devrecog' → type básico desde OS name\n  • DataCore llama TAMBIÉN al endpoint catalog → trae brand/model/os/sw/monitor\n\nCon esos datos extra, el mapper de DataCore puede traducir model='iPhone' → LegacyAssetType.IPHONE.\nResultado: Hub almacena type='Computer' (Fing devrecog devolvió eso), DataCore escribe type='iPhone' en el proto."
+    },
+    {
+      "id": "sticky-reconciliation",
+      "type": "stickyNote",
+      "position": [2780, 220],
+      "text": "RECONCILIATION = rule-based, NOT a single key.\nEvery delta-merge runs all enabled rules to build CorrFields. EntityKey = (siteId, UUID).\n\nRules include:\n  • MacAddressRule — confidence 80+ on MAC overlap\n  • IpAddressRule\n  • ImeiRule (Intune)\n  • ADUserUPNRule, AD SID rules\n\nSee LECDataCore/docs/new-reconciliation-analysis.md"
+    },
+    {
+      "id": "sticky-exclusion-final",
+      "type": "stickyNote",
+      "position": [3200, 760],
+      "text": "DC EXCLUSION = FINAL TYPE check\nReads asset.proto.core.type.lsId AFTER catalog enrichment, then calls scanning-config gRPC getExcludedAssetTypes(siteId, sourceId) and emits ExcludedAssetTypeException if matched.\n\nException stops the pipeline → asset NOT synced downstream (no asset.event emitted)."
+    },
+    {
+      "id": "sticky-the-example",
+      "type": "stickyNote",
+      "position": [80, 800],
+      "text": "EL CASO DEL USUARIO — site con exclusión 'Mobile', mismo asset (mac=1) escaneado por CDR (A) y luego Deep (B):\n\nA → Hub: Fing devuelve LsTypeName='Computer' → device.LsTypeName='Computer' → ExclusionHelper compara contra 'Mobile' (enum y string) → ningún match → PASA → SyncerAPI\n  → DataCore: first time, no candidates → Recognition + Catalog (modelo → iPhone) → proto.core.type=IPHONE → exclusion postprocessor: IPHONE ∈ excluded → ExcludedAssetTypeException → NOT synced\n\nB → Hub: igual (Fing → 'Computer') → PASA\n  → DataCore: MacAddressRule matches A's entity → reconcile to master → master rebuilt → catalog re-applied → type=IPHONE → excluded → NOT synced\n\nLa contradicción que veías NO es real: Hub y DataCore usan FUENTES DISTINTAS. Recognition (Fing) ≠ Catalog. El Hub podría excluir 'Mobile' si Fing devolviera ese LsTypeName, pero no es el caso. El catálogo de DataCore sí lo identifica y por eso la exclusión final dispara allí."
+    },
+    {
+      "id": "sticky-hub-vs-dc",
+      "type": "stickyNote",
+      "position": [820, 800],
+      "text": "RESUMEN HUB vs DATACORE\n              Hub                      DataCore\nFing endpoint devrecog (básico)         devrecog + catalog (rico)\nDatos input   OS name → type           OS + brand + model + sw + monitor\nMapping LS    5 strings (limitado)     LegacyAssetType completo\nExclusión     string == LsTypeName     lsId ∈ scanning-config set\nCuándo        antes de SyncerAPI       después de reconcile\nSi excluye    device.Status=Excluded   ExcludedAssetTypeException → no sync"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc",
+      "label": "scan data"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "Recognize(batch)"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "grpc",
+      "label": "devrecog"
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "type": "internal",
+      "label": "ApplyDeviceExclusions"
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "type": "grpc",
+      "label": "sync (post-recognition + Hub exclusions)"
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "type": "kafka",
+      "label": "publishes"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "type": "kafka",
+      "label": "consumes"
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "type": "internal",
+      "label": "uses bean"
+    },
+    {
+      "source": 7,
+      "target": 9,
+      "type": "internal",
+      "label": "uses bean"
+    },
+    {
+      "source": 8,
+      "target": 2,
+      "type": "grpc",
+      "label": "Recognize (devrecog)"
+    },
+    {
+      "source": 9,
+      "target": 2,
+      "type": "grpc",
+      "label": "CatalogLookup (brand/model/os/sw/monitor)"
+    },
+    {
+      "source": 7,
+      "target": 10,
+      "type": "internal",
+      "label": "reconcile"
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "type": "internal",
+      "label": "postProcess"
+    },
+    {
+      "source": 11,
+      "target": 12,
+      "type": "grpc",
+      "label": "getExcludedAssetTypes(siteId, sourceId)"
+    }
+  ]
+}

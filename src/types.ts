@@ -62,8 +62,8 @@ export interface TopologyData {
 }
 
 // Flow Mode types
-export type InteractionType = 'kafka' | 'grpc' | 'https' | 'protobuf' | 'db' | 'internal' | 'sensor' | 'sqs' | 'unknown'
-export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database' | 'workflow' | 'flowRef' | 'stickyNote' | 'asset'
+export type InteractionType = 'kafka' | 'grpc' | 'https' | 'db' | 'internal' | 'sqs' | 'unknown'
+export type FlowNodeType = 'service' | 'topic' | 'scanner' | 'database' | 'workflow' | 'flowRef' | 'stickyNote' | 'asset' | 'component'
 
 export interface Annotation {
   text: string
@@ -88,6 +88,8 @@ export interface FlowNodeDef {
   text?: string
   /** For database nodes: extra detail (e.g. collection name) */
   detail?: string
+  /** For component nodes: name of the service that owns this component */
+  parentService?: string
 }
 
 export interface FlowEdgeDef {

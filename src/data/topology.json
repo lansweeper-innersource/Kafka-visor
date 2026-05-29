@@ -381,19 +381,25 @@
           "name": "CreateOrUpdateCredential",
           "format": "avro",
           "description": "Push credential create/update from cloud to HUB vault.",
-          "producers": ["lec-scanningconfig-api"]
+          "producers": [
+            "lec-scanningconfig-api"
+          ]
         },
         {
           "name": "ShareCredential",
           "format": "avro",
           "description": "Share an existing credential with another scope.",
-          "producers": ["lec-scanningconfig-api"]
+          "producers": [
+            "lec-scanningconfig-api"
+          ]
         },
         {
           "name": "DeleteCredential",
           "format": "avro",
           "description": "Remove a credential from the HUB vault.",
-          "producers": ["lec-scanningconfig-api"]
+          "producers": [
+            "lec-scanningconfig-api"
+          ]
         }
       ]
     },
@@ -1357,7 +1363,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Reconciliation worker that recomputes consolidated asset state from MongoDB and republishes to assetscontext + analytics streams."
     },
     "lec-asset-api-resync-assets-by-site": {
       "id": "lec-asset-api-resync-assets-by-site",
@@ -1520,7 +1527,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "gRPC API for assets (port 50051) — same CRUD/operations surface as lec-asset-api over gRPC."
     },
     "lec-assets-workflows": {
       "id": "lec-assets-workflows",
@@ -1546,7 +1554,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Long-running Kafka consumer (asset-api chart) that processes asset workflow events from public.event.tracking and emits asset/command/analytics events."
     },
     "lec-asset-be": {
       "id": "lec-asset-be",
@@ -1775,7 +1784,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Tracking-side consumer of the duplicated-asset pipeline — emits tracking commands and asset entity-changes for duplicate resolution."
     },
     "hard-soft-limits": {
       "id": "hard-soft-limits",
@@ -2552,7 +2562,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "HTTP API serving Luzmo dashboard data from ClickHouse; emits eventlogs on access."
     },
     "lec-analytics-assets-consumer-v2": {
       "id": "lec-analytics-assets-consumer-v2",
@@ -2606,7 +2617,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Analytics v2 consumer that writes certificate entity changes into ClickHouse and forwards events to the webhooks asset-events topic."
     },
     "lec-analytics-assets-consumer-v2-management-entities": {
       "id": "lec-analytics-assets-consumer-v2-management-entities",
@@ -2627,7 +2639,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Analytics v2 consumer that populates ClickHouse dictionaries for sites, installs, multitenant and scanning-config entities."
     },
     "lec-analytics-assets-consumer-v2-reprocess": {
       "id": "lec-analytics-assets-consumer-v2-reprocess",
@@ -2648,7 +2661,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Reprocess path of the analytics v2 consumer — replays failed entity-change events into ClickHouse and webhooks asset-events."
     },
     "lec-analytics-assets-consumer-v2-softwares": {
       "id": "lec-analytics-assets-consumer-v2-softwares",
@@ -2669,7 +2683,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Analytics v2 consumer that writes software entity changes into ClickHouse and forwards events to the webhooks asset-events topic."
     },
     "lec-analytics-assets-consumer-v2-sync-deleted-entities": {
       "id": "lec-analytics-assets-consumer-v2-sync-deleted-entities",
@@ -2749,7 +2764,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Analytics v2 consumer that writes user entity changes into ClickHouse and forwards events to the webhooks asset-events topic."
     },
     "lec-analytics-assets-consumer-v2-vulnerabilities": {
       "id": "lec-analytics-assets-consumer-v2-vulnerabilities",
@@ -2769,7 +2785,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Analytics v2 consumer for vulnerability data — writes to ClickHouse and republishes entity-changes + webhooks asset-events."
     },
     "lec-analytics-assets-consumer-v2-windows-services": {
       "id": "lec-analytics-assets-consumer-v2-windows-services",
@@ -2790,7 +2807,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Analytics v2 consumer that writes Windows-service entity changes into ClickHouse and forwards events to the webhooks asset-events topic."
     },
     "lec-boards-api": {
       "id": "lec-boards-api",
@@ -2927,7 +2945,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Reports-api integrations service (port 4000) — exposes report data to integration partners."
     },
     "lec-reports-executor": {
       "id": "lec-reports-executor",
@@ -3597,7 +3616,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Subscribes to install-status changes via Redis pub/sub and publishes public.edge.commands to update on-prem installs."
     },
     "lec-scanning-api": {
       "id": "lec-scanning-api",
@@ -3873,7 +3893,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "HTTP API for the asset enrichment engine — triggers consolidation/enrichment on demand and feeds the reprocess pipeline."
     },
     "assets-enriching-retry": {
       "id": "assets-enriching-retry",
@@ -3896,7 +3917,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Retry consumer for failed asset enrichments — consumes consolidationcontext.event.reprocess-assets-enriching, re-runs consolidation via MongoDB + multitenant gRPC, emits entity-changes-reprocess."
     },
     "consolidate-unsynced-assets-workflow-template": {
       "id": "consolidate-unsynced-assets-workflow-template",
@@ -3928,7 +3950,8 @@
       ],
       "runningInCluster": true,
       "deploymentType": "Deployment",
-      "githubUrl": "https://github.com/Lansweeper/enriching-deployments"
+      "githubUrl": "https://github.com/Lansweeper/enriching-deployments",
+      "description": "Consumes management-entity events and keeps the IP-location cache in Redis up to date."
     },
     "reprocess-unsynced-users-workflow-template": {
       "id": "reprocess-unsynced-users-workflow-template",
@@ -4016,7 +4039,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Retry consumer for failed user enrichments — replays reprocess-users-enriching events and republishes enriched user entity-changes."
     },
     "vulnerabilities-engine-enriching-go": {
       "id": "vulnerabilities-engine-enriching-go",
@@ -4076,7 +4100,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Retry consumer for failed vulnerability enrichments — re-runs VRS/CVE catalog lookups and emits entity-changes-reprocess."
     },
     "lec-gateway-api": {
       "id": "lec-gateway-api",
@@ -4464,7 +4489,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Webhook event consumer (key=asseteventsanalytics, group lec-integrations-webhooks-event-consumer) — consumes public.event.webhooks.asset-events and emits webhook-notifier commands."
     },
     "lec-integrations-webhooks-event-consumer-sourcesevents": {
       "id": "lec-integrations-webhooks-event-consumer-sourcesevents",
@@ -4488,7 +4514,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Webhook event consumer (key=sourcesevents) — consumes public.event.webhooks.sources and emits webhook-notifier commands."
     },
     "lec-integrations-webhooks-event-consumer-trackingcommands": {
       "id": "lec-integrations-webhooks-event-consumer-trackingcommands",
@@ -4512,7 +4539,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Webhook event consumer (key=trackingcommands) — bridges public.command.tracking into the webhook pipeline."
     },
     "lec-integrations-webhooks-event-consumer-webhookevents": {
       "id": "lec-integrations-webhooks-event-consumer-webhookevents",
@@ -4536,7 +4564,8 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "description": "Webhook event consumer (key=webhookevents) — consumes public.event.webhooks.events and emits webhook-notifier commands."
     },
     "lec-integrations-webhooks-notifier-consumer-v2": {
       "id": "lec-integrations-webhooks-notifier-consumer-v2",

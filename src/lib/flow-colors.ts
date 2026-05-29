@@ -10,10 +10,8 @@ const INTERACTION_COLORS: Record<InteractionType, InteractionStyle> = {
   kafka:    { stroke: '#22C55E', badgeBg: '#14532D', badgeText: '#fff' },
   grpc:     { stroke: '#A855F7', badgeBg: '#581C87', badgeText: '#fff' },
   https:    { stroke: '#F97316', badgeBg: '#7C2D12', badgeText: '#fff' },
-  protobuf: { stroke: '#F97316', badgeBg: '#7C2D12', badgeText: '#fff' },
   db:       { stroke: '#F59E0B', badgeBg: '#78350F', badgeText: '#fff' },
   internal: { stroke: '#6B7280', badgeBg: '#374151', badgeText: '#fff' },
-  sensor:   { stroke: '#6B7280', badgeBg: '#374151', badgeText: '#fff' },
   sqs:      { stroke: '#E879F9', badgeBg: '#701A75', badgeText: '#fff' },
   unknown:  { stroke: '#9CA3AF', badgeBg: '#4B5563', badgeText: '#fff' },
 }

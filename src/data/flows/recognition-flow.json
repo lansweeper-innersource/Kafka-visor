@@ -1,0 +1,96 @@
+{
+  "id": "recognition-flow",
+  "name": "Recognition — Hub → Fing wrapper",
+  "description": "How the on-prem Hub (Lansweeper.IT) classifies devices: it calls discovery-recognition-api, which is a gRPC wrapper around the external Fing service. The Hub persists the Fing fields onto the local device record. This is the ONLY classification source used by the Hub — DataCore later enriches with its own catalog (see asset-classification-divergence).",
+  "nodes": [
+    {
+      "id": "hub",
+      "type": "scanner",
+      "position": [200, 240],
+      "label": "HUB (Lansweeper.IT)",
+      "variant": "onprem"
+    },
+    {
+      "id": "discovery-recognition-api",
+      "type": "service",
+      "position": [620, 240],
+      "label": "discovery-recognition-api",
+      "annotations": [
+        {
+          "text": "gRPC service: grpc.recognition.v1.Recognition. Method: Recognize(RecognitionRequest) returns stream of RecognitionReply. discovery-recognition-api/src/Lansweeper.Recognition.Api.Client/Services/IRecognitionApiService.cs. NOTE: this service isn't in the current topology.json snapshot — won't have team/argo metadata in the panel.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "fing",
+      "type": "service",
+      "position": [1080, 240],
+      "label": "Fing (external)"
+    },
+    {
+      "id": "s3-deadletter",
+      "type": "database",
+      "position": [1080, 480],
+      "label": "S3 dead-letter",
+      "detail": "discovery-edge-deadletter-{env}"
+    },
+    {
+      "id": "device-store",
+      "type": "database",
+      "position": [200, 480],
+      "label": "Hub device DB",
+      "detail": "device.Type, .TypeName, .TypeId, .RecognitionType"
+    },
+    {
+      "id": "sticky-transport",
+      "type": "stickyNote",
+      "position": [620, 40],
+      "text": "Two transports — selected by feature flag GrpcRecognitionApi:\n• gRPC (preferred, with REST fallback pipeline)\n• REST (legacy)\n\nLansweeper.IT/src/Lansweeper.Discovery.Hub.Application/Recognition/Helpers/RecognitionInputProcessorHelper.cs"
+    },
+    {
+      "id": "sticky-fing-payload",
+      "type": "stickyNote",
+      "position": [1060, 40],
+      "text": "Fing returns per device:\n• type, type-group-name, type-name, type-id\n• brand, model\n• os-name, os-ver, os-build\n• recogtype (raw Fing type)\n• mac-vendor, rank, is-family\n\nApiEndpoint = \"devrecog\"\ndiscovery-recognition-api/.../FingApiClient.cs"
+    },
+    {
+      "id": "sticky-hub-persist",
+      "type": "stickyNote",
+      "position": [40, 640],
+      "text": "Hub persists Fing output on the device:\n  device.Type           = recognition.Type\n  device.TypeGroupName  = recognition.TypeGroupName\n  device.TypeName       = recognition.TypeName\n  device.TypeId         = recognition.TypeId\n  device.RecognitionType= recognition.RecogType (raw)\n  device.IsFamily       = recognition.IsFamily\n  device.Rank           = recognition.Rank\n\nLansweeper.IT/.../RecognitionOutputProcessorHelper.cs"
+    },
+    {
+      "id": "sticky-deadletter",
+      "type": "stickyNote",
+      "position": [1060, 660],
+      "text": "On Fing failure the payload is uploaded to S3 as dead-letter; activity tags ls.payload.deadletter.id and .format are emitted for trace correlation.\n\ndiscovery-recognition-api/.../S3DeadletterService.cs"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc",
+      "label": "Recognize(batch)"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "RecognitionApiAsync (devrecog)"
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "type": "https",
+      "label": "failed payload"
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "type": "db",
+      "label": "persist Fing fields"
+    }
+  ]
+}

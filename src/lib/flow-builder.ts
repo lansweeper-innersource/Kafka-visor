@@ -81,7 +81,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
       }
     }
 
-    // scanner, database, or workflow
+    // scanner, database, workflow, asset, or component
     return {
       id: `flow-${i}:${baseId}`,
       type: nodeDef.type,
@@ -92,6 +92,7 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
         annotations: nodeDef.annotations,
         ...(nodeDef.variant ? { variant: nodeDef.variant } : {}),
         ...(nodeDef.detail ? { detail: nodeDef.detail } : {}),
+        ...(nodeDef.parentService ? { parentService: nodeDef.parentService } : {}),
       },
     }
   })

@@ -54,6 +54,27 @@ function NewFlowModal({ onCreate, onCancel }: { onCreate: (id: string, name: str
   )
 }
 
+function FlowDescription({ description }: { description: string }) {
+  const [expanded, setExpanded] = useState(false)
+  if (!description) return null
+  if (description.length <= 100) {
+    return <span className="text-xs text-purple-600">{description}</span>
+  }
+  return (
+    <div className="flex items-baseline gap-2 min-w-0">
+      <span className={`text-xs text-purple-600 ${expanded ? 'whitespace-normal' : 'truncate max-w-xl'}`}>
+        {description}
+      </span>
+      <button
+        onClick={() => setExpanded(v => !v)}
+        className="text-[11px] text-purple-500 hover:text-purple-700 underline flex-shrink-0"
+      >
+        {expanded ? 'less' : 'more'}
+      </button>
+    </div>
+  )
+}
+
 function AppInner() {
   const [selectedTeams, setSelectedTeams] = useState<Set<string>>(new Set())
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
@@ -91,6 +112,11 @@ function AppInner() {
   }, [])
 
   const handleNodeClick = useCallback((node: Node | null) => {
+    // Purely visual / interactive nodes don't have a detail panel.
+    if (node && (node.type === 'stickyNote' || node.type === 'flowRef')) {
+      setSelectedNode(null)
+      return
+    }
     setSelectedNode(node)
   }, [])
 
@@ -254,13 +280,13 @@ function AppInner() {
     input.click()
   }, [])
 
-  const handleEdgeSave = useCallback((edgeId: string, type: InteractionType, label: string) => {
+  const handleEdgeSave = useCallback((edgeId: string, type: InteractionType, label: string, stepNumber: number) => {
     const style = getInteractionStyle(type)
     setEdges(eds => eds.map(e => {
       if (e.id !== edgeId) return e
       return {
         ...e,
-        data: { ...e.data, interactionType: type, label },
+        data: { ...e.data, interactionType: type, label, stepNumber },
         style: { stroke: style.stroke, strokeWidth: 2.5 },
         markerEnd: { type: 'arrowclosed' as const, color: style.stroke, width: 16, height: 16 },
       }
@@ -358,7 +384,7 @@ function AppInner() {
                 />
               </div>
             ) : (
-              <span className="text-xs text-purple-600">{activeFlow.description}</span>
+              <FlowDescription key={activeFlow.id} description={activeFlow.description} />
             )}
           </div>
           <div className="flex items-center gap-2">

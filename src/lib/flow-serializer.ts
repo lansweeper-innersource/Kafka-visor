@@ -33,6 +33,8 @@ export function serializeFlow(nodes: Node[], edges: Edge[], metadata: FlowMetada
     if (text) nodeDef.text = text
     const detail = n.data.detail as string | undefined
     if (detail) nodeDef.detail = detail
+    const parentService = n.data.parentService as string | undefined
+    if (parentService) nodeDef.parentService = parentService
 
     return nodeDef
   })

@@ -1,0 +1,94 @@
+{
+  "id": "mongo-to-clikchouse",
+  "name": "Mongo to clikchouse",
+  "description": "",
+  "nodes": [
+    {
+      "id": "public.event.analytics.entity-changes",
+      "type": "topic",
+      "position": [
+        -639,
+        -83
+      ],
+      "label": "public.event.analytics.entity-changes"
+    },
+    {
+      "id": "lec-analytics-assets-consumer-v2",
+      "type": "service",
+      "position": [
+        -142,
+        -109
+      ],
+      "label": "lec-analytics-assets-consumer-v2"
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [
+        -25,
+        98
+      ],
+      "label": "mongodb"
+    },
+    {
+      "id": "clickhouse",
+      "type": "database",
+      "position": [
+        339,
+        -113
+      ],
+      "label": "clickhouse"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        -257,
+        -42
+      ],
+      "text": "lee de los mongo  los assets. Los mapea al modelo de clickHouse"
+    },
+    {
+      "id": "public.event.analytics.entity-changes",
+      "type": "topic",
+      "position": [
+        69,
+        -229
+      ],
+      "label": "public.event.analytics.entity-changes"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        -466,
+        -263
+      ],
+      "text": "En funcion del tipo de mensaje se publican diferentes, para vuls softwares , windows services, certificados."
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "db",
+      "label": "lee"
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "type": "db",
+      "label": "mete"
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "type": "kafka"
+    }
+  ]
+}

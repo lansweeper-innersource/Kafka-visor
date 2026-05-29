@@ -26,6 +26,9 @@ export function DetailPanel({ node, topology, flows, onClose, onNavigate, onOpen
   const typeLabel = nodeType === 'topic' ? 'Topic'
     : nodeType === 'scanner' ? 'Scanner'
     : nodeType === 'database' ? 'Database'
+    : nodeType === 'component' ? 'Component'
+    : nodeType === 'asset' ? 'Asset'
+    : nodeType === 'workflow' ? 'Workflow'
     : 'Service'
 
   return (
@@ -65,6 +68,25 @@ export function DetailPanel({ node, topology, flows, onClose, onNavigate, onOpen
       )}
       {nodeType === 'database' && (
         <div className="text-xs font-mono font-bold text-gray-800">{String(data.label)}</div>
+      )}
+      {nodeType === 'component' && (
+        <div className="space-y-2">
+          <div className="text-xs font-mono font-bold text-gray-800">{String(data.label)}</div>
+          {data.parentService ? (
+            <div className="text-[11px] text-gray-500">
+              <span className="font-semibold">In service:</span>{' '}
+              <span className="font-mono">{String(data.parentService)}</span>
+            </div>
+          ) : null}
+        </div>
+      )}
+      {nodeType === 'asset' && (
+        <div className="space-y-2">
+          <div className="text-xs font-mono font-bold text-gray-800">{String(data.label)}</div>
+          {data.detail ? (
+            <div className="text-[11px] text-gray-500">{String(data.detail)}</div>
+          ) : null}
+        </div>
       )}
 
       {/* Annotations (flow mode) */}
