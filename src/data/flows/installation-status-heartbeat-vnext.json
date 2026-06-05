@@ -1,0 +1,116 @@
+{
+  "id": "installation-status-heartbeat-vnext",
+  "name": "Installation Status — Heartbeat & Down Detection (vNext / Scanning Config)",
+  "description": "vNext Scanner heartbeat keeps installation status alive. Every 10 min the scanner emits 'I'm alive' to the install event topic; Scanning Config consumes it and persists lastConnection in its Mongo. A periodic workflow checks lastConnection > 3h and persists status; the front-end (Nebula) gets it via subscription.",
+  "nodes": [
+    {
+      "id": "vnext-scanner",
+      "type": "scanner",
+      "position": [
+        80,
+        300
+      ],
+      "label": "vNext Scanner",
+      "variant": "vnext"
+    },
+    {
+      "id": "public.edge.install-status.event",
+      "type": "topic",
+      "position": [
+        470,
+        320
+      ],
+      "label": "public.edge.install-status.event"
+    },
+    {
+      "id": "lec-scanningconfig-consumer",
+      "type": "service",
+      "position": [
+        900,
+        300
+      ],
+      "label": "Scanning Config",
+      "annotations": [
+        {
+          "text": "Consumes install event — persists lastConnection",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [
+        1320,
+        300
+      ],
+      "label": "mongodb",
+      "detail": "scanning-config"
+    },
+    {
+      "id": "scanning-config-workflow",
+      "type": "workflow",
+      "position": [
+        850,
+        560
+      ],
+      "label": "Status Check Workflow"
+    },
+    {
+      "id": "nebula",
+      "type": "service",
+      "position": [
+        1320,
+        560
+      ],
+      "label": "Nebula (Front End)"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        430,
+        560
+      ],
+      "text": "Cada X tiempo el workflow corre y comprueba si la última conexión es > 3h.\n\nPersiste el estado; el front-end (Nebula) lo recibe vía subscription."
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "kafka",
+      "label": "Hey I'm alive (cada 10 min)"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "kafka",
+      "label": "consume message"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "db",
+      "label": "persist lastConnection"
+    },
+    {
+      "source": 4,
+      "target": 2,
+      "type": "internal",
+      "label": "cada X min: lastConnection > 3h?"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "db",
+      "label": "persist status"
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "type": "internal",
+      "label": "subscription for front-end"
+    }
+  ]
+}

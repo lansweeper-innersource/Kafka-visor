@@ -86,6 +86,7 @@ interface FlowCanvasProps {
   highlightNodeId: string | null
   onContextMenu: (menu: ContextMenuState | null) => void
   activeFlow: FlowDefinition | null
+  flows?: FlowDefinition[]
   onFlowNavigate?: (flowId: string) => void
   isEditing?: boolean
   onEdgeEdit?: (state: EdgeEditState) => void
@@ -99,6 +100,7 @@ export function FlowCanvas({
   highlightNodeId,
   onContextMenu,
   activeFlow,
+  flows,
   onFlowNavigate,
   isEditing,
   onEdgeEdit,
@@ -113,6 +115,7 @@ export function FlowCanvas({
   const baseEdgesRef = useRef<Edge[]>([])
   const topologyNodesRef = useRef<Node[]>([])
   const topologyEdgesRef = useRef<Edge[]>([])
+  const flowEdgesRef = useRef<Edge[]>([])
   const prevFlowRef = useRef<FlowDefinition | null>(null)
 
   // TOPOLOGY MODE: Build and filter graph when teams change
@@ -162,9 +165,16 @@ export function FlowCanvas({
             setNodes(nds => nds.map(nd => nd.id === n.id ? { ...nd, data: { ...nd.data, detail } } : nd))
           }}}
         }
+        if (n.type === 'flowRef') {
+          return { ...n, data: { ...n.data, flows, onUpdate: (flowId: string) => {
+            const label = flows?.find(f => f.id === flowId)?.name
+            setNodes(nds => nds.map(nd => nd.id === n.id ? { ...nd, data: { ...nd.data, flowId, ...(label ? { label } : {}) } } : nd))
+          }}}
+        }
         return n
       })
       const flowEdges = buildFlowEdges(activeFlow)
+      flowEdgesRef.current = flowEdges
       setNodes(flowNodes)
       setEdges(flowEdges)
       setTimeout(() => fitView({ duration: 400, padding: 0.15 }), 100)
@@ -174,7 +184,7 @@ export function FlowCanvas({
       setEdges(topologyEdgesRef.current)
       setTimeout(() => fitView({ duration: 400, padding: 0.15 }), 100)
     }
-  }, [activeFlow, topology, setNodes, setEdges, fitView])
+  }, [activeFlow, topology, flows, setNodes, setEdges, fitView])
 
   // Neighbor highlight (topology mode only)
   useEffect(() => {
@@ -212,6 +222,40 @@ export function FlowCanvas({
     )
   }, [highlightNodeId, setNodes, setEdges, activeFlow])
 
+  // Neighbor highlight (flow mode): selecting a node dims everything that isn't
+  // directly connected to it. Skipped while editing so it doesn't fight node
+  // selection for moving/deleting.
+  useEffect(() => {
+    if (!activeFlow) return
+    const flowEdges = flowEdgesRef.current
+
+    if (isEditing || !highlightNodeId) {
+      setNodes(nds => nds.map(n => ({ ...n, style: { ...n.style, opacity: undefined } })))
+      setEdges(eds => eds.map(e => ({ ...e, style: { ...e.style, opacity: undefined }, animated: true })))
+      return
+    }
+
+    const neighborIds = getNeighborIds(highlightNodeId, flowEdges)
+    neighborIds.add(highlightNodeId)
+
+    setNodes(nds =>
+      nds.map(n => ({
+        ...n,
+        style: { ...n.style, opacity: neighborIds.has(n.id) ? 1 : DIM_OPACITY },
+      }))
+    )
+    setEdges(eds =>
+      eds.map(e => {
+        const connected = e.source === highlightNodeId || e.target === highlightNodeId
+        return {
+          ...e,
+          style: { ...e.style, opacity: connected ? 1 : DIM_OPACITY },
+          animated: connected,
+        }
+      })
+    )
+  }, [highlightNodeId, activeFlow, isEditing, setNodes, setEdges])
+
   // Focus on a node
   useEffect(() => {
     if (!focusNodeId || focusNodeId === prevFocusRef.current) return
@@ -233,13 +277,15 @@ export function FlowCanvas({
   const handleNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
       onContextMenu(null)
-      if (node.type === 'flowRef' && onFlowNavigate) {
+      // In view mode a flowRef navigates to its target flow. In edit mode it
+      // must stay put so its inline flow selector can be used.
+      if (node.type === 'flowRef' && onFlowNavigate && !isEditing) {
         onFlowNavigate(node.data.flowId as string)
         return
       }
       onNodeClick(node)
     },
-    [onNodeClick, onContextMenu, onFlowNavigate]
+    [onNodeClick, onContextMenu, onFlowNavigate, isEditing]
   )
 
   const handlePaneClick = useCallback(() => {
@@ -291,7 +337,7 @@ export function FlowCanvas({
 
       // Open edge type picker with valid types
       if (onEdgeEdit) {
-        onEdgeEdit({ edgeId, type: defaultType, label: '', x: 400, y: 300, sourceType, targetType })
+        onEdgeEdit({ edgeId, type: defaultType, label: '', stepNumber: 1, x: 400, y: 300, sourceType, targetType })
       }
     },
     [isEditing, nodes, edges.length, setEdges, onEdgeEdit]
@@ -363,7 +409,10 @@ export function FlowCanvas({
           setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, text } } : n))
         }}
       } else if (type === 'flowRef') {
-        data = { label: label || 'Flow Ref', flowId: '' }
+        data = { label: label || 'Flow Ref', flowId: '', flows, onUpdate: (flowId: string) => {
+          const flowName = flows?.find(f => f.id === flowId)?.name
+          setNodes(nds => nds.map(n => n.id === nodeId ? { ...n, data: { ...n.data, flowId, ...(flowName ? { label: flowName } : {}) } } : n))
+        }}
       } else if (type === 'component') {
         data = { label: label || 'Component', parentService: '' }
       }
@@ -371,7 +420,7 @@ export function FlowCanvas({
       const newNode: Node = { id: nodeId, type, position, draggable: true, data }
       setNodes(nds => [...nds, newNode])
     },
-    [topology, setNodes, screenToFlowPosition]
+    [topology, flows, setNodes, screenToFlowPosition]
   )
 
   const handleDragOver = useCallback((event: DragEvent) => {

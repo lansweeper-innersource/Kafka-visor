@@ -101,16 +101,16 @@
       "label": "public.edge.asset.event"
     },
     {
-      "id": "lec-asset-consumer",
+      "id": "lec-asset-consumer-asset",
       "type": "service",
       "position": [
         3250,
         120
       ],
-      "label": "Asset Consumer",
+      "label": "Asset Consumer (asset)",
       "annotations": [
         {
-          "text": "LECAssetConsumer (deployment: asset-consumer) — consumes edge asset events, writes MongoDB, produces assetscontext.event.assets + analytics entity-changes + management-entities. Calls multitenant + analytics-luzmo gRPC. Owned by Cloud Data Pipeline and Scanning.",
+          "text": "LECAssetConsumer asset deployment (consumer group assets_consumer_v2) — consumes public.edge.asset/assetcommon/asserver events, writes MongoDB, produces assetscontext.event.assets + analytics entity-changes + management-entities. gRPC to multitenant + analytics-luzmo. Owned by Cloud Data Pipeline and Scanning.",
           "severity": "info"
         }
       ]
@@ -211,6 +211,30 @@
       ],
       "label": "Enrichment vNext",
       "flowId": "enrichment-vnext"
+    },
+    {
+      "id": "lec-asset-consumer-ad",
+      "type": "service",
+      "position": [
+        3250,
+        560
+      ],
+      "label": "Asset Consumer (AD)",
+      "annotations": [
+        {
+          "text": "LECAssetConsumer AD deployment (consumer group ad_consumer_v2) — consumes public.edge.activedirectory.event, writes MongoDB, produces assetscontext.event.ad + analytics entity-changes + management-entities. gRPC to multitenant + analytics-luzmo. Owned by Cloud Data Pipeline and Scanning.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "assetscontext.event.ad",
+      "type": "topic",
+      "position": [
+        3700,
+        560
+      ],
+      "label": "assetscontext.event.ad"
     }
   ],
   "edges": [
@@ -330,7 +354,7 @@
     },
     {
       "source": 17,
-      "target": 8,
+      "target": 19,
       "type": "kafka"
     },
     {
@@ -338,6 +362,23 @@
       "target": 18,
       "type": "kafka",
       "label": "OK / KO branches"
+    },
+    {
+      "source": 19,
+      "target": 9,
+      "type": "db"
+    },
+    {
+      "source": 19,
+      "target": 20,
+      "type": "kafka",
+      "label": "produces assetscontext.event.ad"
+    },
+    {
+      "source": 20,
+      "target": 18,
+      "type": "kafka",
+      "label": "consumed by Users Enriching (Enrichment vNext)"
     }
   ]
 }

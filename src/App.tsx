@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useMemo } from 'react'
 import { ReactFlowProvider, useReactFlow, type Node } from '@xyflow/react'
 import { FlowCanvas } from './components/FlowCanvas'
 import { TeamFilter } from './components/TeamFilter'
@@ -86,7 +86,10 @@ function AppInner() {
   const [flowMeta, setFlowMeta] = useState({ id: '', name: '', description: '' })
   const [loadedFlows, setLoadedFlows] = useState<FlowDefinition[]>([])
 
-  const flows = [...builtInFlows, ...loadedFlows.filter(lf => !builtInFlows.some(bf => bf.id === lf.id))]
+  const flows = useMemo(
+    () => [...builtInFlows, ...loadedFlows.filter(lf => !builtInFlows.some(bf => bf.id === lf.id))],
+    [loadedFlows]
+  )
   const focusCounter = useRef(0)
   const downloadImage = useDownloadImage()
   const { getNodes, getEdges, setEdges } = useReactFlow()
@@ -172,7 +175,7 @@ function AppInner() {
       setActiveFlow(flow)
       setSelectedNode(null)
     }
-  }, [])
+  }, [flows])
 
   const handleSearchSelect = useCallback((result: SearchResult) => {
     if (result.type === 'flow') {
@@ -479,6 +482,7 @@ function AppInner() {
             highlightNodeId={highlightNodeId}
             onContextMenu={setContextMenu}
             activeFlow={activeFlow}
+            flows={flows}
             onFlowNavigate={handleOpenFlow}
             isEditing={isEditing}
             onEdgeEdit={setEdgeEdit}

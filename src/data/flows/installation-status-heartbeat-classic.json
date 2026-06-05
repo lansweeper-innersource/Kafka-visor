@@ -1,0 +1,141 @@
+{
+  "id": "installation-status-heartbeat-classic",
+  "name": "Installation Status — Heartbeat & Down Detection (Classic)",
+  "description": "Classic Scanner heartbeat keeps installation status alive. Every 10 min the scanner emits 'I'm alive' to Kafka; install-status-consumer persists lastConnection in Mongo. A periodic workflow checks lastConnection > 3h and, on transition, notifies the front-end and persists status as DOWN. IT Agents are excluded.",
+  "nodes": [
+    {
+      "id": "classic-scanner",
+      "type": "scanner",
+      "position": [
+        71,
+        193
+      ],
+      "label": "Classic Scanner",
+      "variant": "onprem"
+    },
+    {
+      "id": "public.edge.install-status.event",
+      "type": "topic",
+      "position": [
+        426,
+        353
+      ],
+      "label": "public.edge.install-status.event"
+    },
+    {
+      "id": "install-status-consumer",
+      "type": "service",
+      "position": [
+        850,
+        250
+      ],
+      "label": "install-status-consumer",
+      "annotations": [
+        {
+          "text": "Kafka consumer for install status events — persists lastConnection",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [
+        1251,
+        393
+      ],
+      "label": "mongodb",
+      "detail": "install-status / installations"
+    },
+    {
+      "id": "lec-notifications",
+      "type": "service",
+      "position": [
+        1280,
+        -30
+      ],
+      "label": "LECNotifications"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        724,
+        -113
+      ],
+      "text": "We skip IT Agents — solo Classic / On-Prem."
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        518,
+        159
+      ],
+      "text": "Cada X tiempo el workflow corre y comprueba si la última conexión es > 3h.\n\nSi up -> down: notifica front-end + persiste estado DOWN."
+    },
+    {
+      "id": "install-status-consumer-notification",
+      "type": "service",
+      "position": [
+        802,
+        -54
+      ],
+      "label": "install-status-consumer-notification"
+    },
+    {
+      "id": "scanner",
+      "type": "scanner",
+      "position": [
+        80,
+        470
+      ],
+      "label": "Scanner (vnext)",
+      "variant": "vnext"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "kafka",
+      "label": "Hey I'm alive (cada 10 min)"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "kafka",
+      "label": "consume message"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "db",
+      "label": "persist lastConnection"
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "type": "internal",
+      "label": "notify front-end"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "db",
+      "label": "persist status DOWN"
+    },
+    {
+      "source": 2,
+      "target": 7,
+      "type": "internal",
+      "label": "cada X min: lastConnection > 3h?"
+    },
+    {
+      "source": 8,
+      "target": 1,
+      "type": "kafka",
+      "label": "Hey i'm alive (cada 10 min)"
+    }
+  ]
+}
