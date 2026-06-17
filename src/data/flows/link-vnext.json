@@ -1,0 +1,91 @@
+{
+  "id": "link-vnext",
+  "name": "Install Link — vNext (via Discovery Config API)",
+  "description": "vNext linking path: the on-prem HUB calls discovery-config-api over gRPC (IGrpcLinkingService.CreateInstallationAndLink), which translates the request into a GraphQL mutation (installationCreateAndLink) against the Edge Manager (ADP GraphQL endpoint). Edge Manager then calls Multitenant API over gRPC to create the site/install. Differs from the classic path where On-Prem talks GraphQL to Edge Manager directly.",
+  "nodes": [
+    {
+      "id": "hub-onprem",
+      "type": "scanner",
+      "position": [
+        -9,
+        160
+      ],
+      "label": "HUB (Lansweeper.IT)",
+      "variant": "vnext",
+      "annotations": [
+        {
+          "text": "On-prem vNext agent. gRPC traffic multiplexed through Discovery Gateway, dispatched server-side to discovery-config-api. Uses M2M token.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "discovery-config-api",
+      "type": "service",
+      "position": [
+        500,
+        160
+      ],
+      "label": "Discovery Config API",
+      "annotations": [
+        {
+          "text": "IGrpcLinkingService.CreateInstallationAndLink. LinkingService builds the ADP GraphQL mutation and sends it to AdpGraphQlEndpoint (ADP_GRAPHQL_ENDPOINT + ADP_GRAPHQL_PATH). Owned by Discovery Engineering.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-edge-manager",
+      "type": "service",
+      "position": [
+        1000,
+        160
+      ],
+      "label": "Edge Manager",
+      "annotations": [
+        {
+          "text": "ADP GraphQL endpoint (mutation installationCreateAndLink / installationLink). Not in Kafka topology — communicates via gRPC only with backend services.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-multitenant-api",
+      "type": "service",
+      "position": [
+        1500,
+        160
+      ],
+      "label": "Multitenant API"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        430,
+        20
+      ],
+      "text": "vNext pasa por discovery-config-api (gRPC). El classic va directo On-Prem -> Edge Manager (GraphQL). Ver flujo edge-manager-flow."
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc",
+      "label": "CreateInstallationAndLink (Bearer M2M)"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "https",
+      "label": "GraphQL mutation: installationCreateAndLink"
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "type": "grpc",
+      "label": "sites / installs"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "link-classic",
+  "name": "Install Link — Classic (direct to Edge Manager)",
+  "description": "Classic linking path: the On-Prem scanner talks GraphQL directly to the Edge Manager (mutation installationLink / installationCreateAndLink). Edge Manager then calls Multitenant API over gRPC to create the site/install. No discovery-config-api in between — that is the vNext difference (see link-vnext). The full lifecycle (licensing, scanning, asset, install-status) is covered in edge-manager-flow.",
+  "nodes": [
+    {
+      "id": "onprem-scanner",
+      "type": "scanner",
+      "position": [
+        -9,
+        160
+      ],
+      "label": "On-Prem Scanner",
+      "variant": "onprem"
+    },
+    {
+      "id": "lec-edge-manager",
+      "type": "service",
+      "position": [
+        500,
+        160
+      ],
+      "label": "Edge Manager",
+      "annotations": [
+        {
+          "text": "GraphQL endpoint (mutation installationLink / installationCreateAndLink). Not in Kafka topology — communicates via gRPC only with backend services.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "lec-multitenant-api",
+      "type": "service",
+      "position": [
+        1000,
+        160
+      ],
+      "label": "Multitenant API"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        430,
+        20
+      ],
+      "text": "Classic va directo On-Prem -> Edge Manager (GraphQL). vNext pasa por discovery-config-api. Ver flujo link-vnext."
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "https",
+      "label": "GraphQL mutation: installationLink"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "sites / installs"
+    }
+  ]
+}
