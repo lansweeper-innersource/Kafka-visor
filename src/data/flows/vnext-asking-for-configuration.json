@@ -1,0 +1,57 @@
+{
+  "id": "vnext-asking-for-configuration",
+  "name": "VNext asking for configuration",
+  "description": "",
+  "nodes": [
+    {
+      "id": "scanner",
+      "type": "scanner",
+      "position": [
+        1053,
+        247
+      ],
+      "label": "Scanner (vnext)",
+      "variant": "vnext"
+    },
+    {
+      "id": "discovery-config-api",
+      "type": "service",
+      "position": [
+        1302,
+        211
+      ],
+      "label": "discovery-config-api"
+    },
+    {
+      "id": "lec-scanningconfig-api",
+      "type": "service",
+      "position": [
+        1525,
+        92
+      ],
+      "label": "lec-scanningconfig-api"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        1019,
+        44
+      ],
+      "text": "Scanner Vnext is doing two diferents calls. One for configuration and another one for exclusions"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "grpc"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "grpc",
+      "label": "Getting Exclusions / configuration"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "id": "scanning-config-flow",
-  "name": "Scanning Configuration → Vnext",
+  "name": "Scanning Configuration → Vnext/Onprem",
   "description": "Config changes in cloud reach the Vnext scanner: API + Consumer both publish to edge.commands → public-broker → EdgeCommand → scanner",
   "nodes": [
     {
@@ -34,8 +34,8 @@
       "id": "public.event.scanning-config",
       "type": "topic",
       "position": [
-        850,
-        50
+        1009,
+        -206
       ],
       "label": "public.event.scanning-config"
     },
@@ -118,8 +118,8 @@
       "id": "mongodb-commands",
       "type": "database",
       "position": [
-        1850,
-        600
+        2215,
+        562
       ],
       "label": "MongoDB (Commands)"
     },
@@ -127,17 +127,36 @@
       "id": "lec-edge-command-api",
       "type": "service",
       "position": [
-        2715,
-        325
+        2585,
+        305
       ],
       "label": "Edge Command API"
+    },
+    {
+      "id": "discovery-config-api",
+      "type": "service",
+      "position": [
+        2563,
+        695
+      ],
+      "label": "discovery-config-api"
     },
     {
       "id": "scanner",
       "type": "scanner",
       "position": [
-        2313,
-        220
+        2289,
+        206
+      ],
+      "label": "Scanner (on-prem)",
+      "variant": "onprem"
+    },
+    {
+      "id": "scanner",
+      "type": "scanner",
+      "position": [
+        2322,
+        771
       ],
       "label": "Scanner (vnext)",
       "variant": "vnext"
@@ -211,19 +230,47 @@
       "label": "poll + delete on ack"
     },
     {
-      "source": 13,
+      "source": 14,
       "target": 12,
       "type": "grpc"
     },
     {
-      "source": 13,
-      "target": 12,
-      "type": "grpc"
+      "source": 11,
+      "target": 13,
+      "type": "https",
+      "label": "POLL + DELETE ON ACK "
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "type": "https"
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "type": "kafka"
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "type": "kafka"
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "type": "https"
     },
     {
       "source": 13,
-      "target": 12,
-      "type": "grpc"
+      "target": 11,
+      "type": "db",
+      "label": "POLL + DELETE ON ACK"
+    },
+    {
+      "source": 15,
+      "target": 13,
+      "type": "grpc",
+      "label": "grpc"
     }
   ]
 }

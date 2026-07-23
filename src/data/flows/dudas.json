@@ -1,0 +1,87 @@
+{
+  "id": "dudas",
+  "name": "dudas",
+  "description": "",
+  "nodes": [
+    {
+      "id": "cloud-scanner",
+      "type": "service",
+      "position": [
+        -38,
+        227
+      ],
+      "label": "cloud-scanner"
+    },
+    {
+      "id": "public.edge.pending-changes.event",
+      "type": "topic",
+      "position": [
+        289,
+        226
+      ],
+      "label": "public.edge.pending-changes.event"
+    },
+    {
+      "id": "lec-syncer-api-v2",
+      "type": "service",
+      "position": [
+        675,
+        123
+      ],
+      "label": "lec-syncer-api-v2"
+    },
+    {
+      "id": "install-status-consumer",
+      "type": "service",
+      "position": [
+        801,
+        379
+      ],
+      "label": "install-status-consumer"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        -157,
+        112
+      ],
+      "text": "No entiendo , por que los cambios de scanning-api durante la migracion deberian haber afectado al funcionamiento de cloud-scanner\n"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        -98,
+        395
+      ],
+      "text": "La unica relacion que he visto es que cloud-scanner publica en este topico\n"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        477,
+        313
+      ],
+      "text": "whyy ???"
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "type": "kafka"
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "type": "kafka"
+    }
+  ]
+}

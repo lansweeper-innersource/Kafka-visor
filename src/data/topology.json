@@ -3404,10 +3404,10 @@
       "team": "cloud-data-pipeline-and-scanning",
       "repository": "edge-deployments",
       "namespace": "syncer-status",
-      "produces": [],
-      "consumes": [
+      "produces": [
         "public.edge.install-status.event"
       ],
+      "consumes": [],
       "runningInCluster": true,
       "deploymentType": "Deployment",
       "githubUrl": "https://github.com/Lansweeper/edge-deployments",
@@ -3417,10 +3417,13 @@
           "url": "https://github.com/Lansweeper/LECSyncerStatusAPI"
         }
       ],
+      "redisPubSub": [
+        "install-status-subscriptions"
+      ],
       "databases": [
         "redis-shared"
       ],
-      "description": "gRPC server for status and queue messages from On-Prem",
+      "description": "gRPC server for status and queue messages from On-Prem. Publishes status updates to Redis pub/sub, consumed by install-status-subscriptions to update the GraphQL subscription webhook.",
       "kafkaMigration": {
         "wave": "10b",
         "stgEuw1": "migrated",

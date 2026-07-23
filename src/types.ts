@@ -44,6 +44,7 @@ export interface Service {
   githubUrl?: string
   sourceRepos?: SourceRepo[]
   grpcCalls?: string[]
+  redisPubSub?: string[]
   databases?: string[]
   description?: string
   serviceGroup?: string

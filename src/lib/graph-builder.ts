@@ -22,6 +22,7 @@ export interface ServiceNodeData {
   githubUrl?: string
   sourceRepos?: { name: string; url: string }[]
   grpcCalls?: string[]
+  redisPubSub?: string[]
   databases?: string[]
   description?: string
   serviceGroup?: string
@@ -91,6 +92,7 @@ export function buildGraph(topology: TopologyData): {
         githubUrl: service.githubUrl,
         sourceRepos: service.sourceRepos,
         grpcCalls: service.grpcCalls,
+        redisPubSub: service.redisPubSub,
         databases: service.databases,
         description: service.description,
         serviceGroup: service.serviceGroup,

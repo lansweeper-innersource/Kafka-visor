@@ -56,8 +56,8 @@
       "id": "public.event.data-core",
       "type": "topic",
       "position": [
-        1900,
-        120
+        1847,
+        -140
       ],
       "label": "public.event.data-core"
     },
@@ -65,8 +65,8 @@
       "id": "lec-data-core-inbound-api",
       "type": "service",
       "position": [
-        1900,
-        340
+        1995,
+        503
       ],
       "label": "DataCore API (inbound+outbound)",
       "annotations": [
@@ -80,8 +80,8 @@
       "id": "lec-adapter-consumer-asset",
       "type": "service",
       "position": [
-        2350,
-        50
+        2345,
+        35
       ],
       "label": "LEC Adapter (Asset)",
       "annotations": [
@@ -95,8 +95,8 @@
       "id": "public.edge.asset.event",
       "type": "topic",
       "position": [
-        2800,
-        50
+        2818,
+        -6
       ],
       "label": "public.edge.asset.event"
     },
@@ -182,8 +182,8 @@
       "id": "lec-adapter-consumer-ug",
       "type": "service",
       "position": [
-        2350,
-        200
+        2356,
+        144
       ],
       "label": "LEC Adapter (UG)",
       "annotations": [
@@ -197,8 +197,8 @@
       "id": "public.edge.activedirectory.event",
       "type": "topic",
       "position": [
-        2800,
-        200
+        2771,
+        286
       ],
       "label": "public.edge.activedirectory.event"
     },
@@ -216,7 +216,7 @@
       "id": "lec-asset-consumer-ad",
       "type": "service",
       "position": [
-        3250,
+        3183,
         560
       ],
       "label": "Asset Consumer (AD)",
@@ -235,6 +235,42 @@
         560
       ],
       "label": "assetscontext.event.ad"
+    },
+    {
+      "id": "redis",
+      "type": "database",
+      "position": [
+        2600,
+        -273
+      ],
+      "label": "redis"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        2338,
+        -317
+      ],
+      "text": "Sistema para no saturar el traffico\n"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        2339,
+        -47
+      ],
+      "text": "Antes de publicar en kafka, sacamos el hash. Checkea en la redis"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        2646,
+        -193
+      ],
+      "text": "Si es el mismo , no se publica nada en el edge. Sino se guarda y para mas adelante se repite se obvia"
     }
   ],
   "edges": [
@@ -379,6 +415,11 @@
       "target": 18,
       "type": "kafka",
       "label": "consumed by Users Enriching (Enrichment vNext)"
+    },
+    {
+      "source": 6,
+      "target": 21,
+      "type": "db"
     }
   ]
 }

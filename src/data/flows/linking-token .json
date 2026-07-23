@@ -1,0 +1,113 @@
+{
+  "id": "linking-token ",
+  "name": "Linking token",
+  "description": "En proceso de validacion",
+  "nodes": [
+    {
+      "id": "lec-edge-manager",
+      "type": "service",
+      "position": [
+        -65,
+        -188
+      ],
+      "label": "lec-edge-manager"
+    },
+    {
+      "id": "scanner",
+      "type": "scanner",
+      "position": [
+        -361,
+        -78
+      ],
+      "label": "Scanner (vnext)",
+      "variant": "vnext"
+    },
+    {
+      "id": "stickyNote",
+      "type": "stickyNote",
+      "position": [
+        -492,
+        16
+      ],
+      "text": "El usuario ya tiene el linking token y de ahi saca el clientId, clientSecret, siteId, siteName y region"
+    },
+    {
+      "id": "lec-multitenant-grpc-api",
+      "type": "service",
+      "position": [
+        236,
+        -289
+      ],
+      "label": "lec-multitenant-grpc-api"
+    },
+    {
+      "id": "postgresql",
+      "type": "database",
+      "position": [
+        315,
+        -90
+      ],
+      "label": "postgresql"
+    },
+    {
+      "id": "public.event.multitenant",
+      "type": "topic",
+      "position": [
+        526,
+        -432
+      ],
+      "label": "public.event.multitenant"
+    },
+    {
+      "id": "lec-scanningconfig-consumer",
+      "type": "service",
+      "position": [
+        877,
+        -533
+      ],
+      "label": "lec-scanningconfig-consumer"
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [
+        1066,
+        -332
+      ],
+      "label": "mongodb"
+    }
+  ],
+  "edges": [
+    {
+      "source": 1,
+      "target": 0,
+      "type": "https",
+      "label": "clientId, clientSecret, ( graphql)"
+    },
+    {
+      "source": 0,
+      "target": 3,
+      "type": "grpc"
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "type": "db"
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "type": "kafka"
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "type": "kafka"
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "type": "db"
+    }
+  ]
+}

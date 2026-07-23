@@ -435,6 +435,23 @@ function ServiceDetails({
         </div>
       )}
 
+      {/* Redis pub/sub dependencies */}
+      {data.redisPubSub && data.redisPubSub.length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-rose-600 mb-1">
+            Redis pub/sub → ({data.redisPubSub.length})
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {data.redisPubSub.map(subscriber => (
+              <div key={subscriber} className="text-[11px] font-mono text-gray-600 py-0.5 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0" />
+                {subscriber}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Database connections */}
       {data.databases && data.databases.length > 0 && (
         <div>
