@@ -35,6 +35,8 @@ const mockTopology: TopologyData = {
       consumes: ['public.event.foo'],
       runningInCluster: true,
       deploymentType: 'Deployment',
+      // consumes svc-beta's API (resolvable) plus an external one (unresolved)
+      consumesApis: ['svc-beta.beta-ns_50051', 'external-svc.other_8080'],
     },
     'svc-beta': {
       id: 'svc-beta',
@@ -45,6 +47,7 @@ const mockTopology: TopologyData = {
       consumes: ['public.event.bar'],
       runningInCluster: false,
       deploymentType: 'Unknown',
+      providesApis: ['svc-beta.beta-ns_50051'],
     },
   },
   metadata: {
@@ -102,6 +105,19 @@ describe('buildGraph', () => {
     expect(alpha?.data.label).toBe('svc-alpha')
     expect(alpha?.data.team).toBe('team-a')
     expect(alpha?.data.teamColor).toBe('#3B82F6')
+  })
+
+  it('creates api edges by resolving consumesApis to the providing service', () => {
+    const apiEdges = edges.filter(e => e.data?.type === 'api')
+    expect(apiEdges).toHaveLength(1)
+    expect(apiEdges[0].source).toBe('service:svc-alpha')
+    expect(apiEdges[0].target).toBe('service:svc-beta')
+  })
+
+  it('does not create api edges for unresolved consumesApis', () => {
+    const apiEdges = edges.filter(e => e.data?.type === 'api')
+    // external-svc.other_8080 has no provider in topology → no edge
+    expect(apiEdges.some(e => e.target.includes('external'))).toBe(false)
   })
 })
 

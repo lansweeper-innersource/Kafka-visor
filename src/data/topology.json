@@ -4328,7 +4328,7 @@
     },
     "lec-gateway-api": {
       "id": "lec-gateway-api",
-      "team": "cloud-enrichment",
+      "team": "cloud-front-end",
       "repository": "webapp-deployments",
       "namespace": "web-gateway",
       "produces": [
@@ -4401,7 +4401,7 @@
     },
     "lec-gateway-subscriptions": {
       "id": "lec-gateway-subscriptions",
-      "team": "cloud-enrichment",
+      "team": "cloud-front-end",
       "repository": "webapp-deployments",
       "namespace": "web-gateway",
       "produces": [

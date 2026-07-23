@@ -11,19 +11,19 @@ describe('getValidEdgeTypes', () => {
   })
 
   it('service → service = direct communication', () => {
-    expect(getValidEdgeTypes('service', 'service')).toEqual(['grpc', 'https', 'protobuf', 'internal'])
+    expect(getValidEdgeTypes('service', 'service')).toEqual(['grpc', 'https', 'internal'])
   })
 
   it('service → database = db only', () => {
     expect(getValidEdgeTypes('service', 'database')).toEqual(['db'])
   })
 
-  it('scanner → service includes sensor and direct', () => {
-    expect(getValidEdgeTypes('scanner', 'service')).toEqual(['grpc', 'https', 'sensor'])
+  it('scanner → service = direct communication', () => {
+    expect(getValidEdgeTypes('scanner', 'service')).toEqual(['grpc', 'https'])
   })
 
-  it('service → scanner includes direct communication', () => {
-    expect(getValidEdgeTypes('service', 'scanner')).toEqual(['grpc', 'https', 'sensor'])
+  it('service → scanner = direct communication', () => {
+    expect(getValidEdgeTypes('service', 'scanner')).toEqual(['grpc', 'https'])
   })
 
   it('returns all types when node types unknown', () => {

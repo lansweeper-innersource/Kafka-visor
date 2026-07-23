@@ -58,20 +58,22 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 
 const PRODUCER_COLOR = '#22C55E'
 const CONSUMER_COLOR = '#3B82F6'
+const API_COLOR = '#6366F1'
 const DIM_OPACITY = 0.15
 
 function styleEdge(e: Edge): Edge {
-  const isProducer = e.data?.type === 'producer'
+  const type = e.data?.type
+  const color = type === 'producer' ? PRODUCER_COLOR : type === 'api' ? API_COLOR : CONSUMER_COLOR
   return {
     ...e,
     style: {
-      stroke: isProducer ? PRODUCER_COLOR : CONSUMER_COLOR,
+      stroke: color,
       strokeWidth: 1.5,
-      strokeDasharray: isProducer ? undefined : '5 5',
+      strokeDasharray: type === 'consumer' ? '5 5' : undefined,
     },
     markerEnd: {
       type: MarkerType.ArrowClosed,
-      color: isProducer ? PRODUCER_COLOR : CONSUMER_COLOR,
+      color,
       width: 15,
       height: 15,
     },
@@ -90,6 +92,7 @@ interface FlowCanvasProps {
   onFlowNavigate?: (flowId: string) => void
   isEditing?: boolean
   onEdgeEdit?: (state: EdgeEditState) => void
+  showApiEdges?: boolean
 }
 
 export function FlowCanvas({
@@ -104,6 +107,7 @@ export function FlowCanvas({
   onFlowNavigate,
   isEditing,
   onEdgeEdit,
+  showApiEdges = false,
 }: FlowCanvasProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
@@ -122,12 +126,13 @@ export function FlowCanvas({
   useEffect(() => {
     if (activeFlow) return // skip in flow mode
 
-    const teamsKey = [...selectedTeams].sort().join(',')
+    const teamsKey = `${[...selectedTeams].sort().join(',')}|api:${showApiEdges}`
     if (teamsKey === prevTeamsRef.current && layoutDone.current) return
     prevTeamsRef.current = teamsKey
 
     const { nodes: rawNodes, edges: rawEdges } = buildGraph(topology)
-    const styledEdges = rawEdges.map(styleEdge)
+    const graphEdges = showApiEdges ? rawEdges : rawEdges.filter(e => e.data?.type !== 'api')
+    const styledEdges = graphEdges.map(styleEdge)
     const filtered = filterByTeams(rawNodes, styledEdges, selectedTeams)
 
     baseEdgesRef.current = filtered.edges
@@ -144,7 +149,7 @@ export function FlowCanvas({
         })
       }, 50)
     }
-  }, [topology, selectedTeams, setNodes, setEdges, layoutNodes, activeFlow])
+  }, [topology, selectedTeams, setNodes, setEdges, layoutNodes, activeFlow, showApiEdges])
 
   // FLOW MODE: Swap in flow nodes/edges
   // Compare by reference so HMR replacement of a JSON flow definition rebuilds

@@ -77,6 +77,7 @@ function FlowDescription({ description }: { description: string }) {
 
 function AppInner() {
   const [selectedTeams, setSelectedTeams] = useState<Set<string>>(new Set())
+  const [showApiEdges, setShowApiEdges] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
   const [focusNodeId, setFocusNodeId] = useState<string | null>(null)
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null)
@@ -451,6 +452,14 @@ function AppInner() {
             <span className="w-3 h-3 bg-white border-l-4 border-blue-500 inline-block" />
             Service
           </span>
+          <button
+            onClick={() => setShowApiEdges(v => !v)}
+            className={`flex items-center gap-1.5 px-1.5 py-0.5 rounded transition-colors ${showApiEdges ? 'bg-indigo-50 text-indigo-700' : 'hover:bg-gray-100'}`}
+            title="Toggle service→service API call edges"
+          >
+            <span className="w-6 h-0.5 bg-indigo-500 inline-block" />
+            API calls {showApiEdges ? 'on' : 'off'}
+          </button>
           <span className="ml-auto flex items-center gap-1.5">
             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-700 text-white">F</span>
             Workflow / Flow
@@ -486,6 +495,7 @@ function AppInner() {
             onFlowNavigate={handleOpenFlow}
             isEditing={isEditing}
             onEdgeEdit={setEdgeEdit}
+            showApiEdges={showApiEdges}
           />
 
           {contextMenu && (

@@ -34,7 +34,7 @@ export interface ServiceNodeData {
 }
 
 export interface EdgeData {
-  type: 'producer' | 'consumer'
+  type: 'producer' | 'consumer' | 'api'
   [key: string]: unknown
 }
 
@@ -129,6 +129,32 @@ export function buildGraph(topology: TopologyData): {
     }
   }
 
+  // Synchronous service→service API edges: resolve each consumesApis entry to the
+  // service that providesApis it (dev-portal catalog call graph). Deduped; self and
+  // unresolved calls are skipped.
+  const apiProvider = new Map<string, string>()
+  for (const service of Object.values(topology.services)) {
+    for (const api of service.providesApis ?? []) {
+      apiProvider.set(api, service.id)
+    }
+  }
+  const seenApiEdges = new Set<string>()
+  for (const service of Object.values(topology.services)) {
+    for (const api of service.consumesApis ?? []) {
+      const providerId = apiProvider.get(api)
+      if (!providerId || providerId === service.id) continue
+      const key = `${service.id}->${providerId}`
+      if (seenApiEdges.has(key)) continue
+      seenApiEdges.add(key)
+      edges.push({
+        id: `api:${service.id}:${providerId}`,
+        source: `service:${service.id}`,
+        target: `service:${providerId}`,
+        data: { type: 'api' } satisfies EdgeData,
+      })
+    }
+  }
+
   return { nodes, edges }
 }
 
@@ -187,12 +213,16 @@ export function filterByTeams(
     }
   }
 
-  // Find topics connected to visible services
+  // Find topics connected to visible services. Only topic-touching edges
+  // contribute here; service→service api edges are handled by the final
+  // both-endpoints-visible check below.
   const visibleTopicIds = new Set<string>()
   for (const edge of edges) {
+    const sourceIsTopic = edge.source.startsWith('topic:')
+    const targetIsTopic = edge.target.startsWith('topic:')
+    if (!sourceIsTopic && !targetIsTopic) continue
     if (visibleServiceIds.has(edge.source) || visibleServiceIds.has(edge.target)) {
-      const topicId = edge.source.startsWith('topic:') ? edge.source : edge.target
-      visibleTopicIds.add(topicId)
+      visibleTopicIds.add(sourceIsTopic ? edge.source : edge.target)
     }
   }
 
