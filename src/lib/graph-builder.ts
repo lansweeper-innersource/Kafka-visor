@@ -38,6 +38,34 @@ export interface EdgeData {
   [key: string]: unknown
 }
 
+/** Index every providesApi string to the service that exposes it. */
+export function buildApiProviderIndex(topology: TopologyData): Map<string, string> {
+  const index = new Map<string, string>()
+  for (const service of Object.values(topology.services)) {
+    for (const api of service.providesApis ?? []) {
+      index.set(api, service.id)
+    }
+  }
+  return index
+}
+
+/**
+ * Resolve a consumesApis entry (`serviceName.namespace_port`) to the providing
+ * service id. Prefers an exact providesApi match; falls back to the bare service
+ * name (the part before the first dot) when it is itself a known service id — this
+ * recovers providers whose Kubernetes Service was never captured in the catalog.
+ */
+export function resolveApiProvider(
+  api: string,
+  index: Map<string, string>,
+  topology: TopologyData
+): string | undefined {
+  const exact = index.get(api)
+  if (exact) return exact
+  const serviceName = api.split('.')[0]
+  return topology.services[serviceName] ? serviceName : undefined
+}
+
 export function buildGraph(topology: TopologyData): {
   nodes: Node[]
   edges: Edge[]
@@ -132,16 +160,11 @@ export function buildGraph(topology: TopologyData): {
   // Synchronous service→service API edges: resolve each consumesApis entry to the
   // service that providesApis it (dev-portal catalog call graph). Deduped; self and
   // unresolved calls are skipped.
-  const apiProvider = new Map<string, string>()
-  for (const service of Object.values(topology.services)) {
-    for (const api of service.providesApis ?? []) {
-      apiProvider.set(api, service.id)
-    }
-  }
+  const apiProvider = buildApiProviderIndex(topology)
   const seenApiEdges = new Set<string>()
   for (const service of Object.values(topology.services)) {
     for (const api of service.consumesApis ?? []) {
-      const providerId = apiProvider.get(api)
+      const providerId = resolveApiProvider(api, apiProvider, topology)
       if (!providerId || providerId === service.id) continue
       const key = `${service.id}->${providerId}`
       if (seenApiEdges.has(key)) continue
@@ -168,28 +191,51 @@ export function getNeighborIds(nodeId: string, edges: Edge[]): Set<string> {
   return neighbors
 }
 
-/** Blast radius: all services reachable through shared topics from a given service */
+/**
+ * Blast radius: every service reachable from the given one, both through shared
+ * Kafka topics and through synchronous API calls (services it calls and services
+ * that call it).
+ */
 export function getBlastRadius(serviceId: string, topology: TopologyData): {
   affectedServices: string[]
   sharedTopics: string[]
+  apiConnections: string[]
 } {
   const service = topology.services[serviceId]
-  if (!service) return { affectedServices: [], sharedTopics: [] }
+  if (!service) return { affectedServices: [], sharedTopics: [], apiConnections: [] }
 
   const touchedTopics = [...service.produces, ...service.consumes]
-  const affectedSet = new Set<string>()
-
+  const topicPeers = new Set<string>()
   for (const topicId of touchedTopics) {
     const topic = topology.topics[topicId]
     if (!topic) continue
     for (const svcId of [...topic.consumers, ...topic.producers]) {
-      if (svcId !== serviceId) affectedSet.add(svcId)
+      if (svcId !== serviceId) topicPeers.add(svcId)
+    }
+  }
+
+  // Synchronous call peers: providers this service calls (outbound) and consumers
+  // that call this service's APIs (inbound).
+  const index = buildApiProviderIndex(topology)
+  const apiPeers = new Set<string>()
+  for (const api of service.consumesApis ?? []) {
+    const provider = resolveApiProvider(api, index, topology)
+    if (provider && provider !== serviceId) apiPeers.add(provider)
+  }
+  for (const other of Object.values(topology.services)) {
+    if (other.id === serviceId) continue
+    for (const api of other.consumesApis ?? []) {
+      if (resolveApiProvider(api, index, topology) === serviceId) {
+        apiPeers.add(other.id)
+        break
+      }
     }
   }
 
   return {
-    affectedServices: [...affectedSet],
+    affectedServices: [...new Set([...topicPeers, ...apiPeers])],
     sharedTopics: touchedTopics,
+    apiConnections: [...apiPeers],
   }
 }
 

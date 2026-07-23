@@ -48,6 +48,8 @@ const mockTopology: TopologyData = {
       runningInCluster: false,
       deploymentType: 'Unknown',
       providesApis: ['svc-beta.beta-ns_50051'],
+      // svc-alpha exposes no providesApis, so this only resolves via the prefix fallback
+      consumesApis: ['svc-alpha.alpha-ns_9999'],
     },
   },
   metadata: {
@@ -107,11 +109,18 @@ describe('buildGraph', () => {
     expect(alpha?.data.teamColor).toBe('#3B82F6')
   })
 
-  it('creates api edges by resolving consumesApis to the providing service', () => {
+  it('creates an api edge from an exact providesApi match', () => {
     const apiEdges = edges.filter(e => e.data?.type === 'api')
-    expect(apiEdges).toHaveLength(1)
-    expect(apiEdges[0].source).toBe('service:svc-alpha')
-    expect(apiEdges[0].target).toBe('service:svc-beta')
+    const exact = apiEdges.find(e => e.source === 'service:svc-alpha' && e.target === 'service:svc-beta')
+    expect(exact).toBeDefined()
+  })
+
+  it('resolves the provider by prefix fallback when no exact providesApi matches', () => {
+    const apiEdges = edges.filter(e => e.data?.type === 'api')
+    // svc-beta consumes 'svc-alpha.alpha-ns_9999'; svc-alpha has no providesApis,
+    // so this only resolves via the prefix→service-id fallback
+    const fallback = apiEdges.find(e => e.source === 'service:svc-beta' && e.target === 'service:svc-alpha')
+    expect(fallback).toBeDefined()
   })
 
   it('does not create api edges for unresolved consumesApis', () => {
@@ -180,6 +189,13 @@ describe('getBlastRadius', () => {
     expect(result.affectedServices).toContain('svc-beta')
     expect(result.affectedServices).not.toContain('svc-alpha')
     expect(result.sharedTopics).toHaveLength(2)
+  })
+
+  it('includes synchronous API call peers in the blast radius', () => {
+    const result = getBlastRadius('svc-alpha', mockTopology)
+    // svc-alpha consumes svc-beta's API (outbound); svc-beta consumes svc-alpha's (inbound)
+    expect(result.apiConnections).toContain('svc-beta')
+    expect(result.affectedServices).toContain('svc-beta')
   })
 
   it('returns empty for non-existent service', () => {

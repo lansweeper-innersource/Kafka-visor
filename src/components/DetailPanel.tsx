@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Node } from '@xyflow/react'
 import type { TopicNodeData, ServiceNodeData } from '../lib/graph-builder'
-import { getBlastRadius } from '../lib/graph-builder'
+import { getBlastRadius, buildApiProviderIndex, resolveApiProvider } from '../lib/graph-builder'
 import { getArgoAppSet, getArgoDomain } from '../lib/argo'
 import type { TopologyData, FlowDefinition, TopicMessage } from '../types'
 
@@ -281,6 +281,7 @@ function ServiceDetails({
   const topologyId = (data.topologyId as string) ?? data.label
   const blast = getBlastRadius(topologyId, topology)
   const inFlows = flowsContaining(topologyId, flows)
+  const apiIndex = buildApiProviderIndex(topology)
 
   return (
     <div className="space-y-4">
@@ -377,6 +378,7 @@ function ServiceDetails({
         <div className="text-xs font-semibold text-red-700 mb-1">Blast Radius</div>
         <div className="text-[11px] text-red-600">
           {blast.affectedServices.length} services affected via {blast.sharedTopics.length} topics
+          {blast.apiConnections.length > 0 && ` and ${blast.apiConnections.length} API calls`}
         </div>
         {blast.affectedServices.length > 0 && (
           <div className="mt-2 space-y-0.5 max-h-32 overflow-y-auto">
@@ -459,12 +461,28 @@ function ServiceDetails({
             Consumes APIs → ({data.consumesApis.length})
           </div>
           <div className="space-y-0.5 max-h-32 overflow-y-auto">
-            {data.consumesApis.map(api => (
-              <div key={api} className="text-[11px] font-mono text-gray-600 py-0.5 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
-                {api}
-              </div>
-            ))}
+            {data.consumesApis.map(api => {
+              const provider = resolveApiProvider(api, apiIndex, topology)
+              if (provider) {
+                return (
+                  <button
+                    key={api}
+                    onClick={() => onNavigate(provider, 'service')}
+                    title={api}
+                    className="text-[11px] font-mono text-indigo-700 hover:text-indigo-900 hover:underline py-0.5 flex items-center gap-1.5 w-full text-left"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
+                    {provider}
+                  </button>
+                )
+              }
+              return (
+                <div key={api} className="text-[11px] font-mono text-gray-500 py-0.5 flex items-center gap-1.5" title="external / not in topology">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
+                  {api}
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
