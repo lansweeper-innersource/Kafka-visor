@@ -1214,7 +1214,16 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-asset-api.asset-api_50051",
+        "lec-asset-api.asset-api_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051",
+        "lec-scanning-api.scanning_50051"
+      ]
     },
     "lec-asset-api-avro-register-workflow": {
       "id": "lec-asset-api-avro-register-workflow",
@@ -1424,7 +1433,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-asset-consumer-asset": {
       "id": "lec-asset-consumer-asset",
@@ -1467,7 +1479,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "asset-migrations": {
       "id": "asset-migrations",
@@ -1555,7 +1570,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Long-running Kafka consumer (asset-api chart) that processes asset workflow events from public.event.tracking and emits asset/command/analytics events."
+      "description": "Long-running Kafka consumer (asset-api chart) that processes asset workflow events from public.event.tracking and emits asset/command/analytics events.",
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "lec-asset-be": {
       "id": "lec-asset-be",
@@ -1584,7 +1602,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-asset-be.asset-be_80"
+      ]
     },
     "asset-operations-consumer": {
       "id": "asset-operations-consumer",
@@ -1625,7 +1646,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "asset-sync-status-consumer": {
       "id": "asset-sync-status-consumer",
@@ -1847,7 +1871,14 @@
         "mongodb",
         "redis-shared"
       ],
-      "description": "License management — validation, assignment, sync"
+      "description": "License management — validation, assignment, sync",
+      "providesApis": [
+        "lec-licensing-api.licensing_80",
+        "lec-licensing-grpc.licensing_50051"
+      ],
+      "consumesApis": [
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-licensing-consumer": {
       "id": "lec-licensing-consumer",
@@ -1924,7 +1955,17 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-multitenant-api.multitenant_80"
+      ],
+      "consumesApis": [
+        "lec-installer.installer_50051",
+        "lec-licensing-grpc.licensing_50051",
+        "lec-permissions-server.permissions_50051",
+        "lec-scanning-api.scanning_50051"
+      ]
     },
     "lec-multitenant-close-notifications-for-deleted-installs": {
       "id": "lec-multitenant-close-notifications-for-deleted-installs",
@@ -2266,7 +2307,13 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-multitenant-sales-api.multitenant_80"
+      ],
+      "consumesApis": [
+        "lec-licensing-grpc.licensing_50051"
+      ]
     },
     "lec-multitenant-sync-installations-states": {
       "id": "lec-multitenant-sync-installations-states",
@@ -2382,7 +2429,13 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-tracking-api.tracking_80"
+      ],
+      "consumesApis": [
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-tracking-consumer": {
       "id": "lec-tracking-consumer",
@@ -2412,7 +2465,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-tracking-consumer.tracking_80"
+      ]
     },
     "lec-tracking-global-timeout-workflowtemplate": {
       "id": "lec-tracking-global-timeout-workflowtemplate",
@@ -2484,7 +2540,14 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-notifications-api.notifications_3021",
+        "lec-notifications-api.notifications_80"
+      ],
+      "consumesApis": [
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-notifications-consumer": {
       "id": "lec-notifications-consumer",
@@ -2513,7 +2576,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-notifications-consumer.notifications_80"
+      ]
     },
     "lec-analytics-api": {
       "id": "lec-analytics-api",
@@ -2543,7 +2609,15 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-analytics-api-grpc.analytics-api_50054",
+        "lec-analytics-api.analytics-api_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-analytics-luzmo-api": {
       "id": "lec-analytics-luzmo-api",
@@ -2563,7 +2637,15 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "HTTP API serving Luzmo dashboard data from ClickHouse; emits eventlogs on access."
+      "description": "HTTP API serving Luzmo dashboard data from ClickHouse; emits eventlogs on access.",
+      "providesApis": [
+        "lec-analytics-luzmo-api-grpc.analytics-api_50054",
+        "lec-analytics-luzmo-api.analytics-api_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-analytics-assets-consumer-v2": {
       "id": "lec-analytics-assets-consumer-v2",
@@ -2596,7 +2678,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "lec-analytics-assets-consumer-v2-certificates": {
       "id": "lec-analytics-assets-consumer-v2-certificates",
@@ -2765,7 +2850,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Analytics v2 consumer that writes user entity changes into ClickHouse and forwards events to the webhooks asset-events topic."
+      "description": "Analytics v2 consumer that writes user entity changes into ClickHouse and forwards events to the webhooks asset-events topic.",
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "lec-analytics-assets-consumer-v2-vulnerabilities": {
       "id": "lec-analytics-assets-consumer-v2-vulnerabilities",
@@ -2837,7 +2925,15 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-boards-api.boards-api_50051",
+        "lec-boards-api.boards-api_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-boards-consumer": {
       "id": "lec-boards-consumer",
@@ -2866,7 +2962,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-boards-consumer.boards-consumer_80"
+      ]
     },
     "lec-reports-api": {
       "id": "lec-reports-api",
@@ -2901,7 +3000,14 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-reports-api.reports-api_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-reports-api-consumer": {
       "id": "lec-reports-api-consumer",
@@ -2946,7 +3052,13 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Reports-api integrations service (port 4000) — exposes report data to integration partners."
+      "description": "Reports-api integrations service (port 4000) — exposes report data to integration partners.",
+      "providesApis": [
+        "lec-reports-integrations-grpc.reports-api_50051"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "lec-reports-executor": {
       "id": "lec-reports-executor",
@@ -2976,7 +3088,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "lec-event-logs-api": {
       "id": "lec-event-logs-api",
@@ -3035,7 +3150,14 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-diagrams-api.diagrams-api_80"
+      ],
+      "consumesApis": [
+        "lec-diagrams-executor.diagrams-executor_80",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-diagrams-worker": {
       "id": "lec-diagrams-worker",
@@ -3173,7 +3295,16 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-msmp-api.msmp-api_80"
+      ],
+      "consumesApis": [
+        "lec-analytics-api-grpc.analytics-api_50054",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051",
+        "lec-reports-integrations-grpc.reports-api_50051"
+      ]
     },
     "lec-adapter-consumer-asset": {
       "id": "lec-adapter-consumer-asset",
@@ -3261,7 +3392,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-edge-command-api.edge-command_80"
+      ]
     },
     "lec-edge-manager": {
       "id": "lec-edge-manager",
@@ -3288,7 +3422,17 @@
         "asset-grpc-api",
         "install-status-api"
       ],
-      "description": "GraphQL API for install lifecycle — link, unlink, license checks, scanner management operations"
+      "description": "GraphQL API for install lifecycle — link, unlink, license checks, scanner management operations",
+      "providesApis": [
+        "lec-edge-manager.edge-manager_80"
+      ],
+      "consumesApis": [
+        "install-status-api.install-status_50060",
+        "lec-asset-grpc-api.asset-api_50051",
+        "lec-licensing-grpc.licensing_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-scanning-api.scanning_50051"
+      ]
     },
     "public-broker": {
       "id": "public-broker",
@@ -3361,7 +3505,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-syncer-api.syncer-api_80"
+      ]
     },
     "lec-syncer-api-v2": {
       "id": "lec-syncer-api-v2",
@@ -3397,7 +3544,13 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-syncer-api-v2.syncer-api-v2_80"
+      ],
+      "consumesApis": [
+        "install-status-api.install-status_50060"
+      ]
     },
     "syncer-status-api": {
       "id": "syncer-status-api",
@@ -3429,7 +3582,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "syncer-status-api.syncer-status_80"
+      ]
     },
     "flex-save-duplicates": {
       "id": "flex-save-duplicates",
@@ -3539,7 +3695,11 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "install-status-api.install-status_50060",
+        "install-status-api.install-status_80"
+      ]
     },
     "install-status-consumer": {
       "id": "install-status-consumer",
@@ -3620,7 +3780,13 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Subscribes to install-status changes via Redis pub/sub and publishes public.edge.commands to update on-prem installs."
+      "description": "Subscribes to install-status changes via Redis pub/sub and publishes public.edge.commands to update on-prem installs.",
+      "providesApis": [
+        "install-status-subscriptions.install-status_4010"
+      ],
+      "consumesApis": [
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-scanning-api": {
       "id": "lec-scanning-api",
@@ -3650,7 +3816,15 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-scanning-api.scanning_50051",
+        "lec-scanning-api.scanning_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-scanning-check-installer-workflowtemplate": {
       "id": "lec-scanning-check-installer-workflowtemplate",
@@ -3728,7 +3902,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-scanningconfig-api": {
       "id": "lec-scanningconfig-api",
@@ -3759,7 +3936,17 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-scanningconfig-api.scanning-config_50051",
+        "lec-scanningconfig-api.scanning-config_80"
+      ],
+      "consumesApis": [
+        "install-status-api.install-status_50060",
+        "lec-integrations-limit-checker-grpc.integrations-limit-checker_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-scanningconfig-consumer": {
       "id": "lec-scanningconfig-consumer",
@@ -3843,7 +4030,16 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "vulnerabilities-engine-clickhouse-api.vulnerabilities-engine-clickhouse-api_80",
+        "vulnerabilities-engine-clickhouse-api.vulnerabilities-engine-clickhouse-api_8056"
+      ],
+      "consumesApis": [
+        "lec-analytics-api-grpc.analytics-api_50054",
+        "lec-hivemind-access-layer.hivemind_90",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "assets-enriching": {
       "id": "assets-enriching",
@@ -3874,7 +4070,12 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-asset-api.asset-api_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-scanning-api.scanning_50051"
+      ]
     },
     "assets-enriching-api": {
       "id": "assets-enriching-api",
@@ -3897,7 +4098,15 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "HTTP API for the asset enrichment engine — triggers consolidation/enrichment on demand and feeds the reprocess pipeline."
+      "description": "HTTP API for the asset enrichment engine — triggers consolidation/enrichment on demand and feeds the reprocess pipeline.",
+      "providesApis": [
+        "assets-enriching-api.vulnerabilities-engine-enriching-go_8056"
+      ],
+      "consumesApis": [
+        "lec-asset-api.asset-api_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-scanning-api.scanning_50051"
+      ]
     },
     "assets-enriching-retry": {
       "id": "assets-enriching-retry",
@@ -3921,7 +4130,12 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Retry consumer for failed asset enrichments — consumes consolidationcontext.event.reprocess-assets-enriching, re-runs consolidation via MongoDB + multitenant gRPC, emits entity-changes-reprocess."
+      "description": "Retry consumer for failed asset enrichments — consumes consolidationcontext.event.reprocess-assets-enriching, re-runs consolidation via MongoDB + multitenant gRPC, emits entity-changes-reprocess.",
+      "consumesApis": [
+        "lec-asset-api.asset-api_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-scanning-api.scanning_50051"
+      ]
     },
     "consolidate-unsynced-assets-workflow-template": {
       "id": "consolidate-unsynced-assets-workflow-template",
@@ -4021,7 +4235,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-asset-api.asset-api_50051"
+      ]
     },
     "users-enriching-retry": {
       "id": "users-enriching-retry",
@@ -4043,7 +4260,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Retry consumer for failed user enrichments — replays reprocess-users-enriching events and republishes enriched user entity-changes."
+      "description": "Retry consumer for failed user enrichments — replays reprocess-users-enriching events and republishes enriched user entity-changes.",
+      "consumesApis": [
+        "lec-asset-api.asset-api_50051"
+      ]
     },
     "vulnerabilities-engine-enriching-go": {
       "id": "vulnerabilities-engine-enriching-go",
@@ -4149,7 +4369,35 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "asset-sync-status-api.asset-sync-status_80",
+        "cloud-scanning-api.cloud-scanning-api_80",
+        "install-status-api.install-status_80",
+        "lec-ai-chat-assistant.ai-chat-assistant_80",
+        "lec-analytics-api.analytics-api_80",
+        "lec-analytics-luzmo-api.analytics-api_80",
+        "lec-asset-api.asset-api_80",
+        "lec-boards-api.boards-api_80",
+        "lec-diagrams-api.diagrams-api_80",
+        "lec-event-logs-api.event-logs-api_80",
+        "lec-integrations-monitoring-api.integrations-monitoring-api_80",
+        "lec-integrations-reports-api.integrations-reports-api_80",
+        "lec-integrations-webhooks-api.integrations-webhooks-api_80",
+        "lec-licensing-api.licensing_80",
+        "lec-limits.limits_80",
+        "lec-msmp-api.msmp-api_80",
+        "lec-multitenant-api.multitenant_80",
+        "lec-notifications-api.notifications_80",
+        "lec-prismatic-api.prismatic-api_80",
+        "lec-reports-api.reports-api_80",
+        "lec-scanning-api.scanning_80",
+        "lec-scanningconfig-api.scanning-config_80",
+        "lec-scanningstatus-api.scanning-status_80",
+        "lec-software-api-v2.software-api-v2_80",
+        "lec-tracking-api.tracking_80",
+        "vulnerabilities-engine-clickhouse-api.vulnerabilities-engine-clickhouse-api_80"
+      ]
     },
     "lec-gateway-subscriptions": {
       "id": "lec-gateway-subscriptions",
@@ -4172,7 +4420,17 @@
           "url": "https://github.com/Lansweeper/LECGatewayAPI"
         }
       ],
-      "description": "WebSocket subscriptions for real-time updates"
+      "description": "WebSocket subscriptions for real-time updates",
+      "providesApis": [
+        "lec-gateway-subscriptions.web-gateway_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051",
+        "lec-multitenant-subscriptions-api.multitenant_3030",
+        "lec-notifications-api.notifications_3021",
+        "lec-permissions-server.permissions_50051",
+        "lec-tracking-api-subscriptions.tracking_3075"
+      ]
     },
     "lec-integrations-assets-api": {
       "id": "lec-integrations-assets-api",
@@ -4210,7 +4468,17 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-integrations-assets-api.integrations-assets-api_80"
+      ],
+      "consumesApis": [
+        "lec-analytics-api-grpc.analytics-api_50054",
+        "lec-asset-api.asset-api_50051",
+        "lec-integrations-limit-checker-grpc.integrations-limit-checker_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-integrations-exporter-api-v2": {
       "id": "lec-integrations-exporter-api-v2",
@@ -4244,7 +4512,16 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-integrations-exporter-api-v2-canary.integrations-exporter-api-v2_80",
+        "lec-integrations-exporter-api-v2.integrations-exporter-api-v2_80"
+      ],
+      "consumesApis": [
+        "lec-integrations-limit-checker-grpc.integrations-limit-checker_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-integrations-exporter-consumer-v2": {
       "id": "lec-integrations-exporter-consumer-v2",
@@ -4282,7 +4559,26 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-integrations-gateway-api-v2-canary.integrations-gateway_80",
+        "lec-integrations-gateway-api-v2.integrations-gateway_80"
+      ],
+      "consumesApis": [
+        "install-status-api.install-status_80",
+        "lec-asset-api.asset-api_80",
+        "lec-integrations-assets-api.integrations-assets-api_80",
+        "lec-integrations-exporter-api.integrations-exporter-api-v2_80",
+        "lec-integrations-reports-api.integrations-reports-api_80",
+        "lec-integrations-webhooks-api.integrations-webhooks-api_80",
+        "lec-multitenant-api.multitenant_50051",
+        "lec-multitenant-api.multitenant_80",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-scanning-api.scanning_80",
+        "lec-scanningconfig-api.scanning-config_80",
+        "lec-software-api-v2.software-api-v2_80",
+        "vulnerabilities-engine-clickhouse-api.vulnerabilities-engine-clickhouse-api_80"
+      ]
     },
     "lec-integrations-reports-api": {
       "id": "lec-integrations-reports-api",
@@ -4316,7 +4612,17 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-integrations-reports-api-canary.integrations-reports-api_80",
+        "lec-integrations-reports-api.integrations-reports-api_80"
+      ],
+      "consumesApis": [
+        "lec-boards-api.boards-api_50051",
+        "lec-integrations-limit-checker-grpc.integrations-limit-checker_50051",
+        "lec-permissions-server.permissions_50051",
+        "lec-reports-integrations-grpc.reports-api_50051"
+      ]
     },
     "lec-integrations-webhooks-api": {
       "id": "lec-integrations-webhooks-api",
@@ -4351,7 +4657,16 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-integrations-webhooks-api-canary.integrations-webhooks-api_80",
+        "lec-integrations-webhooks-api.integrations-webhooks-api_80"
+      ],
+      "consumesApis": [
+        "lec-integrations-webhooks-notifier-consumer-v2-grpc.integrations-webhooks-notifier-consumer-v2_50051",
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "integrations-webhooks-asset-types": {
       "id": "integrations-webhooks-asset-types",
@@ -4443,7 +4758,11 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051",
+        "lec-permissions-server.permissions_50051"
+      ]
     },
     "lec-integrations-webhooks-checker-consumer-testing": {
       "id": "lec-integrations-webhooks-checker-consumer-testing",
@@ -4493,7 +4812,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Webhook event consumer (key=asseteventsanalytics, group lec-integrations-webhooks-event-consumer) — consumes public.event.webhooks.asset-events and emits webhook-notifier commands."
+      "description": "Webhook event consumer (key=asseteventsanalytics, group lec-integrations-webhooks-event-consumer) — consumes public.event.webhooks.asset-events and emits webhook-notifier commands.",
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-integrations-webhooks-event-consumer-sourcesevents": {
       "id": "lec-integrations-webhooks-event-consumer-sourcesevents",
@@ -4518,7 +4840,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Webhook event consumer (key=sourcesevents) — consumes public.event.webhooks.sources and emits webhook-notifier commands."
+      "description": "Webhook event consumer (key=sourcesevents) — consumes public.event.webhooks.sources and emits webhook-notifier commands.",
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-integrations-webhooks-event-consumer-trackingcommands": {
       "id": "lec-integrations-webhooks-event-consumer-trackingcommands",
@@ -4543,7 +4868,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Webhook event consumer (key=trackingcommands) — bridges public.command.tracking into the webhook pipeline."
+      "description": "Webhook event consumer (key=trackingcommands) — bridges public.command.tracking into the webhook pipeline.",
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-integrations-webhooks-event-consumer-webhookevents": {
       "id": "lec-integrations-webhooks-event-consumer-webhookevents",
@@ -4568,7 +4896,10 @@
         "prdUse1": "pending",
         "prdEuw1": "pending"
       },
-      "description": "Webhook event consumer (key=webhookevents) — consumes public.event.webhooks.events and emits webhook-notifier commands."
+      "description": "Webhook event consumer (key=webhookevents) — consumes public.event.webhooks.events and emits webhook-notifier commands.",
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-integrations-webhooks-notifier-consumer-v2": {
       "id": "lec-integrations-webhooks-notifier-consumer-v2",
@@ -4598,7 +4929,13 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-integrations-webhooks-notifier-consumer-v2-grpc.integrations-webhooks-notifier-consumer-v2_50051"
+      ],
+      "consumesApis": [
+        "lec-multitenant-grpc-api.multitenant_50051"
+      ]
     },
     "lec-integrations-webhooks-retry-job": {
       "id": "lec-integrations-webhooks-retry-job",
@@ -4649,7 +4986,14 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-prismatic-api-canary.prismatic-api_80",
+        "lec-prismatic-api.prismatic-api_80"
+      ],
+      "consumesApis": [
+        "lec-multitenant-api.multitenant_50051"
+      ]
     },
     "lec-prismatic-api-retrieve-prismatic-data": {
       "id": "lec-prismatic-api-retrieve-prismatic-data",
@@ -4726,7 +5070,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-data-core-admin.datacore-admin_80"
+      ]
     },
     "lec-data-core-inbound-api": {
       "id": "lec-data-core-inbound-api",
@@ -4752,7 +5099,11 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-data-core-inbound-api.datacore-inbound-api_80",
+        "lec-data-core-inbound-api.datacore-inbound-api_90"
+      ]
     },
     "lec-data-core-integrity": {
       "id": "lec-data-core-integrity",
@@ -4780,7 +5131,10 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "lec-data-core-integrity.datacore-integrity_80"
+      ]
     },
     "lec-data-core-processor-api-scan-asset": {
       "id": "lec-data-core-processor-api-scan-asset",
@@ -5065,7 +5419,11 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "discovery-config-api.discovery-config-api_80",
+        "discovery-config-api.discovery-config-api_81"
+      ]
     },
     "discovery-syncer-api": {
       "id": "discovery-syncer-api",
@@ -5100,7 +5458,11 @@
         "stgEuw1": "migrated",
         "prdUse1": "pending",
         "prdEuw1": "pending"
-      }
+      },
+      "providesApis": [
+        "discovery-syncer-api.discovery-syncer-api_80",
+        "discovery-syncer-api.discovery-syncer-api_81"
+      ]
     }
   },
   "metadata": {

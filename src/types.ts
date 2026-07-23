@@ -46,6 +46,10 @@ export interface Service {
   grpcCalls?: string[]
   redisPubSub?: string[]
   databases?: string[]
+  /** APIs this service exposes, from the dev-portal catalog (e.g. svc.system_port). */
+  providesApis?: string[]
+  /** APIs this service calls, from the dev-portal catalog (service→service deps). */
+  consumesApis?: string[]
   description?: string
   serviceGroup?: string
 }

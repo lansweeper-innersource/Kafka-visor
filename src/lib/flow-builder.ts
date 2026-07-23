@@ -30,6 +30,8 @@ export function buildFlowNodes(flow: FlowDefinition, topology: TopologyData): No
           sourceRepos: svc?.sourceRepos,
           grpcCalls: svc?.grpcCalls,
           redisPubSub: svc?.redisPubSub,
+          providesApis: svc?.providesApis,
+          consumesApis: svc?.consumesApis,
           databases: svc?.databases,
           description: svc?.description,
           annotations: nodeDef.annotations,

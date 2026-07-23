@@ -435,6 +435,40 @@ function ServiceDetails({
         </div>
       )}
 
+      {/* Provided APIs (dev-portal catalog) */}
+      {data.providesApis && data.providesApis.length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-sky-600 mb-1">
+            Provides APIs ({data.providesApis.length})
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {data.providesApis.map(api => (
+              <div key={api} className="text-[11px] font-mono text-gray-600 py-0.5 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 flex-shrink-0" />
+                {api}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Consumed APIs (dev-portal catalog) */}
+      {data.consumesApis && data.consumesApis.length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-indigo-600 mb-1">
+            Consumes APIs → ({data.consumesApis.length})
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {data.consumesApis.map(api => (
+              <div key={api} className="text-[11px] font-mono text-gray-600 py-0.5 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
+                {api}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Redis pub/sub dependencies */}
       {data.redisPubSub && data.redisPubSub.length > 0 && (
         <div>
