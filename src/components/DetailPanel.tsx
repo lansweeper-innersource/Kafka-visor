@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Node } from '@xyflow/react'
 import type { TopicNodeData, ServiceNodeData } from '../lib/graph-builder'
-import { getBlastRadius, buildApiProviderIndex, resolveApiProvider } from '../lib/graph-builder'
+import { getBlastRadius, buildApiProviderIndex, resolveApiProvider, getApiCallers } from '../lib/graph-builder'
 import { getArgoAppSet, getArgoDomain } from '../lib/argo'
 import type { TopologyData, FlowDefinition, TopicMessage } from '../types'
 
@@ -282,6 +282,7 @@ function ServiceDetails({
   const blast = getBlastRadius(topologyId, topology)
   const inFlows = flowsContaining(topologyId, flows)
   const apiIndex = buildApiProviderIndex(topology)
+  const apiCallers = getApiCallers(topologyId, topology, apiIndex)
 
   return (
     <div className="space-y-4">
@@ -483,6 +484,27 @@ function ServiceDetails({
                 </div>
               )
             })}
+          </div>
+        </div>
+      )}
+
+      {/* Inbound API callers (dev-portal catalog) */}
+      {apiCallers.length > 0 && (
+        <div>
+          <div className="text-xs font-semibold text-indigo-600 mb-1">
+            Called by ← ({apiCallers.length})
+          </div>
+          <div className="space-y-0.5 max-h-32 overflow-y-auto">
+            {apiCallers.map(caller => (
+              <button
+                key={caller}
+                onClick={() => onNavigate(caller, 'service')}
+                className="text-[11px] font-mono text-indigo-700 hover:text-indigo-900 hover:underline py-0.5 flex items-center gap-1.5 w-full text-left"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
+                {caller}
+              </button>
+            ))}
           </div>
         </div>
       )}

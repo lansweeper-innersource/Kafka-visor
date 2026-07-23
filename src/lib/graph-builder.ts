@@ -66,6 +66,26 @@ export function resolveApiProvider(
   return topology.services[serviceName] ? serviceName : undefined
 }
 
+/** Services that call the given service via a resolved consumesApis dependency. */
+export function getApiCallers(
+  serviceId: string,
+  topology: TopologyData,
+  index: Map<string, string> = buildApiProviderIndex(topology)
+): string[] {
+  if (!topology.services[serviceId]) return []
+  const callers: string[] = []
+  for (const other of Object.values(topology.services)) {
+    if (other.id === serviceId) continue
+    for (const api of other.consumesApis ?? []) {
+      if (resolveApiProvider(api, index, topology) === serviceId) {
+        callers.push(other.id)
+        break
+      }
+    }
+  }
+  return callers
+}
+
 export function buildGraph(topology: TopologyData): {
   nodes: Node[]
   edges: Edge[]
@@ -222,14 +242,8 @@ export function getBlastRadius(serviceId: string, topology: TopologyData): {
     const provider = resolveApiProvider(api, index, topology)
     if (provider && provider !== serviceId) apiPeers.add(provider)
   }
-  for (const other of Object.values(topology.services)) {
-    if (other.id === serviceId) continue
-    for (const api of other.consumesApis ?? []) {
-      if (resolveApiProvider(api, index, topology) === serviceId) {
-        apiPeers.add(other.id)
-        break
-      }
-    }
+  for (const caller of getApiCallers(serviceId, topology, index)) {
+    apiPeers.add(caller)
   }
 
   return {

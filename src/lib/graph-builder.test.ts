@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildGraph, filterByTeams, getNeighborIds, getBlastRadius } from './graph-builder'
+import { buildGraph, filterByTeams, getNeighborIds, getBlastRadius, getApiCallers } from './graph-builder'
 import type { TopologyData } from '../types'
 
 const mockTopology: TopologyData = {
@@ -202,5 +202,18 @@ describe('getBlastRadius', () => {
     const result = getBlastRadius('nonexistent', mockTopology)
     expect(result.affectedServices).toHaveLength(0)
     expect(result.sharedTopics).toHaveLength(0)
+  })
+})
+
+describe('getApiCallers', () => {
+  it('lists services that call the given service (exact and fallback resolution)', () => {
+    // svc-alpha is called by svc-beta (via prefix fallback)
+    expect(getApiCallers('svc-alpha', mockTopology)).toEqual(['svc-beta'])
+    // svc-beta is called by svc-alpha (via exact providesApi match)
+    expect(getApiCallers('svc-beta', mockTopology)).toEqual(['svc-alpha'])
+  })
+
+  it('returns empty for a service nobody calls', () => {
+    expect(getApiCallers('nonexistent', mockTopology)).toEqual([])
   })
 })
