@@ -1,0 +1,183 @@
+{
+  "id": "datacore-etl-pipeline",
+  "name": "DataCore ETL — Ingest to MongoDB",
+  "description": "High-level view of the DataCore ETL pipeline: four discovery sources publish to Kafka, DataCore consumes and runs its internal modules (mapping, recognition, reconciliation-rules, reconciliation/dedup), then writes the golden record to Cassandra + raw payload to S3 before normalization reaches MongoDB. The dashed Legacy Pipeline arc is a historical direct path that bypasses the ETL entirely.",
+  "nodes": [
+    {
+      "id": "onprem-classic",
+      "type": "scanner",
+      "position": [0, 0],
+      "label": "OnPrem / Classic",
+      "variant": "onprem"
+    },
+    {
+      "id": "vnext-network",
+      "type": "scanner",
+      "position": [0, 220],
+      "label": "VNext Network Discovery",
+      "variant": "vnext"
+    },
+    {
+      "id": "vnext-cloud",
+      "type": "scanner",
+      "position": [0, 440],
+      "label": "VNext Cloud Discovery",
+      "variant": "vnext"
+    },
+    {
+      "id": "redjack",
+      "type": "scanner",
+      "position": [0, 660],
+      "label": "RedJack",
+      "annotations": [
+        {
+          "text": "Acquired 2025 — passive network discovery and application dependency mapping (repos: sensor, lumen-cyclops). Onboarded as a discovery source alongside OnPrem/Classic and VNext.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "streaming",
+      "type": "topic",
+      "position": [420, 330],
+      "label": "Kafka (ingestion topics)"
+    },
+    {
+      "id": "datacore-etl",
+      "type": "service",
+      "position": [840, 330],
+      "label": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "LECDataCore monorepo — consumes inbound Kafka events and runs the mapping/recognition/reconciliation pipeline before emitting the golden record. See LECDataCore/docs/MONOREPO.md for the module breakdown used in this diagram.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "mapping",
+      "type": "component",
+      "position": [1260, 150],
+      "label": "Mapping sources by protocol",
+      "parentService": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "Module `mapping` — transforms raw input from different systems (classic/LSHub/vNext) into a standardized internal model. LECDataCore/libs/mapping.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "fingerprints",
+      "type": "component",
+      "position": [1260, 500],
+      "label": "FingerPrints",
+      "parentService": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "Proto com.lansweeper.dp.fingerprints.v1.DevRecogInputDevice — raw fingerprint payload consumed by the recognition module.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "recognition",
+      "type": "component",
+      "position": [1680, 330],
+      "label": "Device / Software / Monitor recognition",
+      "parentService": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "Module `recognition` — three separate normalization contexts confirmed in code: EtlContext.RECOG_CONTEXT_KEY (device), SOFTWARE_NORMALIZATION_KEY, MONITOR_NORMALIZATION_KEY. LECDataCore/libs/mapping-util/.../EtlContext.java.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "reconcile-rules",
+      "type": "component",
+      "position": [1680, -80],
+      "label": "Reconcile Rules",
+      "parentService": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "Module `reconciliation-rules` — ReconciliationRuleMerger combines default + site-custom rules (DefaultReconRuleSetProvider), prioritizing customized rules over defaults. LECDataCore/libs/reconciliation-rules.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "find-duplicates",
+      "type": "component",
+      "position": [2100, 60],
+      "label": "Find duplicates",
+      "parentService": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "Module `reconciliation` — ReactiveFindOperator locates candidate matches using the active ReconRuleSet (MAC, IP, IMEI, AD SID/UPN, ...).",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "deduplication",
+      "type": "component",
+      "position": [2520, 200],
+      "label": "Deduplication",
+      "parentService": "DataCore ETL",
+      "annotations": [
+        {
+          "text": "Module `reconciliation` — MergeOperator + master builders construct the reconciled 'golden' record from matched duplicates; post-processors run after.",
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "id": "cassandra",
+      "type": "database",
+      "position": [2940, 60],
+      "label": "Cassandra",
+      "detail": "consolidated-storage — golden record, LZ4/ZSTD compressed"
+    },
+    {
+      "id": "s3-asset-blob",
+      "type": "database",
+      "position": [2940, 340],
+      "label": "S3 Bucket",
+      "detail": "Asset Blob — raw payload"
+    },
+    {
+      "id": "mongodb",
+      "type": "database",
+      "position": [3360, 200],
+      "label": "MongoDB",
+      "detail": "Assets"
+    },
+    {
+      "id": "sticky-legacy",
+      "type": "stickyNote",
+      "position": [1400, -400],
+      "text": "Legacy Pipeline = simplification. The real classic/vNext path to Mongo hops through Adapter + Asset Consumer (see asset-data-path-classic / asset-data-path-discovery flows) — this arc collapses that into one edge for the high-level view Boss sketched."
+    }
+  ],
+  "edges": [
+    { "source": 0, "target": 4, "type": "kafka", "label": "publishes" },
+    { "source": 1, "target": 4, "type": "kafka", "label": "publishes" },
+    { "source": 2, "target": 4, "type": "kafka", "label": "publishes" },
+    { "source": 3, "target": 4, "type": "kafka", "label": "publishes" },
+    { "source": 4, "target": 5, "type": "kafka", "label": "consumes" },
+    { "source": 5, "target": 6, "type": "internal", "label": "uses bean" },
+    { "source": 5, "target": 7, "type": "internal", "label": "uses bean" },
+    { "source": 6, "target": 8, "type": "internal" },
+    { "source": 7, "target": 8, "type": "internal" },
+    { "source": 9, "target": 10, "type": "internal", "label": "rule set" },
+    { "source": 6, "target": 10, "type": "internal" },
+    { "source": 8, "target": 11, "type": "internal", "label": "recognized fields" },
+    { "source": 10, "target": 11, "type": "internal", "label": "match / merge" },
+    { "source": 11, "target": 12, "type": "db", "label": "golden record" },
+    { "source": 11, "target": 13, "type": "db", "label": "raw blob" },
+    { "source": 12, "target": 14, "type": "db", "label": "Normalization" },
+    { "source": 13, "target": 14, "type": "db", "label": "Normalization" },
+    { "source": 0, "target": 14, "type": "internal", "label": "Legacy Pipeline" }
+  ]
+}
