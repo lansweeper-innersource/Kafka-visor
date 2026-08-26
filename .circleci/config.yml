@@ -1,0 +1,51 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.2.0
+
+executors:
+  node-executor:
+    docker:
+      - image: cimg/node:22.20
+    working_directory: ~/project
+
+jobs:
+  lint:
+    executor: node-executor
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Lint
+          command: npm run lint
+
+  typecheck-and-build:
+    executor: node-executor
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Typecheck + build (tsc -b && vite build)
+          command: npm run build
+      - store_artifacts:
+          path: dist
+          destination: dist
+
+  test:
+    executor: node-executor
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Run tests
+          command: npm test
+
+workflows:
+  build-and-test:
+    jobs:
+      - lint
+      - typecheck-and-build
+      - test
