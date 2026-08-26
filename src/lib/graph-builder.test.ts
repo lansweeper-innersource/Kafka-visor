@@ -196,12 +196,22 @@ describe('getBlastRadius', () => {
     // svc-alpha consumes svc-beta's API (outbound); svc-beta consumes svc-alpha's (inbound)
     expect(result.apiConnections).toContain('svc-beta')
     expect(result.affectedServices).toContain('svc-beta')
+    expect(result.apiCallers).toEqual(['svc-beta'])
   })
 
   it('returns empty for non-existent service', () => {
     const result = getBlastRadius('nonexistent', mockTopology)
     expect(result.affectedServices).toHaveLength(0)
     expect(result.sharedTopics).toHaveLength(0)
+    expect(result.apiCallers).toHaveLength(0)
+  })
+
+  it('uses an explicitly-provided index instead of rebuilding one', () => {
+    // A hand-built index resolving a different consumesApis string than the
+    // topology's own providesApis would, proving the arg is actually consulted.
+    const customIndex = new Map([['svc-alpha.alpha-ns_9999', 'svc-beta']])
+    const result = getBlastRadius('svc-beta', mockTopology, customIndex)
+    expect(result.apiCallers).toContain('svc-alpha')
   })
 })
 
@@ -213,7 +223,79 @@ describe('getApiCallers', () => {
     expect(getApiCallers('svc-beta', mockTopology)).toEqual(['svc-alpha'])
   })
 
-  it('returns empty for a service nobody calls', () => {
+  it('returns empty for an unknown service id', () => {
     expect(getApiCallers('nonexistent', mockTopology)).toEqual([])
+  })
+
+  it('returns empty for a real service that nobody calls', () => {
+    const topology: TopologyData = {
+      ...mockTopology,
+      services: {
+        ...mockTopology.services,
+        'svc-gamma': {
+          id: 'svc-gamma',
+          team: 'team-a',
+          repository: 'gamma-repo',
+          namespace: 'gamma-ns',
+          produces: [],
+          consumes: [],
+          runningInCluster: true,
+          deploymentType: 'Deployment',
+        },
+      },
+    }
+    expect(getApiCallers('svc-gamma', topology)).toEqual([])
+  })
+
+  it('lists a caller only once even when it calls via multiple consumesApis entries', () => {
+    const topology: TopologyData = {
+      ...mockTopology,
+      services: {
+        ...mockTopology.services,
+        'svc-beta': {
+          ...mockTopology.services['svc-beta'],
+          // both entries resolve to svc-alpha via the prefix fallback
+          consumesApis: ['svc-alpha.alpha-ns_9999', 'svc-alpha.alpha-ns_other'],
+        },
+      },
+    }
+    expect(getApiCallers('svc-alpha', topology)).toEqual(['svc-beta'])
+  })
+
+  it('aggregates multiple distinct callers of the same service', () => {
+    const topology: TopologyData = {
+      ...mockTopology,
+      services: {
+        ...mockTopology.services,
+        'svc-gamma': {
+          id: 'svc-gamma',
+          team: 'team-a',
+          repository: 'gamma-repo',
+          namespace: 'gamma-ns',
+          produces: [],
+          consumes: [],
+          runningInCluster: true,
+          deploymentType: 'Deployment',
+          consumesApis: ['svc-beta.beta-ns_50051'],
+        },
+      },
+    }
+    expect(getApiCallers('svc-beta', topology)).toEqual(['svc-alpha', 'svc-gamma'])
+  })
+
+  it('excludes a service that lists itself as a caller of its own API', () => {
+    const topology: TopologyData = {
+      ...mockTopology,
+      services: {
+        ...mockTopology.services,
+        // strip svc-alpha's unrelated consumesApis so it can't count as a real caller
+        'svc-alpha': { ...mockTopology.services['svc-alpha'], consumesApis: [] },
+        'svc-beta': {
+          ...mockTopology.services['svc-beta'],
+          consumesApis: ['svc-beta.beta-ns_50051'],
+        },
+      },
+    }
+    expect(getApiCallers('svc-beta', topology)).toEqual([])
   })
 })

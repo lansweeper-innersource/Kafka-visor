@@ -216,13 +216,20 @@ export function getNeighborIds(nodeId: string, edges: Edge[]): Set<string> {
  * Kafka topics and through synchronous API calls (services it calls and services
  * that call it).
  */
-export function getBlastRadius(serviceId: string, topology: TopologyData): {
+export function getBlastRadius(
+  serviceId: string,
+  topology: TopologyData,
+  index: Map<string, string> = buildApiProviderIndex(topology)
+): {
   affectedServices: string[]
   sharedTopics: string[]
   apiConnections: string[]
+  apiCallers: string[]
 } {
   const service = topology.services[serviceId]
-  if (!service) return { affectedServices: [], sharedTopics: [], apiConnections: [] }
+  if (!service) {
+    return { affectedServices: [], sharedTopics: [], apiConnections: [], apiCallers: [] }
+  }
 
   const touchedTopics = [...service.produces, ...service.consumes]
   const topicPeers = new Set<string>()
@@ -236,13 +243,13 @@ export function getBlastRadius(serviceId: string, topology: TopologyData): {
 
   // Synchronous call peers: providers this service calls (outbound) and consumers
   // that call this service's APIs (inbound).
-  const index = buildApiProviderIndex(topology)
   const apiPeers = new Set<string>()
   for (const api of service.consumesApis ?? []) {
     const provider = resolveApiProvider(api, index, topology)
     if (provider && provider !== serviceId) apiPeers.add(provider)
   }
-  for (const caller of getApiCallers(serviceId, topology, index)) {
+  const apiCallers = getApiCallers(serviceId, topology, index)
+  for (const caller of apiCallers) {
     apiPeers.add(caller)
   }
 
@@ -250,6 +257,7 @@ export function getBlastRadius(serviceId: string, topology: TopologyData): {
     affectedServices: [...new Set([...topicPeers, ...apiPeers])],
     sharedTopics: touchedTopics,
     apiConnections: [...apiPeers],
+    apiCallers,
   }
 }
 

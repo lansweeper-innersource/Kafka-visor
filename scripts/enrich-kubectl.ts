@@ -46,9 +46,6 @@ function enrichTopology(topology: TopologyData, resources: ClusterResource[]): T
     byNsName.set(`${r.namespace}/${r.name}`, r)
   }
 
-  let matched = 0
-  let unmatched = 0
-
   for (const service of Object.values(topology.services)) {
     // Try exact name match first
     let resource = byName.get(service.id)
@@ -60,11 +57,9 @@ function enrichTopology(topology: TopologyData, resources: ClusterResource[]): T
     if (resource) {
       service.runningInCluster = true
       service.deploymentType = resource.kind
-      matched++
     } else {
       service.runningInCluster = false
       service.deploymentType = 'Unknown'
-      unmatched++
     }
   }
 

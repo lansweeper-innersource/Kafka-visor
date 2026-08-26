@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Node } from '@xyflow/react'
 import type { TopicNodeData, ServiceNodeData } from '../lib/graph-builder'
-import { getBlastRadius, buildApiProviderIndex, resolveApiProvider, getApiCallers } from '../lib/graph-builder'
+import { getBlastRadius, buildApiProviderIndex, resolveApiProvider } from '../lib/graph-builder'
 import { getArgoAppSet, getArgoDomain } from '../lib/argo'
 import type { TopologyData, FlowDefinition, TopicMessage } from '../types'
 
@@ -279,10 +279,10 @@ function ServiceDetails({
   onOpenFlow: (flowId: string) => void
 }) {
   const topologyId = (data.topologyId as string) ?? data.label
-  const blast = getBlastRadius(topologyId, topology)
-  const inFlows = flowsContaining(topologyId, flows)
   const apiIndex = buildApiProviderIndex(topology)
-  const apiCallers = getApiCallers(topologyId, topology, apiIndex)
+  const blast = getBlastRadius(topologyId, topology, apiIndex)
+  const inFlows = flowsContaining(topologyId, flows)
+  const apiCallers = blast.apiCallers
 
   return (
     <div className="space-y-4">
@@ -552,9 +552,13 @@ function ArgoSection({ appSet, domain }: { appSet: string | null; domain: string
 
   const handleCopy = async () => {
     if (!appSet) return
-    await navigator.clipboard.writeText(appSet)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1200)
+    try {
+      await navigator.clipboard.writeText(appSet)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1200)
+    } catch (err) {
+      console.error('Failed to copy ApplicationSet name to clipboard', err)
+    }
   }
 
   return (
